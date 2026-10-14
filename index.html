@@ -154,4 +154,49 @@
         Find The Best Internet Deals At Your Address
       </h1>
       <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-normal" id="heroSubtitle">
-        Compare starting rates from Spectrum ($30), Verizon ($30), AT&T ($35), T-Mobile ($35), Xfinity ($40), HughesNet ($39.
+        Compare starting rates from Spectrum ($30), Verizon ($30), AT&T ($35), T-Mobile ($35), Xfinity ($40), HughesNet ($39.99), and Starlink ($55).
+      </p>
+
+      <!-- Universal Search Box -->
+      <form id="searchForm" class="max-w-2xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
+        <div class="relative w-full flex items-center">
+          <i class="fa-solid fa-house-signal text-slate-400 text-lg absolute left-4"></i>
+          <input 
+            type="text" 
+            id="addressInput" 
+            placeholder="Enter Street Address or ZIP Code (e.g. 108 E 11th Ave Baltimore, MD or 75001)" 
+            class="w-full pl-12 pr-4 py-3.5 text-slate-800 placeholder-slate-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 font-semibold text-base"
+          />
+        </div>
+        <button 
+          type="submit" 
+          id="searchBtn" 
+          class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-blue-600/30">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Check Address</span>
+        </button>
+      </form>
+
+      <!-- Quick Shortcuts -->
+      <div class="mt-4 flex flex-wrap justify-center items-center gap-2 text-xs text-slate-300">
+        <span>Popular Markets:</span>
+        <button type="button" onclick="setAndSearch('108 E 11th Ave, Baltimore, MD 21225')" class="underline hover:text-white">Baltimore, MD</button>•
+        <button type="button" onclick="setAndSearch('10001, New York, NY')" class="underline hover:text-white">New York, NY</button>•
+        <button type="button" onclick="setAndSearch('75001, Dallas, TX')" class="underline hover:text-white">Dallas, TX</button>•
+        <button type="button" onclick="setAndSearch('90001, Los Angeles, CA')" class="underline hover:text-white">Los Angeles, CA</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content & Results -->
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10" id="resultsSection">
+
+    <!-- Location Status Banner -->
+    <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg flex-shrink-0">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Available Plans in New York, NY (10001)</h2>
+          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing verified providers with direct official links</p>

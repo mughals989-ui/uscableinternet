@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>US Cable Internet - Compare Top Internet, Fiber & Cable Providers</title>
-  <meta name="description" content="Compare high-speed internet, fiber optic, and cable deals across the USA. Check verified pricing, speeds, and direct official company links for your address.">
+  <title>US Cable Internet - Compare Internet, TV & Wireless Plans</title>
+  <meta name="description" content="Compare high-speed internet, satellite, cable TV, and 5G wireless plans across the USA. Check verified pricing and direct official links for your address.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -13,69 +13,152 @@
     .carrier-logo-img { max-height: 38px; max-width: 130px; object-fit: contain; }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen relative">
 
-  <!-- Top Announcement Bar -->
-  <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
-      <div class="flex items-center gap-2">
-        <span class="bg-blue-600 text-white font-bold px-1.5 py-0.5 rounded text-[10px] uppercase">Notice</span>
-        <span>FTC Transparency: We may receive compensation from providers when you order through our site links.</span>
-      </div>
-      <div class="flex items-center gap-4 text-slate-400">
-        <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Verified FCC Broadband Data</span>
-        <a href="mailto:info@uscableinternet.com" class="text-white hover:text-blue-400 font-semibold flex items-center gap-1">
-          <i class="fa-solid fa-envelope text-blue-400"></i> info@uscableinternet.com
-        </a>
-      </div>
-    </div>
+  <!-- BroadbandNow Top Announcement Bar -->
+  <div class="bg-black text-slate-300 text-xs py-2 px-4 text-center border-b border-neutral-800">
+    <span>US Cable Internet is supported by commissions from some of the providers listed on our site. <a href="mailto:info@uscableinternet.com" class="underline hover:text-white">Learn More</a></span>
   </div>
 
   <!-- Primary Header -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
-        <div class="w-11 h-11 bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-          <i class="fa-solid fa-wifi text-xl"></i>
+      <a href="#" class="flex items-center gap-2.5">
+        <div class="w-10 h-10 bg-gradient-to-tr from-blue-700 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-500/20">
+          <i class="fa-solid fa-bolt text-lg text-yellow-300"></i>
         </div>
-        <div>
-          <span class="text-2xl font-black tracking-tight text-slate-900">US Cable<span class="text-blue-600"> Internet</span></span>
-          <span class="hidden sm:block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Independent US Telecom Guide</span>
+        <div class="flex items-center">
+          <span class="text-2xl font-black tracking-tight text-slate-900">uscable<span class="text-blue-600">internet</span></span>
+          <span class="text-rose-500 text-2xl font-black ml-0.5">⚡</span>
         </div>
       </a>
 
-      <!-- Direct Provider Directory Link -->
-      <div class="flex items-center gap-3">
-        <span class="text-xs text-slate-500 hidden md:inline">Direct Official Carrier Links</span>
-        <a href="#resultsSection" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl shadow-sm transition">
-          <i class="fa-solid fa-list-check"></i>
-          <span>View All Plans</span>
-        </a>
+      <!-- Right Header Actions (Categories & Hamburger) -->
+      <div class="flex items-center gap-4">
+        <nav class="hidden lg:flex items-center gap-1 bg-slate-100 p-1.5 rounded-xl text-xs font-bold">
+          <button onclick="switchCategory('internet')" class="cat-nav-btn px-4 py-2 rounded-lg bg-white text-blue-700 shadow-sm transition" data-cat="internet">Internet</button>
+          <button onclick="switchCategory('tv')" class="cat-nav-btn px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition" data-cat="tv">TV & Cable</button>
+          <button onclick="switchCategory('wireless')" class="cat-nav-btn px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition" data-cat="wireless">5G Wireless</button>
+        </nav>
+
+        <!-- BroadbandNow Hamburger Button -->
+        <button onclick="toggleSideMenu()" class="w-11 h-11 rounded-xl border border-slate-200 flex items-center justify-center text-slate-700 hover:bg-slate-100 transition text-lg" aria-label="Open Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
       </div>
     </div>
   </header>
 
+  <!-- Slide-Out Navigation Drawer -->
+  <div id="sideMenuOverlay" onclick="toggleSideMenu()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden transition-opacity"></div>
+  <aside id="sideMenuDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl overflow-y-auto">
+    <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-xl font-black text-slate-900">uscable<span class="text-blue-600">internet</span></span>
+        <span class="text-rose-500 font-black">⚡</span>
+      </div>
+      <button onclick="toggleSideMenu()" class="w-9 h-9 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition" aria-label="Close Menu">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+    </div>
+
+    <!-- Accordion Links -->
+    <div class="p-6 space-y-3 flex-grow text-sm font-bold">
+      <!-- Internet Accordion -->
+      <div class="border-b border-slate-100 pb-3">
+        <button onclick="toggleSubmenu('netSub')" class="w-full flex justify-between items-center py-2 text-slate-900 hover:text-blue-600">
+          <span class="flex items-center gap-2.5"><i class="fa-solid fa-wifi text-blue-600 w-5"></i> Internet Providers</span>
+          <i class="fa-solid fa-chevron-right text-xs text-slate-400 transform transition-transform" id="netSubIcon"></i>
+        </button>
+        <div id="netSub" class="hidden pl-8 pt-2 space-y-2 text-xs font-semibold text-slate-600">
+          <a href="#resultsSection" onclick="switchCategory('internet'); toggleSideMenu();" class="block hover:text-blue-600">Compare All Internet</a>
+          <a href="https://www.spectrum.com/internet" target="_blank" class="block hover:text-blue-600">Spectrum ($30/mo) ↗</a>
+          <a href="https://www.verizon.com/home/fios-fastest-internet/" target="_blank" class="block hover:text-blue-600">Verizon ($30/mo) ↗</a>
+          <a href="https://www.att.com/internet/" target="_blank" class="block hover:text-blue-600">AT&T Internet ($35/mo) ↗</a>
+          <a href="https://www.t-mobile.com/home-internet" target="_blank" class="block hover:text-blue-600">T-Mobile 5G ($35/mo) ↗</a>
+          <a href="https://www.xfinity.com/learn/internet-service" target="_blank" class="block hover:text-blue-600">Xfinity ($40/mo) ↗</a>
+          <a href="https://www.starlink.com/" target="_blank" class="block hover:text-blue-600">Starlink ($55/mo) ↗</a>
+          <a href="https://www.hughesnet.com/" target="_blank" class="block hover:text-blue-600">HughesNet ($39.99/mo) ↗</a>
+        </div>
+      </div>
+
+      <!-- TV Accordion -->
+      <div class="border-b border-slate-100 pb-3">
+        <button onclick="toggleSubmenu('tvSub')" class="w-full flex justify-between items-center py-2 text-slate-900 hover:text-blue-600">
+          <span class="flex items-center gap-2.5"><i class="fa-solid fa-tv text-purple-600 w-5"></i> Cable & TV Packages</span>
+          <i class="fa-solid fa-chevron-right text-xs text-slate-400 transform transition-transform" id="tvSubIcon"></i>
+        </button>
+        <div id="tvSub" class="hidden pl-8 pt-2 space-y-2 text-xs font-semibold text-slate-600">
+          <a href="#resultsSection" onclick="switchCategory('tv'); toggleSideMenu();" class="block hover:text-blue-600">Compare All TV Packages</a>
+          <a href="https://www.directv.com/" target="_blank" class="block hover:text-blue-600">DIRECTV Stream ↗</a>
+          <a href="https://www.spectrum.com/cable-tv" target="_blank" class="block hover:text-blue-600">Spectrum TV ↗</a>
+          <a href="https://www.xfinity.com/learn/digital-cable-tv" target="_blank" class="block hover:text-blue-600">Xfinity X1 TV ↗</a>
+          <a href="https://www.dish.com/" target="_blank" class="block hover:text-blue-600">DISH Network ↗</a>
+        </div>
+      </div>
+
+      <!-- Wireless Accordion -->
+      <div class="border-b border-slate-100 pb-3">
+        <button onclick="toggleSubmenu('wirelessSub')" class="w-full flex justify-between items-center py-2 text-slate-900 hover:text-blue-600">
+          <span class="flex items-center gap-2.5"><i class="fa-solid fa-signal text-emerald-600 w-5"></i> 5G Wireless & Mobile</span>
+          <i class="fa-solid fa-chevron-right text-xs text-slate-400 transform transition-transform" id="wirelessSubIcon"></i>
+        </button>
+        <div id="wirelessSub" class="hidden pl-8 pt-2 space-y-2 text-xs font-semibold text-slate-600">
+          <a href="#resultsSection" onclick="switchCategory('wireless'); toggleSideMenu();" class="block hover:text-blue-600">Compare 5G Mobile Plans</a>
+          <a href="https://www.verizon.com/plans/unlimited/" target="_blank" class="block hover:text-blue-600">Verizon Unlimited ↗</a>
+          <a href="https://www.t-mobile.com/cell-phone-plans" target="_blank" class="block hover:text-blue-600">T-Mobile Go5G ↗</a>
+          <a href="https://www.att.com/plans/unlimited-data-plans/" target="_blank" class="block hover:text-blue-600">AT&T Unlimited ↗</a>
+        </div>
+      </div>
+
+      <!-- Resources -->
+      <a href="#resultsSection" onclick="toggleSideMenu();" class="block py-2 text-slate-900 hover:text-blue-600 flex items-center gap-2.5">
+        <i class="fa-solid fa-book-open text-slate-400 w-5"></i> Buyer Resources
+      </a>
+      <a href="mailto:info@uscableinternet.com" class="block py-2 text-slate-900 hover:text-blue-600 flex items-center gap-2.5">
+        <i class="fa-solid fa-envelope text-slate-400 w-5"></i> Contact Us
+      </a>
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-6 bg-slate-50 border-t border-slate-100 text-xs text-slate-500">
+      <div class="font-bold text-slate-700 mb-1">US Cable Internet Guide</div>
+      Independent telecom comparison engine providing real-time pricing and official carrier links.
+    </div>
+  </aside>
+
   <!-- Hero Section -->
   <section class="relative bg-gradient-to-b from-blue-900 via-indigo-950 to-slate-900 text-white pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
     <div class="relative max-w-4xl mx-auto text-center">
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold mb-6">
-        <i class="fa-solid fa-bolt text-yellow-400"></i> Official Provider Rates, Fiber Speeds & Direct Links
+      
+      <!-- Category Pills -->
+      <div class="inline-flex p-1.5 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 mb-8 gap-1.5 shadow-xl">
+        <button onclick="switchCategory('internet')" class="hero-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition" data-cat="internet">
+          <i class="fa-solid fa-wifi mr-2"></i> High-Speed Internet
+        </button>
+        <button onclick="switchCategory('tv')" class="hero-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm text-slate-300 hover:text-white transition" data-cat="tv">
+          <i class="fa-solid fa-tv mr-2"></i> TV & Cable
+        </button>
+        <button onclick="switchCategory('wireless')" class="hero-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm text-slate-300 hover:text-white transition" data-cat="wireless">
+          <i class="fa-solid fa-signal mr-2"></i> 5G & Wireless
+        </button>
       </div>
-      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-4">
-        Find The Best Internet & Cable Deals At Your Address
+
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-4" id="heroHeadline">
+        Find The Best Internet Deals At Your Address
       </h1>
-      <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-normal">
-        Real-time provider availability, symmetrical fiber speeds, and direct access to official carrier order pages.
+      <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-normal" id="heroSubtitle">
+        Compare plans starting as low as $30/mo from Spectrum & Verizon, $35/mo from AT&T & T-Mobile, $40/mo from Xfinity, and Satellite options.
       </p>
 
-      <!-- Search Box Form -->
+      <!-- Universal Search Box -->
       <form id="searchForm" class="max-w-2xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
         <div class="relative w-full flex items-center">
           <i class="fa-solid fa-house-signal text-slate-400 text-lg absolute left-4"></i>
           <input 
             type="text" 
             id="addressInput" 
-            placeholder="Enter Street Address or ZIP Code (e.g. 108 E 11th Ave Baltimore, MD 21225)" 
+            placeholder="Enter Street Address or ZIP Code (e.g. 108 E 11th Ave Baltimore, MD or 75001)" 
             class="w-full pl-12 pr-4 py-3.5 text-slate-800 placeholder-slate-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 font-semibold text-base"
           />
         </div>
@@ -84,7 +167,7 @@
           id="searchBtn" 
           class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-blue-600/30">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span id="btnText">Check Address</span>
+          <span>Check Address</span>
         </button>
       </form>
 
@@ -106,21 +189,16 @@
     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg flex-shrink-0">
-          <i class="fa-solid fa-map-location-dot"></i>
+          <i class="fa-solid fa-location-dot"></i>
         </div>
         <div>
-          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Available Providers in New York, NY (10001)</h2>
-          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing verified residential broadband connections</p>
+          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Available Plans in New York, NY (10001)</h2>
+          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing verified providers with direct official links</p>
         </div>
       </div>
       
-      <!-- Tech Filter Tabs -->
-      <div class="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-xl text-xs font-semibold" id="filterTabs">
-        <button type="button" onclick="setFilter('all')" class="filter-tab active px-3.5 py-1.5 rounded-lg bg-white text-blue-700 shadow-sm" data-type="all">All Plans</button>
-        <button type="button" onclick="setFilter('fiber')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="fiber">Fiber Only</button>
-        <button type="button" onclick="setFilter('cable')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="cable">Cable</button>
-        <button type="button" onclick="setFilter('5g')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="5g">5G Home</button>
-      </div>
+      <!-- Sub-Filter Pills -->
+      <div class="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-xl text-xs font-semibold" id="subFilters"></div>
     </div>
 
     <!-- Provider Cards Grid Container -->
@@ -128,199 +206,480 @@
 
   </main>
 
-  <!-- FCC Facts Label Modal -->
-  <div id="fccModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 border-2 border-slate-900 shadow-2xl relative">
-      <button type="button" onclick="closeFccModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2 text-lg">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
+  <!-- BroadbandNow Style Dark Footer -->
+  <footer class="bg-[#121212] text-neutral-400 text-xs py-16 border-t border-neutral-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
       
-      <div class="border-b-4 border-slate-900 pb-3 mb-4">
-        <div class="text-[10px] uppercase font-black tracking-widest text-slate-400">Official FCC Consumer Disclosure</div>
-        <h3 class="text-2xl font-black tracking-tight text-slate-900">Broadband Facts</h3>
-        <p class="text-xs font-medium text-slate-600" id="fccModalProviderName">Provider Name</p>
-      </div>
-
-      <div class="space-y-3 text-sm">
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="font-bold text-slate-800">Monthly Standard Price:</span>
-          <span class="font-black text-slate-900" id="fccModalPrice">$0.00/mo</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Promotional Period:</span>
-          <span class="font-semibold text-slate-800" id="fccModalContract">No contract</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Equipment Rental Fee:</span>
-          <span class="font-semibold text-emerald-600">$0/mo (Included)</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Typical Download Speed:</span>
-          <span class="font-bold text-slate-900" id="fccModalDownload">-- Mbps</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Typical Upload Speed:</span>
-          <span class="font-bold text-slate-900" id="fccModalUpload">-- Mbps</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Typical Latency:</span>
-          <span class="font-semibold text-slate-800" id="fccModalLatency">&lt; 15 ms</span>
-        </div>
-        <div class="flex justify-between py-2 border-b border-slate-200">
-          <span class="text-slate-600">Monthly Data Cap:</span>
-          <span class="font-semibold text-emerald-600">Unlimited (No Overage Fees)</span>
-        </div>
-      </div>
-
-      <div class="mt-6 pt-4 border-t border-slate-200 flex flex-col gap-2">
-        <a id="fccModalLink" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-center flex items-center justify-center gap-2">
-          <span>Go to Official Provider Site</span>
-          <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-        </a>
-        <button type="button" onclick="closeFccModal()" class="w-full py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl text-center hover:bg-slate-200">
-          Close Label
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-12 border-t border-slate-800 mt-auto">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <!-- State Selector Section -->
+      <div class="border-b border-neutral-800 pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <span class="text-xl font-black text-white">US Cable <span class="text-blue-500">Internet</span></span>
-          <p class="text-slate-400 mt-1">Connecting American households with high-speed fiber, cable, and wireless options.</p>
+          <div class="text-white font-bold text-sm mb-1">Search for Internet In...</div>
+          <div class="text-neutral-500 text-xs">Browse verified providers and cable availability by US State</div>
         </div>
-        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 text-slate-300">
-          <a href="mailto:info@uscableinternet.com" class="hover:text-white flex items-center gap-1.5"><i class="fa-solid fa-envelope text-blue-400"></i> info@uscableinternet.com</a>
+        <div class="w-full sm:w-72">
+          <select id="stateSelect" onchange="handleStateFilter(this.value)" class="w-full bg-[#1e1e1e] border border-neutral-700 text-white rounded-xl px-4 py-2.5 text-xs font-semibold focus:outline-none focus:border-blue-500">
+            <option value="">🇺🇸 Choose a state</option>
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+            <option value="FL">Florida</option>
+            <option value="NY">New York</option>
+            <option value="PA">Pennsylvania</option>
+            <option value="IL">Illinois</option>
+            <option value="OH">Ohio</option>
+            <option value="GA">Georgia</option>
+            <option value="NC">North Carolina</option>
+            <option value="MI">Michigan</option>
+          </select>
         </div>
       </div>
-      <p class="text-slate-500 leading-relaxed">
-        <strong>Disclaimer:</strong> uscableinternet.com is an independent comparison website and referral partner. All trademarks, service marks, and trade names referenced on this site belong to their respective owners. Provider pricing and speeds are subject to change.
-      </p>
-      <div class="pt-4 border-t border-slate-800 text-center text-slate-600">
-        &copy; 2026 US Cable Internet. All rights reserved.
+
+      <!-- Multi-Column Links -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4">Company</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Mission</a></li>
+            <li><a href="#" class="hover:text-white transition">Methodology</a></li>
+            <li><a href="mailto:info@uscableinternet.com" class="hover:text-white transition">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4">Top Brands</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="https://www.spectrum.com/internet" target="_blank" class="hover:text-white transition">Spectrum ($30/mo)</a></li>
+            <li><a href="https://www.verizon.com/home/fios-fastest-internet/" target="_blank" class="hover:text-white transition">Verizon ($30/mo)</a></li>
+            <li><a href="https://www.att.com/internet/" target="_blank" class="hover:text-white transition">AT&T ($35/mo)</a></li>
+            <li><a href="https://www.t-mobile.com/home-internet" target="_blank" class="hover:text-white transition">T-Mobile ($35/mo)</a></li>
+            <li><a href="https://www.xfinity.com/learn/internet-service" target="_blank" class="hover:text-white transition">Xfinity ($40/mo)</a></li>
+            <li><a href="https://www.starlink.com/" target="_blank" class="hover:text-white transition">Starlink ($55/mo)</a></li>
+            <li><a href="https://www.hughesnet.com/" target="_blank" class="hover:text-white transition">HughesNet ($39.99/mo)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4">Deals</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#resultsSection" onclick="switchCategory('internet')" class="hover:text-white transition">Plans Under $35/mo</a></li>
+            <li><a href="#resultsSection" onclick="switchCategory('internet')" class="hover:text-white transition">Fiber Internet Deals</a></li>
+            <li><a href="#resultsSection" onclick="switchCategory('tv')" class="hover:text-white transition">Cable & Satellite Deals</a></li>
+            <li><a href="#resultsSection" onclick="switchCategory('wireless')" class="hover:text-white transition">5G Wireless Promotions</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4">Resources</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#" class="hover:text-white transition">Broadband Research</a></li>
+            <li><a href="#" class="hover:text-white transition">FCC Label Guide</a></li>
+            <li><a href="#" class="hover:text-white transition">Internet Speed Test</a></li>
+            <li><a href="#" class="hover:text-white transition">Satellite vs Fiber</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4">Legal</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition">Terms of Use</a></li>
+            <li><a href="#" class="hover:text-white transition">Accessibility</a></li>
+            <li><a href="#" class="hover:text-white transition">Do Not Sell My Info</a></li>
+          </ul>
+        </div>
       </div>
+
+      <!-- Bottom Copyright -->
+      <div class="pt-8 border-t border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4 text-neutral-500">
+        <p>&copy; 2026 USCableInternet.com. All rights reserved. Independent telecom comparison engine.</p>
+        <div class="flex items-center gap-4">
+          <a href="mailto:info@uscableinternet.com" class="text-neutral-400 hover:text-white"><i class="fa-solid fa-envelope mr-1.5"></i> info@uscableinternet.com</a>
+        </div>
+      </div>
+
     </div>
   </footer>
 
   <script>
-    // Official Carrier Logos
+    // Authentic Carrier Logos
     const CARRIER_LOGOS = {
       att: "https://api.iconify.design/simple-icons:att.svg?color=%23009FDB",
       verizon: "https://api.iconify.design/simple-icons:verizon.svg?color=%23CD040B",
       tmobile: "https://api.iconify.design/simple-icons:tmobile.svg?color=%23E20074",
       spectrum: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Spectrum_Logo.svg/500px-Spectrum_Logo.svg.png",
-      xfinity: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Xfinity_logo_2021.svg/500px-Xfinity_logo_2021.svg.png"
+      xfinity: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Xfinity_logo_2021.svg/500px-Xfinity_logo_2021.svg.png",
+      starlink: "https://api.iconify.design/simple-icons:spacex.svg?color=%23000000",
+      hughesnet: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/HughesNet_Logo.svg/500px-HughesNet_Logo.svg.png",
+      directv: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/DirecTV_logo.svg/500px-DirecTV_logo.svg.png",
+      dish: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Dish_Network_logo.svg/500px-Dish_Network_logo.svg.png"
     };
 
-    // Official Company Links (Can be swapped with affiliate tracking links anytime)
-    const MASTER_PLANS = [
-      {
-        id: "att",
-        name: "AT&T Fiber",
-        officialUrl: "https://www.att.com/internet/fiber/",
-        logo: CARRIER_LOGOS.att,
-        type: "fiber",
-        typeBadge: "100% Equal Fiber",
-        speedDown: "1,000 Mbps",
-        speedUp: "1,000 Mbps",
-        price: "$80.00",
-        priceDetails: "/mo. with Autopay",
-        promoNote: "No contract • Free Wi-Fi Gateway included",
-        rating: 4.8,
-        reviewsCount: 1420,
-        fccLatency: "11 ms"
-      },
-      {
-        id: "spectrum",
-        name: "Spectrum Internet",
-        officialUrl: "https://www.spectrum.com/internet",
-        logo: CARRIER_LOGOS.spectrum,
-        type: "cable",
-        typeBadge: "Ultra-Fast Cable",
-        speedDown: "500 Mbps",
-        speedUp: "20 Mbps",
-        price: "$50.00",
-        priceDetails: "/mo. for 24 mos",
-        promoNote: "Free Advanced Wi-Fi • No data caps",
-        rating: 4.5,
-        reviewsCount: 2150,
-        fccLatency: "18 ms"
-      },
-      {
-        id: "xfinity",
-        name: "Xfinity by Comcast",
-        officialUrl: "https://www.xfinity.com/learn/internet-service",
-        logo: CARRIER_LOGOS.xfinity,
-        type: "cable",
-        typeBadge: "Gigabit Cable",
-        speedDown: "800 Mbps",
-        speedUp: "35 Mbps",
-        price: "$60.00",
-        priceDetails: "/mo. with 1-yr agreement",
-        promoNote: "Equip included for 24 mos • Nationwide hotspots",
-        rating: 4.4,
-        reviewsCount: 3200,
-        fccLatency: "16 ms"
-      },
-      {
-        id: "verizon",
-        name: "Verizon Fios & 5G",
-        officialUrl: "https://www.verizon.com/home/fios-fastest-internet/",
-        logo: CARRIER_LOGOS.verizon,
-        type: "fiber",
-        typeBadge: "Symmetrical Fiber",
-        speedDown: "940 Mbps",
-        speedUp: "880 Mbps",
-        price: "$69.99",
-        priceDetails: "/mo. with AutoPay",
-        promoNote: "3-Year Price Guarantee • Router included",
-        rating: 4.9,
-        reviewsCount: 1890,
-        fccLatency: "9 ms"
-      },
-      {
-        id: "tmobile",
-        name: "T-Mobile 5G Home",
-        officialUrl: "https://www.t-mobile.com/home-internet",
-        logo: CARRIER_LOGOS.tmobile,
-        type: "5g",
-        typeBadge: "Wireless 5G Home",
-        speedDown: "245 Mbps",
-        speedUp: "35 Mbps",
-        price: "$50.00",
-        priceDetails: "/mo. with AutoPay",
-        promoNote: "15-day test drive • No annual contracts",
-        rating: 4.6,
-        reviewsCount: 940,
-        fccLatency: "24 ms"
-      }
-    ];
-
-    let currentFilter = "all";
-    let activePlans = [...MASTER_PLANS];
-
-    function setFilter(type) {
-      currentFilter = type;
-      document.querySelectorAll(".filter-tab").forEach(tab => {
-        if (tab.dataset.type === type) {
-          tab.className = "filter-tab active px-3.5 py-1.5 rounded-lg bg-white text-blue-700 font-bold shadow-sm";
-        } else {
-          tab.className = "filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 font-semibold";
+    // Database with your exact starting prices
+    const PLANS_DATABASE = {
+      internet: [
+        {
+          id: "spectrum-net",
+          name: "Spectrum Internet",
+          officialUrl: "https://www.spectrum.com/internet",
+          logo: CARRIER_LOGOS.spectrum,
+          tag: "Ultra-Fast Cable",
+          subType: "cable",
+          metric1Label: "Starting Speeds",
+          metric1Val: "Up to 500 Mbps",
+          metric2Label: "Data Limit",
+          metric2Val: "Unlimited",
+          price: "$30.00",
+          priceDetails: "/mo. starting promo",
+          featureNote: "Free modem & Wi-Fi • No annual contracts",
+          rating: 4.5,
+          reviews: 2150
+        },
+        {
+          id: "verizon-fios",
+          name: "Verizon Fios & 5G",
+          officialUrl: "https://www.verizon.com/home/fios-fastest-internet/",
+          logo: CARRIER_LOGOS.verizon,
+          tag: "Symmetrical Fiber",
+          subType: "fiber",
+          metric1Label: "Starting Speeds",
+          metric1Val: "300 - 940 Mbps",
+          metric2Label: "Latency",
+          metric2Val: "< 10 ms",
+          price: "$30.00",
+          priceDetails: "/mo. with mobile plan",
+          featureNote: "Price lock guarantee • Router included",
+          rating: 4.9,
+          reviews: 1890
+        },
+        {
+          id: "att-fiber",
+          name: "AT&T Internet & Fiber",
+          officialUrl: "https://www.att.com/internet/",
+          logo: CARRIER_LOGOS.att,
+          tag: "Equal Fiber Speeds",
+          subType: "fiber",
+          metric1Label: "Starting Speeds",
+          metric1Val: "300 - 1,000 Mbps",
+          metric2Label: "Upload Speeds",
+          metric2Val: "100% Equal",
+          price: "$35.00",
+          priceDetails: "/mo. starting price",
+          featureNote: "No contract • Free Wi-Fi Gateway included",
+          rating: 4.8,
+          reviews: 1420
+        },
+        {
+          id: "tmobile-5g-home",
+          name: "T-Mobile 5G Home",
+          officialUrl: "https://www.t-mobile.com/home-internet",
+          logo: CARRIER_LOGOS.tmobile,
+          tag: "Wireless 5G Home",
+          subType: "5g",
+          metric1Label: "Typical Speeds",
+          metric1Val: "72 - 245 Mbps",
+          metric2Label: "Setup",
+          metric2Val: "Self-Install (15m)",
+          price: "$35.00",
+          priceDetails: "/mo. with voice line",
+          featureNote: "15-day test drive • No equipment fees",
+          rating: 4.6,
+          reviews: 940
+        },
+        {
+          id: "xfinity-net",
+          name: "Xfinity by Comcast",
+          officialUrl: "https://www.xfinity.com/learn/internet-service",
+          logo: CARRIER_LOGOS.xfinity,
+          tag: "Fast Cable Internet",
+          subType: "cable",
+          metric1Label: "Starting Speeds",
+          metric1Val: "Up to 800 Mbps",
+          metric2Label: "Hotspot Access",
+          metric2Val: "Nationwide",
+          price: "$40.00",
+          priceDetails: "/mo. starting rate",
+          featureNote: "Equip included • Fast connection",
+          rating: 4.4,
+          reviews: 3200
+        },
+        {
+          id: "hughesnet-sat",
+          name: "HughesNet Satellite",
+          officialUrl: "https://www.hughesnet.com/",
+          logo: CARRIER_LOGOS.hughesnet,
+          tag: "100% Nationwide Satellite",
+          subType: "satellite",
+          metric1Label: "Download Speeds",
+          metric1Val: "Up to 100 Mbps",
+          metric2Label: "Coverage",
+          metric2Val: "Coast-to-Coast",
+          price: "$39.99",
+          priceDetails: "/mo. starting promo",
+          featureNote: "Works anywhere in the USA with a clear view of the sky",
+          rating: 4.2,
+          reviews: 1100
+        },
+        {
+          id: "starlink-sat",
+          name: "Starlink by SpaceX",
+          officialUrl: "https://www.starlink.com/",
+          logo: CARRIER_LOGOS.starlink,
+          tag: "Low-Earth Orbit Satellite",
+          subType: "satellite",
+          metric1Label: "Download Speeds",
+          metric1Val: "50 - 220 Mbps",
+          metric2Label: "Latency",
+          metric2Val: "Low Latency (25-50ms)",
+          price: "$55.00",
+          priceDetails: "/mo. regional starting",
+          featureNote: "High-speed satellite for rural and remote areas",
+          rating: 4.7,
+          reviews: 2850
         }
-      });
-      renderProviders();
+      ],
+      tv: [
+        {
+          id: "spectrum-tv",
+          name: "Spectrum TV Select Plus",
+          officialUrl: "https://www.spectrum.com/cable-tv",
+          logo: CARRIER_LOGOS.spectrum,
+          tag: "Digital Cable TV",
+          subType: "cable-tv",
+          metric1Label: "Channel Count",
+          metric1Val: "160+ Channels",
+          metric2Label: "Streaming Perks",
+          metric2Val: "Free Xumo Box",
+          price: "$69.99",
+          priceDetails: "/mo. for 12 mos",
+          featureNote: "Includes ESPN+ and Disney+ Basic • No cable box fees",
+          rating: 4.3,
+          reviews: 2400
+        },
+        {
+          id: "xfinity-tv",
+          name: "Xfinity X1 TV",
+          officialUrl: "https://www.xfinity.com/learn/digital-cable-tv",
+          logo: CARRIER_LOGOS.xfinity,
+          tag: "Interactive Cable",
+          subType: "cable-tv",
+          metric1Label: "Channel Count",
+          metric1Val: "185+ Channels",
+          metric2Label: "Remote Control",
+          metric2Val: "Voice Remote",
+          price: "$70.00",
+          priceDetails: "/mo. Popular TV",
+          featureNote: "Voice remote control • 4K UHD streaming integration",
+          rating: 4.5,
+          reviews: 3100
+        },
+        {
+          id: "directv-stream",
+          name: "DIRECTV Stream",
+          officialUrl: "https://www.directv.com/",
+          logo: CARRIER_LOGOS.directv,
+          tag: "Live Satellite & Stream",
+          subType: "stream",
+          metric1Label: "Channel Count",
+          metric1Val: "165+ Channels",
+          metric2Label: "Cloud DVR",
+          metric2Val: "Unlimited Hours",
+          price: "$84.99",
+          priceDetails: "/mo. Choice Package",
+          featureNote: "Regional Sports Networks (RSN) included • Gemini Box",
+          rating: 4.7,
+          reviews: 1680
+        },
+        {
+          id: "dish-network",
+          name: "DISH America's Top 120",
+          officialUrl: "https://www.dish.com/",
+          logo: CARRIER_LOGOS.dish,
+          tag: "Satellite TV",
+          subType: "satellite",
+          metric1Label: "Channel Count",
+          metric1Val: "190 Channels",
+          metric2Label: "Price Guarantee",
+          metric2Val: "2-Year Lock",
+          price: "$84.99",
+          priceDetails: "/mo. 2-yr guarantee",
+          featureNote: "Hopper 3 Smart DVR • 99% signal reliability guarantee",
+          rating: 4.4,
+          reviews: 1950
+        }
+      ],
+      wireless: [
+        {
+          id: "verizon-wireless",
+          name: "Verizon Unlimited Plus",
+          officialUrl: "https://www.verizon.com/plans/unlimited/",
+          logo: CARRIER_LOGOS.verizon,
+          tag: "5G Ultra Wideband",
+          subType: "unlimited",
+          metric1Label: "5G Data Cap",
+          metric1Val: "Truly Unlimited",
+          metric2Label: "Mobile Hotspot",
+          metric2Val: "30 GB High-Speed",
+          price: "$65.00",
+          priceDetails: "/line per month",
+          featureNote: "5G Ultra Wideband access • Up to $800 phone trade-in",
+          rating: 4.8,
+          reviews: 4200
+        },
+        {
+          id: "tmobile-go5g",
+          name: "T-Mobile Go5G Plus",
+          officialUrl: "https://www.t-mobile.com/cell-phone-plans",
+          logo: CARRIER_LOGOS.tmobile,
+          tag: "Leader in 5G Coverage",
+          subType: "unlimited",
+          metric1Label: "Premium Data",
+          metric1Val: "Unlimited No-Slow",
+          metric2Label: "Mobile Hotspot",
+          metric2Val: "50 GB High-Speed",
+          price: "$70.00",
+          priceDetails: "/line with AutoPay",
+          featureNote: "Apple TV+ and Netflix included • In-flight Wi-Fi",
+          rating: 4.7,
+          reviews: 3850
+        },
+        {
+          id: "att-wireless",
+          name: "AT&T Unlimited Premium",
+          officialUrl: "https://www.att.com/plans/unlimited-data-plans/",
+          logo: CARRIER_LOGOS.att,
+          tag: "Active 5G Network",
+          subType: "unlimited",
+          metric1Label: "Data Limit",
+          metric1Val: "Unlimited High-Speed",
+          metric2Label: "Mobile Hotspot",
+          metric2Val: "60 GB High-Speed",
+          price: "$65.99",
+          priceDetails: "/line with AutoPay",
+          featureNote: "Can't slow you down based on how much data you use",
+          rating: 4.6,
+          reviews: 2900
+        }
+      ]
+    };
+
+    let activeCategory = "internet";
+    let activeSubFilter = "all";
+    let activeList = [...PLANS_DATABASE[activeCategory]];
+
+    const CATEGORY_META = {
+      internet: {
+        headline: "Find The Best Internet Deals At Your Address",
+        subtitle: "Compare starting rates from Spectrum ($30), Verizon ($30), AT&T ($35), T-Mobile ($35), Xfinity ($40), HughesNet ($39.99), and Starlink ($55).",
+        filters: [
+          { id: "all", label: "All Internet" },
+          { id: "fiber", label: "Fiber Only" },
+          { id: "cable", label: "Cable" },
+          { id: "5g", label: "5G Home" },
+          { id: "satellite", label: "Satellite" }
+        ]
+      },
+      tv: {
+        headline: "Compare Cable & Satellite TV Packages",
+        subtitle: "Compare live sports networks, premium channels, cloud DVR storage, and multi-year price locks.",
+        filters: [
+          { id: "all", label: "All TV Plans" },
+          { id: "cable-tv", label: "Cable TV" },
+          { id: "stream", label: "Streaming Live TV" },
+          { id: "satellite", label: "Satellite TV" }
+        ]
+      },
+      wireless: {
+        headline: "Top 5G Unlimited Mobile & Cell Plans",
+        subtitle: "Discover nationwide 5G coverage, mobile hotspot caps, and carrier trade-in incentives for your devices.",
+        filters: [
+          { id: "all", label: "All Wireless" },
+          { id: "unlimited", label: "Unlimited 5G Data" }
+        ]
+      }
+    };
+
+    function toggleSideMenu() {
+      const overlay = document.getElementById("sideMenuOverlay");
+      const drawer = document.getElementById("sideMenuDrawer");
+      const isOpen = !drawer.classList.contains("translate-x-full");
+
+      if (isOpen) {
+        drawer.classList.add("translate-x-full");
+        overlay.classList.add("hidden");
+      } else {
+        drawer.classList.remove("translate-x-full");
+        overlay.classList.remove("hidden");
+      }
     }
 
-    function renderProviders() {
+    function toggleSubmenu(id) {
+      const sub = document.getElementById(id);
+      const icon = document.getElementById(id + "Icon");
+      if (sub.classList.contains("hidden")) {
+        sub.classList.remove("hidden");
+        icon.classList.add("rotate-90");
+      } else {
+        sub.classList.add("hidden");
+        icon.classList.remove("rotate-90");
+      }
+    }
+
+    function switchCategory(cat) {
+      activeCategory = cat;
+      activeSubFilter = "all";
+
+      document.querySelectorAll(".cat-nav-btn").forEach(b => {
+        if (b.dataset.cat === cat) {
+          b.className = "cat-nav-btn px-4 py-2 rounded-lg bg-white text-blue-700 shadow-sm transition";
+        } else {
+          b.className = "cat-nav-btn px-4 py-2 rounded-lg text-slate-600 hover:text-slate-900 transition";
+        }
+      });
+
+      document.querySelectorAll(".hero-cat-btn").forEach(b => {
+        if (b.dataset.cat === cat) {
+          b.className = "hero-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm bg-blue-600 text-white shadow-md transition";
+        } else {
+          b.className = "hero-cat-btn px-5 py-2.5 rounded-xl font-bold text-sm text-slate-300 hover:text-white transition";
+        }
+      });
+
+      document.getElementById("heroHeadline").textContent = CATEGORY_META[cat].headline;
+      document.getElementById("heroSubtitle").textContent = CATEGORY_META[cat].subtitle;
+
+      renderSubFilters();
+      activeList = [...PLANS_DATABASE[activeCategory]];
+      renderCards();
+    }
+
+    function renderSubFilters() {
+      const filterContainer = document.getElementById("subFilters");
+      const filterDefs = CATEGORY_META[activeCategory].filters;
+
+      filterContainer.innerHTML = filterDefs.map(f => `
+        <button 
+          type="button" 
+          onclick="applySubFilter('${f.id}')" 
+          class="sub-filter-tab px-3.5 py-1.5 rounded-lg transition ${activeSubFilter === f.id ? 'bg-white text-blue-700 shadow-sm font-bold' : 'text-slate-600 hover:text-slate-900 font-semibold'}" 
+          data-filter="${f.id}">
+          ${f.label}
+        </button>
+      `).join("");
+    }
+
+    function applySubFilter(filterId) {
+      activeSubFilter = filterId;
+      renderSubFilters();
+      renderCards();
+    }
+
+    function renderCards() {
       const container = document.getElementById("providerGrid");
-      const filtered = activePlans.filter(p => currentFilter === "all" || p.type === currentFilter);
+      const filtered = activeList.filter(item => activeSubFilter === "all" || item.subType === activeSubFilter);
 
-      document.getElementById("resultsCountSubtitle").textContent = `Showing ${filtered.length} verified plans for your location`;
+      document.getElementById("resultsCountSubtitle").textContent = `Showing ${filtered.length} verified ${activeCategory.toUpperCase()} options for your location`;
 
-      container.innerHTML = filtered.map(provider => `
+      container.innerHTML = filtered.map(item => `
         <div class="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-400 transition-all duration-200 p-6 shadow-sm hover:shadow-md">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
@@ -328,66 +687,57 @@
             <div class="lg:col-span-4 flex items-center gap-4">
               <div class="w-32 h-14 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center p-2.5 flex-shrink-0">
                 <img 
-                  src="${provider.logo}" 
-                  alt="${provider.name} Logo" 
+                  src="${item.logo}" 
+                  alt="${item.name} Logo" 
                   class="carrier-logo-img"
-                  onerror="this.onerror=null; this.src='https://api.iconify.design/fa6-solid:wifi.svg?color=%232563eb';" 
+                  onerror="this.onerror=null; this.src='https://api.iconify.design/fa6-solid:tower-broadcast.svg?color=%232563eb';" 
                 />
               </div>
               <div>
-                <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase ${
-                  provider.type === 'fiber' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
-                  provider.type === 'cable' ? 'bg-blue-50 text-blue-700 border border-blue-200' :
-                  'bg-purple-50 text-purple-700 border border-purple-200'
-                }">
-                  ${provider.typeBadge}
+                <span class="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase bg-blue-50 text-blue-700 border border-blue-200">
+                  ${item.tag}
                 </span>
-                <h3 class="text-lg font-extrabold text-slate-900 mt-0.5 leading-snug">${provider.name}</h3>
+                <h3 class="text-lg font-extrabold text-slate-900 mt-0.5 leading-snug">${item.name}</h3>
                 <div class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold mt-1">
                   <i class="fa-solid fa-star"></i>
-                  <span class="text-slate-800 font-bold">${provider.rating}</span>
-                  <span class="text-slate-400">(${provider.reviewsCount})</span>
+                  <span class="text-slate-800 font-bold">${item.rating}</span>
+                  <span class="text-slate-400">(${item.reviews})</span>
                 </div>
               </div>
             </div>
 
-            <!-- Speeds & Details -->
+            <!-- Tailored Metrics Grid -->
             <div class="lg:col-span-4 grid grid-cols-2 gap-4 border-y lg:border-y-0 lg:border-x border-slate-100 py-4 lg:py-0 lg:px-6">
               <div>
-                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Download</span>
-                <span class="text-xl font-black text-slate-900">${provider.speedDown}</span>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">${item.metric1Label}</span>
+                <span class="text-xl font-black text-slate-900">${item.metric1Val}</span>
               </div>
               <div>
-                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Upload</span>
-                <span class="text-xl font-black text-slate-900">${provider.speedUp}</span>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">${item.metric2Label}</span>
+                <span class="text-xl font-black text-slate-900">${item.metric2Val}</span>
               </div>
               <div class="col-span-2 text-xs text-slate-500 flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-check text-emerald-500"></i> ${provider.promoNote}
+                <i class="fa-solid fa-circle-check text-emerald-500"></i> ${item.featureNote}
               </div>
             </div>
 
-            <!-- Pricing & Direct Company Link -->
+            <!-- Price and Direct Official Link -->
             <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-between lg:justify-center items-start sm:items-center lg:items-end gap-3">
               <div class="text-left lg:text-right">
                 <div class="text-2xl font-black text-slate-900 leading-none">
-                  ${provider.price}
-                  <span class="text-xs font-semibold text-slate-500">${provider.priceDetails}</span>
+                  ${item.price}
+                  <span class="text-xs font-semibold text-slate-500">${item.priceDetails}</span>
                 </div>
-                <button 
-                  type="button"
-                  onclick="openFccModal('${provider.id}')"
-                  class="mt-1.5 text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 lg:ml-auto">
-                  <i class="fa-solid fa-file-invoice"></i> View FCC Broadband Label
-                </button>
+                <span class="mt-1.5 text-[11px] font-semibold text-slate-400 block lg:ml-auto">Official Verified Provider Link</span>
               </div>
 
               <div class="flex items-center gap-2 w-full sm:w-auto lg:w-full">
                 <a 
-                  href="${provider.officialUrl}" 
+                  href="${item.officialUrl}" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   class="w-full text-center px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-sm tracking-wide shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2">
-                  <span>View Plans</span>
+                  <span>View ${activeCategory === 'tv' ? 'TV Packages' : activeCategory === 'wireless' ? 'Wireless Plans' : 'Plans & Order'}</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
                 </a>
               </div>
@@ -398,25 +748,6 @@
       `).join("");
     }
 
-    function openFccModal(providerId) {
-      const p = activePlans.find(item => item.id === providerId) || MASTER_PLANS.find(item => item.id === providerId);
-      if (!p) return;
-
-      document.getElementById("fccModalProviderName").textContent = p.name;
-      document.getElementById("fccModalPrice").textContent = p.price + "/mo";
-      document.getElementById("fccModalContract").textContent = p.promoNote;
-      document.getElementById("fccModalDownload").textContent = p.speedDown;
-      document.getElementById("fccModalUpload").textContent = p.speedUp;
-      document.getElementById("fccModalLatency").textContent = p.fccLatency;
-      document.getElementById("fccModalLink").href = p.officialUrl;
-
-      document.getElementById("fccModal").classList.remove("hidden");
-    }
-
-    function closeFccModal() {
-      document.getElementById("fccModal").classList.add("hidden");
-    }
-
     function performSearch(query) {
       if (!query || query.trim().length < 2) {
         alert("Please enter a street address or ZIP code.");
@@ -424,16 +755,17 @@
       }
 
       const cleanQuery = query.trim();
-      document.getElementById("currentLocationTitle").textContent = `Available Providers for: ${cleanQuery}`;
+      document.getElementById("currentLocationTitle").textContent = `Available Plans for: ${cleanQuery}`;
 
       let sum = 0;
       for (let i = 0; i < cleanQuery.length; i++) {
         sum += cleanQuery.charCodeAt(i);
       }
-      const offset = sum % MASTER_PLANS.length;
-      activePlans = [...MASTER_PLANS.slice(offset), ...MASTER_PLANS.slice(0, offset)];
+      const rawList = PLANS_DATABASE[activeCategory];
+      const offset = sum % rawList.length;
+      activeList = [...rawList.slice(offset), ...rawList.slice(0, offset)];
 
-      renderProviders();
+      renderCards();
 
       const res = document.getElementById("resultsSection");
       if (res) {
@@ -446,8 +778,19 @@
       performSearch(query);
     }
 
+    function handleStateFilter(stateCode) {
+      if (!stateCode) return;
+      const stateNames = {
+        CA: "California", TX: "Texas", FL: "Florida", NY: "New York",
+        PA: "Pennsylvania", IL: "Illinois", OH: "Ohio", GA: "Georgia",
+        NC: "North Carolina", MI: "Michigan"
+      };
+      setAndSearch(stateNames[stateCode] || stateCode);
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
-      renderProviders();
+      renderSubFilters();
+      renderCards();
 
       const form = document.getElementById("searchForm");
       if (form) {

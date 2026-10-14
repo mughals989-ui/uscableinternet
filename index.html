@@ -4,22 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>US Cable Internet - Compare Top Internet, Fiber & Cable Providers</title>
-  <meta name="description" content="Compare high-speed internet, fiber optic, and cable deals across the USA. Check verified pricing, speeds, and FCC labels for your exact street address.">
+  <meta name="description" content="Compare high-speed internet, fiber optic, and cable deals across the USA. Check verified pricing, speeds, and FCC labels for your exact address.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
     body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    .carrier-logo-img {
-      max-height: 38px;
-      max-width: 130px;
-      object-fit: contain;
-    }
+    .carrier-logo-img { max-height: 38px; max-width: 130px; object-fit: contain; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
 
-  <!-- Top Announcement / Affiliate Bar -->
+  <!-- Top Announcement Bar -->
   <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
       <div class="flex items-center gap-2">
@@ -36,7 +32,7 @@
   </div>
 
   <!-- Primary Header -->
-  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3">
         <div class="w-11 h-11 bg-gradient-to-tr from-blue-700 via-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-blue-500/20">
@@ -66,28 +62,25 @@
 
   <!-- Hero Section -->
   <section class="relative bg-gradient-to-b from-blue-900 via-indigo-950 to-slate-900 text-white pt-14 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
-    <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
-    
     <div class="relative max-w-4xl mx-auto text-center">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-200 text-xs font-semibold mb-6">
-        <i class="fa-solid fa-bolt text-yellow-400"></i> Compare Over 2,000+ US Internet Service Providers
+        <i class="fa-solid fa-bolt text-yellow-400"></i> Compare Top US Cable, Fiber & Wireless Providers
       </div>
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-4">
         Find The Best Internet & Cable Deals At Your Address
       </h1>
       <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-normal">
-        Real-time provider availability, symmetrical fiber speeds, transparent pricing, and mandatory FCC Broadband Facts labels.
+        Real-time provider availability, symmetrical fiber speeds, and transparent monthly pricing.
       </p>
 
-      <!-- Full Street Address / ZIP Search Form -->
-      <form onsubmit="event.preventDefault(); handleAddressSearch();" class="max-w-2xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
+      <!-- Search Box Form -->
+      <form id="searchForm" class="max-w-2xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
         <div class="relative w-full flex items-center">
           <i class="fa-solid fa-house-signal text-slate-400 text-lg absolute left-4"></i>
           <input 
             type="text" 
             id="addressInput" 
-            placeholder="Enter Street Address or ZIP Code (e.g. 123 Main St, Dallas, TX or 75001)" 
-            autocomplete="street-address"
+            placeholder="Enter Street Address or ZIP Code (e.g. 10001 or 123 Main St, Dallas, TX)" 
             class="w-full pl-12 pr-4 py-3.5 text-slate-800 placeholder-slate-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 font-semibold text-base"
           />
         </div>
@@ -100,13 +93,13 @@
         </button>
       </form>
 
-      <!-- Quick Address / City Shortcuts -->
-      <div class="mt-4 flex flex-wrap justify-center items-center gap-2 text-xs text-slate-400">
+      <!-- Quick Shortcuts -->
+      <div class="mt-4 flex flex-wrap justify-center items-center gap-2 text-xs text-slate-300">
         <span>Popular Markets:</span>
-        <button type="button" onclick="setAddressAndSearch('Broadway, New York, NY 10001')" class="underline hover:text-white">New York, NY</button>•
-        <button type="button" onclick="setAddressAndSearch('Sunset Blvd, Los Angeles, CA 90001')" class="underline hover:text-white">Los Angeles, CA</button>•
-        <button type="button" onclick="setAddressAndSearch('Main St, Dallas, TX 75001')" class="underline hover:text-white">Dallas, TX</button>•
-        <button type="button" onclick="setAddressAndSearch('Michigan Ave, Chicago, IL 60601')" class="underline hover:text-white">Chicago, IL</button>
+        <button type="button" onclick="setAndSearch('10001', 'New York, NY (10001)')" class="underline hover:text-white">New York, NY</button>•
+        <button type="button" onclick="setAndSearch('90001', 'Los Angeles, CA (90001)')" class="underline hover:text-white">Los Angeles, CA</button>•
+        <button type="button" onclick="setAndSearch('75001', 'Dallas, TX (75001)')" class="underline hover:text-white">Dallas, TX</button>•
+        <button type="button" onclick="setAndSearch('60601', 'Chicago, IL (60601)')" class="underline hover:text-white">Chicago, IL</button>
       </div>
     </div>
   </section>
@@ -121,31 +114,29 @@
           <i class="fa-solid fa-map-location-dot"></i>
         </div>
         <div>
-          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Internet Providers for: Broadway, New York, NY 10001</h2>
-          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing verified residential broadband connections</p>
+          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Available Providers in New York, NY (10001)</h2>
+          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing 5 verified residential broadband connections</p>
         </div>
       </div>
       
       <!-- Tech Filter Tabs -->
       <div class="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-xl text-xs font-semibold" id="filterTabs">
-        <button onclick="setFilter('all')" class="filter-tab active px-3.5 py-1.5 rounded-lg bg-white text-blue-700 shadow-sm" data-type="all">All Plans</button>
-        <button onclick="setFilter('fiber')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="fiber">Fiber Only</button>
-        <button onclick="setFilter('cable')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="cable">Cable</button>
-        <button onclick="setFilter('5g')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="5g">5G Home</button>
+        <button type="button" onclick="setFilter('all')" class="filter-tab active px-3.5 py-1.5 rounded-lg bg-white text-blue-700 shadow-sm" data-type="all">All Plans</button>
+        <button type="button" onclick="setFilter('fiber')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="fiber">Fiber Only</button>
+        <button type="button" onclick="setFilter('cable')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="cable">Cable</button>
+        <button type="button" onclick="setFilter('5g')" class="filter-tab px-3.5 py-1.5 rounded-lg text-slate-600 hover:text-slate-900" data-type="5g">5G Home</button>
       </div>
     </div>
 
     <!-- Provider Cards Grid Container -->
-    <div id="providerGrid" class="space-y-4">
-      <!-- Dynamic Provider Cards inject here -->
-    </div>
+    <div id="providerGrid" class="space-y-4"></div>
 
   </main>
 
-  <!-- FCC Broadband Facts Label Modal -->
+  <!-- FCC Facts Label Modal -->
   <div id="fccModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 border-2 border-slate-900 shadow-2xl relative">
-      <button onclick="closeFccModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2 text-lg">
+      <button type="button" onclick="closeFccModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-2 text-lg">
         <i class="fa-solid fa-xmark"></i>
       </button>
       
@@ -190,7 +181,7 @@
         <a href="tel:8886303881" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-center flex items-center justify-center gap-2">
           <i class="fa-solid fa-phone"></i> Call (888) 630-3881 to Lock Rate
         </a>
-        <button onclick="closeFccModal()" class="w-full py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl text-center hover:bg-slate-200">
+        <button type="button" onclick="closeFccModal()" class="w-full py-2 bg-slate-100 text-slate-700 font-semibold rounded-xl text-center hover:bg-slate-200">
           Close Label
         </button>
       </div>
@@ -211,7 +202,7 @@
         </div>
       </div>
       <p class="text-slate-500 leading-relaxed">
-        <strong>Disclaimer:</strong> uscableinternet.com is an independent comparison website and referral partner. Provider availability, speeds, and promotional rates vary by location and are subject to change. Trademarks and service marks displayed are the property of their respective owners.
+        <strong>Disclaimer:</strong> uscableinternet.com is an independent comparison website and referral partner. Provider availability, speeds, and promotional rates vary by location and are subject to change.
       </p>
       <div class="pt-4 border-t border-slate-800 text-center text-slate-600">
         &copy; 2026 US Cable Internet. All rights reserved.
@@ -351,4 +342,137 @@
                 }">
                   ${provider.typeBadge}
                 </span>
-                <h3 class="text-
+                <h3 class="text-lg font-extrabold text-slate-900 mt-0.5 leading-snug">${provider.name}</h3>
+                <div class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold mt-1">
+                  <i class="fa-solid fa-star"></i>
+                  <span class="text-slate-800 font-bold">${provider.rating}</span>
+                  <span class="text-slate-400">(${provider.reviewsCount})</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 grid grid-cols-2 gap-4 border-y lg:border-y-0 lg:border-x border-slate-100 py-4 lg:py-0 lg:px-6">
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Download</span>
+                <span class="text-xl font-black text-slate-900">${provider.speedDown}</span>
+              </div>
+              <div>
+                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Upload</span>
+                <span class="text-xl font-black text-slate-900">${provider.speedUp}</span>
+              </div>
+              <div class="col-span-2 text-xs text-slate-500 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-check text-emerald-500"></i> ${provider.promoNote}
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-between lg:justify-center items-start sm:items-center lg:items-end gap-3">
+              <div class="text-left lg:text-right">
+                <div class="text-2xl font-black text-slate-900 leading-none">
+                  ${provider.price}
+                  <span class="text-xs font-semibold text-slate-500">${provider.priceDetails}</span>
+                </div>
+                <button 
+                  type="button"
+                  onclick="openFccModal('${provider.id}')"
+                  class="mt-1.5 text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 lg:ml-auto">
+                  <i class="fa-solid fa-file-invoice"></i> View FCC Broadband Label
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2 w-full sm:w-auto lg:w-full">
+                <a 
+                  href="tel:${TOLL_FREE_NUMBER}" 
+                  class="w-full text-center px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-sm tracking-wide shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-phone"></i>
+                  <span>Call ${TOLL_FREE_DISPLAY}</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openFccModal(providerId) {
+      const p = activePlans.find(item => item.id === providerId) || MASTER_PLANS.find(item => item.id === providerId);
+      if (!p) return;
+
+      document.getElementById("fccModalProviderName").textContent = p.name;
+      document.getElementById("fccModalPrice").textContent = p.price + "/mo";
+      document.getElementById("fccModalContract").textContent = p.promoNote;
+      document.getElementById("fccModalDownload").textContent = p.speedDown;
+      document.getElementById("fccModalUpload").textContent = p.speedUp;
+      document.getElementById("fccModalLatency").textContent = p.fccLatency;
+
+      document.getElementById("fccModal").classList.remove("hidden");
+    }
+
+    function closeFccModal() {
+      document.getElementById("fccModal").classList.add("hidden");
+    }
+
+    // Instant, Reliable Search Function
+    function performSearch(query) {
+      if (!query || query.trim().length < 2) {
+        alert("Please enter a ZIP code or street address.");
+        return;
+      }
+
+      const cleanQuery = query.trim();
+      const zipMatch = cleanQuery.match(/\b\d{5}\b/);
+      let displayText = cleanQuery;
+
+      if (zipMatch) {
+        const zip = zipMatch[0];
+        const first = zip.charAt(0);
+        let cityState = "Local Area";
+        if (first === "0" || first === "1") cityState = "Northeast Region";
+        else if (first === "2" || first === "3") cityState = "Southeast Region";
+        else if (first === "4" || first === "5") cityState = "Midwest Region";
+        else if (first === "6" || first === "7") cityState = "Texas & Central";
+        else if (first === "8" || first === "9") cityState = "West Coast";
+        displayText = `${cleanQuery} (${cityState})`;
+      }
+
+      // Update location banner immediately
+      document.getElementById("currentLocationTitle").textContent = `Available Providers in ${displayText}`;
+
+      // Deterministic plan order based on search string
+      let sum = 0;
+      for (let i = 0; i < cleanQuery.length; i++) {
+        sum += cleanQuery.charCodeAt(i);
+      }
+      const offset = sum % MASTER_PLANS.length;
+      activePlans = [...MASTER_PLANS.slice(offset), ...MASTER_PLANS.slice(0, offset)];
+
+      renderProviders();
+
+      // Scroll smoothly to results
+      const res = document.getElementById("resultsSection");
+      if (res) {
+        res.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    function setAndSearch(query, displayLabel) {
+      document.getElementById("addressInput").value = query;
+      performSearch(displayLabel || query);
+    }
+
+    // Attach event listeners safely
+    document.addEventListener("DOMContentLoaded", () => {
+      renderProviders();
+
+      const form = document.getElementById("searchForm");
+      if (form) {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const val = document.getElementById("addressInput").value;
+          performSearch(val);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>US Cable Internet - Compare Top Internet, Fiber & Cable Providers</title>
-  <meta name="description" content="Compare high-speed internet, fiber optic, and cable deals across the USA. Check verified pricing, speeds, and FCC labels for your ZIP code.">
+  <meta name="description" content="Compare high-speed internet, fiber optic, and cable deals across the USA. Check verified pricing, speeds, and FCC labels for your exact street address.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -19,7 +19,7 @@
 </head>
 <body class="bg-slate-50 text-slate-800 antialiased flex flex-col min-h-screen">
 
-  <!-- Top Announcement / Affiliate Transparency Bar -->
+  <!-- Top Announcement / Affiliate Bar -->
   <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4 border-b border-slate-800">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
       <div class="flex items-center gap-2">
@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <!-- Primary Header & Navigation -->
+  <!-- Primary Header -->
   <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       <a href="#" class="flex items-center gap-3">
@@ -48,7 +48,7 @@
         </div>
       </a>
 
-      <!-- Quick Call Button Header -->
+      <!-- Quick Call Header -->
       <div class="flex items-center gap-3">
         <div class="hidden md:flex flex-col text-right">
           <span class="text-xs text-slate-500 font-medium">Order by Phone (Toll-Free)</span>
@@ -73,56 +73,56 @@
         <i class="fa-solid fa-bolt text-yellow-400"></i> Compare Over 2,000+ US Internet Service Providers
       </div>
       <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight mb-4">
-        Find The Best Internet & Cable Deals In Your Area
+        Find The Best Internet & Cable Deals At Your Address
       </h1>
       <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto mb-8 font-normal">
         Real-time provider availability, symmetrical fiber speeds, transparent pricing, and mandatory FCC Broadband Facts labels.
       </p>
 
-      <!-- ZIP Code Search Box -->
-      <div class="max-w-xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
+      <!-- Full Street Address / ZIP Search Form -->
+      <form onsubmit="event.preventDefault(); handleAddressSearch();" class="max-w-2xl mx-auto bg-white p-2.5 rounded-2xl shadow-2xl flex flex-col sm:flex-row items-center gap-2 border border-white/20">
         <div class="relative w-full flex items-center">
-          <i class="fa-solid fa-location-dot text-slate-400 text-lg absolute left-4"></i>
+          <i class="fa-solid fa-house-signal text-slate-400 text-lg absolute left-4"></i>
           <input 
             type="text" 
-            id="zipInput" 
-            placeholder="Enter 5-digit US ZIP Code (e.g. 10001)" 
-            maxlength="5"
+            id="addressInput" 
+            placeholder="Enter Street Address or ZIP Code (e.g. 123 Main St, Dallas, TX or 75001)" 
+            autocomplete="street-address"
             class="w-full pl-12 pr-4 py-3.5 text-slate-800 placeholder-slate-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600 font-semibold text-base"
           />
         </div>
         <button 
+          type="submit" 
           id="searchBtn" 
-          onclick="handleZipSearch()" 
           class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold rounded-xl transition duration-150 flex items-center justify-center gap-2 whitespace-nowrap shadow-lg shadow-blue-600/30">
           <i class="fa-solid fa-magnifying-glass"></i>
-          <span>Check Plans</span>
+          <span>Check Address</span>
         </button>
-      </div>
+      </form>
 
-      <!-- Quick ZIP shortcuts -->
+      <!-- Quick Address / City Shortcuts -->
       <div class="mt-4 flex flex-wrap justify-center items-center gap-2 text-xs text-slate-400">
         <span>Popular Markets:</span>
-        <button onclick="setZipAndSearch('10001')" class="underline hover:text-white">New York (10001)</button>•
-        <button onclick="setZipAndSearch('90001')" class="underline hover:text-white">Los Angeles (90001)</button>•
-        <button onclick="setZipAndSearch('75001')" class="underline hover:text-white">Dallas (75001)</button>•
-        <button onclick="setZipAndSearch('60601')" class="underline hover:text-white">Chicago (60601)</button>
+        <button type="button" onclick="setAddressAndSearch('Broadway, New York, NY 10001')" class="underline hover:text-white">New York, NY</button>•
+        <button type="button" onclick="setAddressAndSearch('Sunset Blvd, Los Angeles, CA 90001')" class="underline hover:text-white">Los Angeles, CA</button>•
+        <button type="button" onclick="setAddressAndSearch('Main St, Dallas, TX 75001')" class="underline hover:text-white">Dallas, TX</button>•
+        <button type="button" onclick="setAddressAndSearch('Michigan Ave, Chicago, IL 60601')" class="underline hover:text-white">Chicago, IL</button>
       </div>
     </div>
   </section>
 
   <!-- Main Content & Results -->
-  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10">
+  <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10" id="resultsSection">
 
     <!-- Location Status Banner -->
     <div class="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-sm mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">
-          <i class="fa-solid fa-map-pin"></i>
+        <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg flex-shrink-0">
+          <i class="fa-solid fa-map-location-dot"></i>
         </div>
         <div>
-          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Internet Providers in Manhattan, NY (10001)</h2>
-          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing 5 verified residential broadband providers</p>
+          <h2 class="text-xl font-bold text-slate-900" id="currentLocationTitle">Internet Providers for: Broadway, New York, NY 10001</h2>
+          <p class="text-xs text-slate-500" id="resultsCountSubtitle">Showing verified residential broadband connections</p>
         </div>
       </div>
       
@@ -220,25 +220,18 @@
   </footer>
 
   <script>
-    // Config & Credentials
-    const API_KEY = "bbm_live_bvrOUoZbQyxJFed4vKAd2AtXIvZnxYzTt31HzChbW2M";
     const TOLL_FREE_NUMBER = "8886303881";
     const TOLL_FREE_DISPLAY = "(888) 630-3881";
 
-    // Official Authentic Carrier Logos (CDN-hosted transparent vector badges)
     const CARRIER_LOGOS = {
       att: "https://api.iconify.design/simple-icons:att.svg?color=%23009FDB",
       verizon: "https://api.iconify.design/simple-icons:verizon.svg?color=%23CD040B",
       tmobile: "https://api.iconify.design/simple-icons:tmobile.svg?color=%23E20074",
       spectrum: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Spectrum_Logo.svg/500px-Spectrum_Logo.svg.png",
-      xfinity: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Xfinity_logo_2021.svg/500px-Xfinity_logo_2021.svg.png",
-      frontier: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Frontier_Communications_logo_April_2022.svg/500px-Frontier_Communications_logo_April_2022.svg.png",
-      cox: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Cox_Communications_Logo.svg/500px-Cox_Communications_Logo.svg.png",
-      centurylink: "https://api.iconify.design/simple-icons:centurylink.svg?color=%2300853F"
+      xfinity: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Xfinity_logo_2021.svg/500px-Xfinity_logo_2021.svg.png"
     };
 
-    // Pre-curated verified provider plan database
-    const PROVIDER_DATA = [
+    const MASTER_PLANS = [
       {
         id: "att",
         name: "AT&T Fiber",
@@ -317,8 +310,8 @@
     ];
 
     let currentFilter = "all";
+    let activePlans = [...MASTER_PLANS];
 
-    // Set filter tabs
     function setFilter(type) {
       currentFilter = type;
       document.querySelectorAll(".filter-tab").forEach(tab => {
@@ -331,10 +324,9 @@
       renderProviders();
     }
 
-    // Render provider cards
     function renderProviders() {
       const container = document.getElementById("providerGrid");
-      const filtered = PROVIDER_DATA.filter(p => currentFilter === "all" || p.type === currentFilter);
+      const filtered = activePlans.filter(p => currentFilter === "all" || p.type === currentFilter);
 
       document.getElementById("resultsCountSubtitle").textContent = `Showing ${filtered.length} verified plans for your location`;
 
@@ -342,7 +334,6 @@
         <div class="bg-white rounded-2xl border border-slate-200/90 hover:border-blue-400 transition-all duration-200 p-6 shadow-sm hover:shadow-md">
           <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
-            <!-- Carrier Logo & Specs -->
             <div class="lg:col-span-4 flex items-center gap-4">
               <div class="w-32 h-14 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-center p-2.5 flex-shrink-0">
                 <img 
@@ -360,117 +351,4 @@
                 }">
                   ${provider.typeBadge}
                 </span>
-                <h3 class="text-lg font-extrabold text-slate-900 mt-0.5 leading-snug">${provider.name}</h3>
-                <div class="flex items-center gap-1.5 text-xs text-amber-500 font-semibold mt-1">
-                  <i class="fa-solid fa-star"></i>
-                  <span class="text-slate-800 font-bold">${provider.rating}</span>
-                  <span class="text-slate-400">(${provider.reviewsCount})</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Speeds & Details -->
-            <div class="lg:col-span-4 grid grid-cols-2 gap-4 border-y lg:border-y-0 lg:border-x border-slate-100 py-4 lg:py-0 lg:px-6">
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Download</span>
-                <span class="text-xl font-black text-slate-900">${provider.speedDown}</span>
-              </div>
-              <div>
-                <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Max Upload</span>
-                <span class="text-xl font-black text-slate-900">${provider.speedUp}</span>
-              </div>
-              <div class="col-span-2 text-xs text-slate-500 flex items-center gap-1.5">
-                <i class="fa-solid fa-circle-check text-emerald-500"></i> ${provider.promoNote}
-              </div>
-            </div>
-
-            <!-- Pricing & Call to Action -->
-            <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col justify-between lg:justify-center items-start sm:items-center lg:items-end gap-3">
-              <div class="text-left lg:text-right">
-                <div class="text-2xl font-black text-slate-900 leading-none">
-                  ${provider.price}
-                  <span class="text-xs font-semibold text-slate-500">${provider.priceDetails}</span>
-                </div>
-                <button 
-                  onclick="openFccModal('${provider.id}')"
-                  class="mt-1.5 text-[11px] font-bold text-blue-600 hover:text-blue-800 flex items-center gap-1 lg:ml-auto">
-                  <i class="fa-solid fa-file-invoice"></i> View FCC Broadband Label
-                </button>
-              </div>
-
-              <div class="flex items-center gap-2 w-full sm:w-auto lg:w-full">
-                <a 
-                  href="tel:${TOLL_FREE_NUMBER}" 
-                  class="w-full text-center px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-bold text-sm tracking-wide shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2">
-                  <i class="fa-solid fa-phone"></i>
-                  <span>Call ${TOLL_FREE_DISPLAY}</span>
-                </a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      `).join("");
-    }
-
-    // Modal Operations
-    function openFccModal(providerId) {
-      const p = PROVIDER_DATA.find(item => item.id === providerId);
-      if (!p) return;
-
-      document.getElementById("fccModalProviderName").textContent = p.name;
-      document.getElementById("fccModalPrice").textContent = p.price + "/mo";
-      document.getElementById("fccModalContract").textContent = p.promoNote;
-      document.getElementById("fccModalDownload").textContent = p.speedDown;
-      document.getElementById("fccModalUpload").textContent = p.speedUp;
-      document.getElementById("fccModalLatency").textContent = p.fccLatency;
-
-      document.getElementById("fccModal").classList.remove("hidden");
-    }
-
-    function closeFccModal() {
-      document.getElementById("fccModal").classList.add("hidden");
-    }
-
-    // ZIP Search and Broadband Map Query
-    async function handleZipSearch() {
-      const zip = document.getElementById("zipInput").value.trim();
-      if (!/^\d{5}$/.test(zip)) {
-        alert("Please enter a valid 5-digit US ZIP code.");
-        return;
-      }
-      await queryZipLocation(zip);
-    }
-
-    function setZipAndSearch(zip) {
-      document.getElementById("zipInput").value = zip;
-      handleZipSearch();
-    }
-
-    async function queryZipLocation(zip) {
-      document.getElementById("currentLocationTitle").textContent = `Checking providers for ZIP ${zip}...`;
-
-      try {
-        // Geocode ZIP via Zippopotam
-        const geoRes = await fetch(`https://api.zippopotam.us/us/${zip}`);
-        if (geoRes.ok) {
-          const geoData = await geoRes.json();
-          const place = geoData.places[0];
-          document.getElementById("currentLocationTitle").textContent = `Internet Providers in ${place["place name"]}, ${place["state abbreviation"]} (${zip})`;
-        } else {
-          document.getElementById("currentLocationTitle").textContent = `Internet Providers in ZIP Code ${zip}`;
-        }
-      } catch (err) {
-        document.getElementById("currentLocationTitle").textContent = `Internet Providers in ZIP Code ${zip}`;
-      }
-
-      renderProviders();
-    }
-
-    // Initialize on page load
-    window.addEventListener("DOMContentLoaded", () => {
-      renderProviders();
-    });
-  </script>
-</body>
-</html>
+                <h3 class="text-

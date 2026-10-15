@@ -30,3 +30,33 @@ a.lk{text-decoration:none;color:inherit}a.lk:hover{border-color:#0b5fff}a.lk h3{
 main{padding-bottom:40px;min-height:40vh}
 footer{background:#0b1f4d;color:#cfd8ee;padding:34px 0;font-size:14px}footer a{color:#cfd8ee;text-decoration:none;display:block;margin:4px 0}
 footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}footer h4{color:#fff;margin:0 0 8px}footer p a{display:inline;text-decoration:underline}
+
+/* mobile-friendly address checker + layout */
+.w.bar{padding-left:20px;padding-right:20px}
+.chk{padding:18px;border-radius:14px;box-shadow:0 6px 24px #0003}
+.modes{display:flex;gap:4px;background:#eef3ff;border-radius:10px;padding:4px;margin-bottom:16px}
+.mode{flex:1;margin:0;border:0;border-radius:8px;background:transparent;padding:11px 8px;font-size:15px;font-weight:700;color:#334}
+.mode.on{background:#0b5fff;color:#fff}
+.fr{display:grid;gap:12px;margin-bottom:12px}
+.fr label,.fr label.sm{min-width:0;flex:none;display:block}
+#af div:nth-of-type(1){grid-template-columns:2fr 1fr}
+#af div:nth-of-type(2){grid-template-columns:1.6fr .8fr 1fr}
+#af div:nth-of-type(3){grid-template-columns:1fr}
+.chk input,.chk select{min-height:48px;font-size:16px}
+.chk .go{width:100%;min-height:50px;margin-top:4px}
+.chk .priv{font-size:12px;text-align:center}
+@media (max-width:640px){
+.hero{padding:28px 0}.hero h1{font-size:26px;line-height:1.25}.hero p{font-size:15px}
+header{position:static}
+.bar{flex-direction:column;align-items:flex-start;gap:4px}
+nav{display:flex;overflow-x:auto;white-space:nowrap;width:100%;padding-bottom:6px}
+nav a{margin:0 4px 0 0;flex:none}
+#af div:nth-of-type(1){grid-template-columns:1fr}
+#af div:nth-of-type(2){grid-template-columns:1fr 1fr}
+#af div:nth-of-type(2) label:first-child{grid-column:1/-1}
+section.s h2{font-size:22px}
+.row{flex-wrap:wrap}.row .btn{width:100%;text-align:center}
+.btn{padding:12px 16px}.card .btn{display:block;text-align:center}
+.cta{flex-direction:column;align-items:stretch;text-align:center}.cta .btn{text-align:center}
+.disc{font-size:12px}
+}

@@ -106,3 +106,10 @@ section.s h2{font-size:22px}
 .sug li:first-child{border-top:0}
 .sug li small{display:block;color:#667;font-size:12px}
 .sug li:hover,.sug li.on{background:#eef3ff}
+
+/* ---- Provider logos ---- */
+.strip .names span.haslogo{display:inline-flex;align-items:center}
+.slogo{height:34px;width:auto;max-width:140px;object-fit:contain;display:block}
+.clogo{display:block;height:36px;width:auto;max-width:150px;object-fit:contain;margin:0 0 10px}
+.plogo{display:block;height:24px;width:auto;max-width:110px;object-fit:contain;margin:0 0 4px}
+@media (max-width:640px){.slogo{height:26px;max-width:110px}}

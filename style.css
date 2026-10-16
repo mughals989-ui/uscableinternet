@@ -113,3 +113,14 @@ section.s h2{font-size:22px}
 .clogo{display:block;height:36px;width:auto;max-width:150px;object-fit:contain;margin:0 0 10px}
 .plogo{display:block;height:24px;width:auto;max-width:110px;object-fit:contain;margin:0 0 4px}
 @media (max-width:640px){.slogo{height:26px;max-width:110px}}
+
+/* ---- Site logo (Option C: Star Signal) ---- */
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:'Archivo',system-ui,sans-serif}
+.logo svg{width:40px;height:40px;flex:none;display:block}
+.logo .lt{display:flex;flex-direction:column;gap:4px;line-height:1}
+.logo .l1{font-size:21px;font-weight:800;letter-spacing:1px;color:#0b1f4d}
+.logo .l2{font-size:9.5px;font-weight:600;letter-spacing:4.7px;color:#d61f45}
+footer a.flogo{display:inline-flex;margin:0 0 22px}
+footer .flogo .l1{color:#fff}
+footer .flogo .l2{color:#ff8fa3}
+@media (max-width:640px){.logo svg{width:34px;height:34px}.logo .l1{font-size:18px}.logo .l2{font-size:8px;letter-spacing:4px}}

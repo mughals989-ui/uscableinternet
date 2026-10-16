@@ -19,12 +19,7 @@ if(!sa){err.textContent="Select your state.";$("a-state").focus();return}
 if(!z.test(zi)){err.textContent="Enter a valid 5-digit ZIP code.";$("a-zip").focus();return}
 label=st+(un?", "+un:"")+", "+ci+", "+sa+" "+zi;
 try{sessionStorage.setItem("addr",JSON.stringify({street:st,unit:un,city:ci,state:sa,zip:zi}))}catch(x){}}
-var l=D.filter(function(p){return p[0]=="i"}).sort(function(a,b){return a[5]-b[5]});
-var r=$("res");r.hidden=false;
-r.innerHTML='<h2>Internet providers to check for '+esc(label)+'</h2><p class="nt">Availability depends on your exact address. Open a provider and enter this address to confirm. Sorted by starting price.</p><button type="button" class="ghost" id="cp">Copy address</button>'+
-l.map(function(p){return '<div class="row"><div><b>'+esc(p[1])+'</b><br><span class="nt">'+esc(p[3])+' &middot; '+esc(p[4])+' &middot; '+esc(p[6])+'</span></div><a class="btn" href="'+esc(p[2])+'" target="_blank" rel="sponsored noopener">Check</a></div>'}).join("");
-$("cp").onclick=function(){var b=this;if(navigator.clipboard){navigator.clipboard.writeText(label).then(function(){b.textContent="Copied"},function(){b.textContent="Copy failed"})}};
-r.scrollIntoView({behavior:"smooth",block:"nearest"})}})();
+lookupArea(mode=="zip"?{zip:zz}:{street:st,unit:un,city:ci,state:sa,zip:zi},label)}})();
 if($("cf"))$("cf").onsubmit=async function(e){e.preventDefault();var f=e.target,d=new FormData(f),m=$("cm");
 if(d.get("website"))return;
 if(!FS){location.href="mailto:info@uscableinternet.com?subject="+encodeURIComponent("["+d.get("topic")+"] "+d.get("name"))+"&body="+encodeURIComponent(d.get("message")+"\n\nFrom: "+d.get("name")+" ("+d.get("email")+")");m.textContent="Opening your email app...";return}
@@ -42,3 +37,127 @@ $("ss").textContent="Testing upload...";var d=new Uint8Array(5000000);t=performa
 $("su").textContent=(d.length*8/((performance.now()-t)/1000)/1e6).toFixed(1);
 $("ss").textContent="Done."}catch(e){$("ss").textContent="Test failed. Check your connection and try again."}
 b.disabled=false;b.textContent="Test Again"};
+
+/* ---- Photo collage behind homepage hero ---- */
+(function(){
+  var hero=document.querySelector(".hero-home");
+  if(!hero||hero.querySelector(".hero-collage"))return;
+  // To use your own photos: upload them to an /images/ folder and replace these with "/images/1.jpg", "/images/2.jpg", etc.
+  var PHOTOS=["family,television","wifi,router","laptop,home","city,night","smartphone,streaming","gaming,console","living,room","satellite,dish"];
+  var ORDER=[[0,1,2,3],[4,5,6,7],[2,0,5,1],[6,3,7,4],[1,7,0,5],[5,2,4,6],[3,6,1,4]];
+  var wall=document.createElement("div");wall.className="hero-collage";wall.setAttribute("aria-hidden","true");
+  ORDER.forEach(function(list){
+    var col=document.createElement("div");col.className="col";
+    list.concat(list,list).forEach(function(i){
+      var img=document.createElement("img"),p=PHOTOS[i];
+      img.alt="";img.decoding="async";
+      img.src=(p.charAt(0)=="/"||p.indexOf("http")==0)?p:"https://loremflickr.com/800/500/"+p+"?lock="+(i+21);
+      img.onerror=function(){img.onerror=null;img.src="https://picsum.photos/seed/uscable"+i+"/800/500";};
+      col.appendChild(img);
+    });
+    wall.appendChild(col);
+  });
+  var shade=document.createElement("div");shade.className="hero-shade";
+  hero.insertBefore(shade,hero.firstChild);
+  hero.insertBefore(wall,hero.firstChild);
+})();
+
+/* ---- Address checker: area lookup, provider matching by state, type filters, address suggestions ---- */
+D=D.concat([
+ ["i","Cox Internet","https://www.cox.com/","Cable","Up to 2 Gbps",99,"See price at your address"],
+ ["i","Optimum","https://www.optimum.com/","Cable","Up to 8 Gbps",99,"See price at your address"],
+ ["i","Frontier Fiber","https://frontier.com/","Fiber","Up to 7 Gbps",99,"See price at your address"],
+ ["i","Google Fiber","https://fiber.google.com/","Fiber","Up to 8 Gbps",99,"See price at your address"],
+ ["i","Verizon 5G Home","https://www.verizon.com/home/internet/5g/","5G Home","Up to 1 Gbps",99,"See price at your address"],
+ ["i","AT&T Internet Air","https://www.att.com/internet/internet-air/","5G Home","Up to 300 Mbps",99,"See price at your address"],
+ ["i","Viasat","https://www.viasat.com/","Satellite","Up to 150 Mbps",99,"See price at your address"]
+]);
+// States each wired provider serves (providers not listed here are shown everywhere)
+var FOOT={
+ "Spectrum Internet":"AL CA CO CT FL GA HI ID IL IN KS KY LA MA ME MD MI MN MO MS MT NC NE NH NM NV NY OH OR PA SC SD TN TX UT VA VT WA WI WV WY",
+ "AT&T Internet & Fiber":"AL AR CA FL GA IL IN KS KY LA MI MS MO NV NC OH OK SC TN TX WI",
+ "Verizon Fios & 5G":"NY NJ PA MA RI MD VA DE DC",
+ "Xfinity":"AL AR AZ CA CO CT DC DE FL GA IL IN KS KY LA MA MD ME MI MN MO MS NH NJ NM NY OR PA SC TN TX UT VA VT WA WI WV",
+ "Cox Internet":"AZ AR CA CT FL GA ID IA KS LA MA NE NV NC OH OK RI VA",
+ "Optimum":"AZ AR CA CT ID KS KY LA MO MS NC NJ NY OH OK PA TX WV",
+ "Frontier Fiber":"AL AZ CA CT FL GA IA IL IN MI MN MS NC NE NM NV NY OH PA SC TN TX UT WI WV",
+ "Google Fiber":"AL AZ CO GA IA ID KS MO NC NE NV TN TX UT"
+};
+var STN={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
+function stCode(name){for(var k in STN){if(STN[k]==name)return k}return ""}
+function providersIn(sa){return D.filter(function(p){return p[0]=="i"&&(!sa||!FOOT[p[1]]||FOOT[p[1]].split(" ").indexOf(sa)>-1)}).sort(function(a,b){return a[5]-b[5]})}
+function geo(params){
+ var u="https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=1&countrycodes=us";
+ for(var k in params){if(params[k])u+="&"+k+"="+encodeURIComponent(params[k])}
+ return fetch(u,{headers:{"Accept-Language":"en"}}).then(function(x){return x.json()}).then(function(d){return d&&d[0]?d[0]:null}).catch(function(){return null});
+}
+function lookupArea(info,label){
+ var r=$("res");r.hidden=false;r.innerHTML='<p class="nt">Finding your area&hellip;</p>';
+ var tries=info.street?[{street:info.street,city:info.city,state:info.state,postalcode:info.zip},{city:info.city,state:info.state,postalcode:info.zip},{postalcode:info.zip}]:[{postalcode:info.zip}];
+ (function next(i){
+  if(i>=tries.length){showArea(info,null,label);return}
+  geo(tries[i]).then(function(g){if(g)showArea(info,g,label);else next(i+1)});
+ })(0);
+}
+function showArea(info,g,label){
+ var a=(g&&g.address)||{},code=(a["ISO3166-2-lvl4"]||"").replace("US-","");
+ var area={street:info.street?info.street+(info.unit?", "+info.unit:""):"",city:info.city||a.city||a.town||a.village||a.hamlet||a.suburb||"",
+  county:a.county||"",state:info.state||code||stCode(a.state),zip:info.zip||a.postcode||"",lat:g?parseFloat(g.lat):NaN,lon:g?parseFloat(g.lon):NaN};
+ var sName=STN[area.state]||"",place=[area.city,area.state].filter(Boolean).join(", ")||("ZIP "+area.zip);
+ var list=providersIn(area.state),wired=list.filter(function(p){return FOOT[p[1]]}).length;
+ var rows=[["Address",area.street],["City",area.city],["County",area.county],["State",sName?sName+" ("+area.state+")":area.state],["ZIP code",area.zip]];
+ var map="";
+ if(isFinite(area.lat)&&isFinite(area.lon)){var d=.02;map='<iframe title="Map of your area" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox='+(area.lon-d)+','+(area.lat-d*.6)+','+(area.lon+d)+','+(area.lat+d*.6)+'&layer=mapnik&marker='+area.lat+','+area.lon+'"></iframe>'}
+ var r=$("res");
+ r.innerHTML='<div class="area"><h2>Internet providers in '+esc(place)+'</h2>'+
+  (g?'':'<p class="err">We couldn&#x27;t place this address on the map, so these results are based on '+(sName?esc(sName):"the whole US")+'.</p>')+
+  '<p class="nt">'+list.length+' providers may serve this area ('+wired+' cable/fiber in '+(sName?esc(sName):"your state")+', plus nationwide 5G and satellite).</p>'+
+  '<dl>'+rows.filter(function(x){return x[1]}).map(function(x){return '<dt>'+x[0]+'</dt><dd>'+esc(x[1])+'</dd>'}).join("")+'</dl>'+map+
+  '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify exact availability on the FCC Broadband Map &rarr;</a></div>'+
+  '<div class="chips rchips">'+[["all","All"],["Fiber","Fiber"],["Cable","Cable"],["5G Home","5G Home"],["Satellite","Satellite"]].map(function(c,i){return '<button type="button" class="chip'+(i?'':' on')+'" data-f="'+c[0]+'">'+c[1]+'</button>'}).join("")+'</div>'+
+  '<p class="nt">Availability depends on your exact address. Open a provider and enter this address to confirm. Sorted by starting price.</p>'+
+  '<button type="button" class="ghost" id="cp">Copy address</button><div id="rlist"></div>';
+ function draw(f){
+  var l=list.filter(function(p){return f=="all"||p[3]==f});
+  $("rlist").innerHTML=l.length?l.map(function(p){return '<div class="row"><div><b>'+esc(p[1])+'</b><br><span class="nt">'+esc(p[3])+' &middot; '+esc(p[4])+' &middot; '+esc(p[6])+(FOOT[p[1]]&&sName?' &middot; Serves parts of '+esc(sName):'')+'</span></div><a class="btn" href="'+esc(p[2])+'" target="_blank" rel="sponsored noopener">Check</a></div>'}).join(""):'<p class="nt">No '+esc(f)+' providers listed for this area.</p>';
+ }
+ draw("all");
+ r.querySelector(".rchips").onclick=function(e){var b=e.target.closest(".chip");if(!b)return;
+  this.querySelectorAll(".chip").forEach(function(x){x.classList.toggle("on",x==b)});draw(b.dataset.f)};
+ $("cp").onclick=function(){var b=this;if(navigator.clipboard){navigator.clipboard.writeText(label).then(function(){b.textContent="Copied"},function(){b.textContent="Copy failed"})}};
+ r.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+// Address suggestions as you type the street (fills city, state and ZIP)
+(function(){
+ var inp=$("a-street");if(!inp)return;
+ var ul=document.createElement("ul");ul.className="sug";inp.parentNode.appendChild(ul);
+ var t,items=[],act=-1;
+ function close(){ul.innerHTML="";ul.classList.remove("open");act=-1}
+ function pick(i){var p=items[i];if(!p)return;
+  inp.value=[p.housenumber,p.street].filter(Boolean).join(" ")||p.name||inp.value;
+  if($("a-city"))$("a-city").value=p.city||p.town||p.village||p.district||"";
+  if($("a-state")&&STN[stCode(p.state)])$("a-state").value=stCode(p.state);
+  if($("a-zip")&&p.postcode)$("a-zip").value=p.postcode;
+  close();
+ }
+ inp.addEventListener("input",function(){
+  clearTimeout(t);var q=inp.value.trim();if(q.length<4){close();return}
+  t=setTimeout(function(){
+   fetch("https://photon.komoot.io/api/?limit=8&lang=en&bbox=-179.2,18.9,-66.9,71.4&q="+encodeURIComponent(q)).then(function(x){return x.json()}).then(function(d){
+    items=(d.features||[]).map(function(f){return f.properties||{}}).filter(function(p){return p.countrycode=="US"&&p.street&&stCode(p.state)}).slice(0,6);
+    if(!items.length){close();return}
+    ul.innerHTML=items.map(function(p,i){return '<li data-i="'+i+'">'+esc([p.housenumber,p.street].filter(Boolean).join(" "))+'<small>'+esc([p.city||p.town||p.village||p.district,stCode(p.state),p.postcode].filter(Boolean).join(", "))+'</small></li>'}).join("");
+    ul.classList.add("open");act=-1;
+   }).catch(close);
+  },300);
+ });
+ inp.addEventListener("keydown",function(e){
+  if(!ul.classList.contains("open"))return;
+  if(e.key=="ArrowDown"||e.key=="ArrowUp"){e.preventDefault();act=Math.max(0,Math.min(items.length-1,act+(e.key=="ArrowDown"?1:-1)));
+   [].forEach.call(ul.children,function(li,i){li.classList.toggle("on",i==act)})}
+  else if(e.key=="Enter"&&act>-1){e.preventDefault();pick(act)}
+  else if(e.key=="Escape")close();
+ });
+ ul.addEventListener("mousedown",function(e){var li=e.target.closest("li");if(li){e.preventDefault();pick(+li.dataset.i)}});
+ inp.addEventListener("blur",function(){setTimeout(close,150)});
+})();

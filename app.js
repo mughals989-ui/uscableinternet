@@ -70,7 +70,12 @@ D=D.concat([
  ["i","Google Fiber","https://fiber.google.com/","Fiber","Up to 8 Gbps",99,"See price at your address"],
  ["i","Verizon 5G Home","https://www.verizon.com/home/internet/5g/","5G Home","Up to 1 Gbps",99,"See price at your address"],
  ["i","AT&T Internet Air","https://www.att.com/internet/internet-air/","5G Home","Up to 300 Mbps",99,"See price at your address"],
- ["i","Viasat","https://www.viasat.com/","Satellite","Up to 150 Mbps",99,"See price at your address"]
+ ["i","Viasat","https://www.viasat.com/","Satellite","Up to 150 Mbps",99,"See price at your address"],
+ ["i","Kinetic by Windstream","https://www.windstream.com/","Fiber & DSL","Up to 8 Gbps",99,"See price at your address"],
+ ["i","Brightspeed","https://www.brightspeed.com/","Fiber & DSL","Up to 2 Gbps",99,"See price at your address"],
+ ["i","Mediacom","https://mediacomcable.com/","Cable","Up to 2 Gbps",99,"See price at your address"],
+ ["i","Quantum Fiber","https://www.quantumfiber.com/","Fiber","Up to 8 Gbps",99,"See price at your address"],
+ ["i","Ziply Fiber","https://ziplyfiber.com/","Fiber","Up to 10 Gbps",99,"See price at your address"]
 ]);
 // States each wired provider serves (providers not listed here are shown everywhere)
 var FOOT={
@@ -81,7 +86,12 @@ var FOOT={
  "Cox Internet":"AZ AR CA CT FL GA ID IA KS LA MA NE NV NC OH OK RI VA",
  "Optimum":"AZ AR CA CT ID KS KY LA MO MS NC NJ NY OH OK PA TX WV",
  "Frontier Fiber":"AL AZ CA CT FL GA IA IL IN MI MN MS NC NE NM NV NY OH PA SC TN TX UT WI WV",
- "Google Fiber":"AL AZ CO GA IA ID KS MO NC NE NV TN TX UT"
+ "Google Fiber":"AL AZ CO GA IA ID KS MO NC NE NV TN TX UT",
+ "Kinetic by Windstream":"AL AR FL GA IA KY MN MS MO NE NM NY NC OH OK PA SC TX",
+ "Brightspeed":"AR GA IL IN KS LA MI MS MO NJ NC OH OK PA SC TN TX VA WI",
+ "Mediacom":"FL GA IA IL IN KS MN MO VA WI",
+ "Quantum Fiber":"AZ CO FL IA ID MN NE NV OR UT WA",
+ "Ziply Fiber":"ID MT OR WA"
 };
 var STN={AL:"Alabama",AK:"Alaska",AZ:"Arizona",AR:"Arkansas",CA:"California",CO:"Colorado",CT:"Connecticut",DE:"Delaware",DC:"District of Columbia",FL:"Florida",GA:"Georgia",HI:"Hawaii",ID:"Idaho",IL:"Illinois",IN:"Indiana",IA:"Iowa",KS:"Kansas",KY:"Kentucky",LA:"Louisiana",ME:"Maine",MD:"Maryland",MA:"Massachusetts",MI:"Michigan",MN:"Minnesota",MS:"Mississippi",MO:"Missouri",MT:"Montana",NE:"Nebraska",NV:"Nevada",NH:"New Hampshire",NJ:"New Jersey",NM:"New Mexico",NY:"New York",NC:"North Carolina",ND:"North Dakota",OH:"Ohio",OK:"Oklahoma",OR:"Oregon",PA:"Pennsylvania",RI:"Rhode Island",SC:"South Carolina",SD:"South Dakota",TN:"Tennessee",TX:"Texas",UT:"Utah",VT:"Vermont",VA:"Virginia",WA:"Washington",WV:"West Virginia",WI:"Wisconsin",WY:"Wyoming"};
 function stCode(name){for(var k in STN){if(STN[k]==name)return k}return ""}
@@ -118,7 +128,7 @@ function showArea(info,g,label){
   '<p class="nt">Availability depends on your exact address. Open a provider and enter this address to confirm. Sorted by starting price.</p>'+
   '<button type="button" class="ghost" id="cp">Copy address</button><div id="rlist"></div>';
  function draw(f){
-  var l=list.filter(function(p){return f=="all"||p[3]==f});
+  var l=list.filter(function(p){return f=="all"||p[3].indexOf(f)>-1});
   $("rlist").innerHTML=l.length?l.map(function(p){return '<div class="row"><div>'+logoTag(p[1])+'<b>'+esc(p[1])+'</b><br><span class="nt">'+esc(p[3])+' &middot; '+esc(p[4])+' &middot; '+esc(p[6])+(FOOT[p[1]]&&sName?' &middot; Serves parts of '+esc(sName):'')+'</span></div><a class="btn" href="'+esc(p[2])+'" target="_blank" rel="sponsored noopener">Check</a></div>'}).join(""):'<p class="nt">No '+esc(f)+' providers listed for this area.</p>';
  }
  draw("all");
@@ -169,12 +179,13 @@ var LOGOS={
  spectrum:"/spectrum.png", xfinity:"/xfinity.png", att:"/att.png", verizon:"/verizon.png",
  tmobile:"/tmobile.png", cox:"/Cox.png", optimum:"/Optimum.png", frontier:"/Frontier.png",
  googlefiber:"/Google%20Fiber.png", hughesnet:"/Hugesnet.png", starlink:"/Starlink.png",
- viasat:"/Viasat.png", directv:"/Directv.png", dish:"/Dish.png"
+ viasat:"/Viasat.png", directv:"/Directv.png", dish:"/Dish.png",
+ kinetic:"/Kinetic.png", brightspeed:"/Brightspeed.png", mediacom:"/Mediacom.png", quantum:"/Quantum Fiber.png".replace(" ","%20"), ziply:"/Ziply.png"
 };
 function logoKey(name){
  var n=String(name).toLowerCase().replace(/&amp;/g,"&");
  var keys=[["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],
-  ["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"],["directv","directv"],["dish","dish"]];
+  ["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"],["directv","directv"],["dish","dish"],["kinetic","kinetic"],["windstream","kinetic"],["brightspeed","brightspeed"],["mediacom","mediacom"],["quantum","quantum"],["ziply","ziply"]];
  for(var i=0;i<keys.length;i++){if(n.indexOf(keys[i][0])>-1)return keys[i][1]}
  return "";
 }

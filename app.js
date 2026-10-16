@@ -198,3 +198,18 @@ function logoTag(name){
   img.src=LOGOS[k];
  });
 })();
+
+/* ---- Site logo (Option C: Star Signal) on every page, plus favicon ---- */
+(function(){
+  var STAR="M22 22L24.35 28.76 31.51 28.91 25.8 33.24 27.88 40.09 22 36 16.12 40.09 18.2 33.24 12.49 28.91 19.65 28.76Z";
+  function icon(bg,fg,acc){return '<svg viewBox="0 0 56 56" aria-hidden="true" focusable="false"><circle cx="28" cy="28" r="27" fill="'+bg+'"/><path d="'+STAR+'" fill="'+fg+'"/><path d="M25.88 17.51A15 15 0 0 1 36.49 28.12" fill="none" stroke="'+fg+'" stroke-width="3.6" stroke-linecap="round"/><path d="M27.44 11.72A21 21 0 0 1 42.28 26.56" fill="none" stroke="'+acc+'" stroke-width="3.6" stroke-linecap="round"/></svg>'}
+  var TEXT='<span class="lt"><span class="l1">US CABLE</span><span class="l2">INTERNET</span></span>';
+  var h=document.querySelector("header a.logo");
+  if(h&&!h.querySelector("svg")){h.innerHTML=icon("#0b1f4d","#fff","#d61f45")+TEXT;h.setAttribute("aria-label","US Cable Internet home")}
+  var fw=document.querySelector("footer .w");
+  if(fw&&!fw.querySelector(".flogo")){var a=document.createElement("a");a.className="logo flogo";a.href="/";a.setAttribute("aria-label","US Cable Internet home");a.innerHTML=icon("#fff","#0b1f4d","#d61f45")+TEXT;fw.insertBefore(a,fw.firstChild)}
+  function addLink(rel,href,extra){if(document.querySelector('link[rel="'+rel+'"][href="'+href+'"]'))return;var l=document.createElement("link");l.rel=rel;l.href=href;for(var k in extra)l.setAttribute(k,extra[k]);document.head.appendChild(l)}
+  addLink("icon","/favicon.svg",{type:"image/svg+xml"});
+  addLink("apple-touch-icon","/apple-touch-icon.png",{});
+  addLink("stylesheet","https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&display=swap",{});
+})();

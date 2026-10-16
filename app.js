@@ -119,7 +119,7 @@ function showArea(info,g,label){
   '<button type="button" class="ghost" id="cp">Copy address</button><div id="rlist"></div>';
  function draw(f){
   var l=list.filter(function(p){return f=="all"||p[3]==f});
-  $("rlist").innerHTML=l.length?l.map(function(p){return '<div class="row"><div><b>'+esc(p[1])+'</b><br><span class="nt">'+esc(p[3])+' &middot; '+esc(p[4])+' &middot; '+esc(p[6])+(FOOT[p[1]]&&sName?' &middot; Serves parts of '+esc(sName):'')+'</span></div><a class="btn" href="'+esc(p[2])+'" target="_blank" rel="sponsored noopener">Check</a></div>'}).join(""):'<p class="nt">No '+esc(f)+' providers listed for this area.</p>';
+  $("rlist").innerHTML=l.length?l.map(function(p){return '<div class="row"><div>'+logoTag(p[1])+'<b>'+esc(p[1])+'</b><br><span class="nt">'+esc(p[3])+' &middot; '+esc(p[4])+' &middot; '+esc(p[6])+(FOOT[p[1]]&&sName?' &middot; Serves parts of '+esc(sName):'')+'</span></div><a class="btn" href="'+esc(p[2])+'" target="_blank" rel="sponsored noopener">Check</a></div>'}).join(""):'<p class="nt">No '+esc(f)+' providers listed for this area.</p>';
  }
  draw("all");
  r.querySelector(".rchips").onclick=function(e){var b=e.target.closest(".chip");if(!b)return;
@@ -160,4 +160,41 @@ function showArea(info,g,label){
  });
  ul.addEventListener("mousedown",function(e){var li=e.target.closest("li");if(li){e.preventDefault();pick(+li.dataset.i)}});
  inp.addEventListener("blur",function(){setTimeout(close,150)});
+})();
+
+/* ---- Provider logos ----
+   Put each provider's official logo in a "logos" folder in your repo, using these exact file names.
+   Use .png or .svg (change the extension below to match). If a file is missing, the name shows as text. */
+var LOGOS={
+ spectrum:"/logos/spectrum.png", xfinity:"/logos/xfinity.png", att:"/logos/att.png", verizon:"/logos/verizon.png",
+ tmobile:"/logos/tmobile.png", cox:"/logos/cox.png", optimum:"/logos/optimum.png", frontier:"/logos/frontier.png",
+ googlefiber:"/logos/googlefiber.png", hughesnet:"/logos/hughesnet.png", starlink:"/logos/starlink.png",
+ viasat:"/logos/viasat.png", directv:"/logos/directv.png", dish:"/logos/dish.png"
+};
+function logoKey(name){
+ var n=String(name).toLowerCase().replace(/&amp;/g,"&");
+ var keys=[["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],
+  ["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"],["directv","directv"],["dish","dish"]];
+ for(var i=0;i<keys.length;i++){if(n.indexOf(keys[i][0])>-1)return keys[i][1]}
+ return "";
+}
+function logoTag(name){
+ var k=logoKey(name);if(!k||!LOGOS[k])return "";
+ return '<img class="plogo" src="'+LOGOS[k]+'" alt="" onerror="this.remove()">';
+}
+(function(){
+ // Provider name strip: swap each name for its logo once the logo file loads
+ document.querySelectorAll(".strip .names span").forEach(function(sp){
+  var k=logoKey(sp.textContent);if(!k||!LOGOS[k])return;
+  var img=new Image();img.className="slogo";img.alt=sp.textContent;
+  img.onload=function(){sp.textContent="";sp.appendChild(img);sp.classList.add("haslogo")};
+  img.src=LOGOS[k];
+ });
+ // Provider cards: add the logo above the name
+ document.querySelectorAll("article.card h3").forEach(function(h){
+  var k=logoKey(h.textContent);if(!k||!LOGOS[k])return;
+  var img=new Image();img.className="clogo";img.alt="";
+  img.onload=function(){h.parentNode.insertBefore(img,h.parentNode.firstChild)};
+  img.src=LOGOS[k];
+ });
 })();

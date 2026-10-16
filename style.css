@@ -60,3 +60,19 @@ section.s h2{font-size:22px}
 .cta{flex-direction:column;align-items:stretch;text-align:center}.cta .btn{text-align:center}
 .disc{font-size:12px}
 }
+
+/* cabletv-style home hero */
+.hero-home .chk .priv{margin-top:14px}.hero-home .err{min-height:0;margin:6px 0 0}
+.disc{background:#0b1f4d;color:#fff}.disc a{color:#fff}
+.hero-home{text-align:center;padding:64px 0 72px;background:radial-gradient(circle at 15% 20%,#2a4fa855,transparent 45%),radial-gradient(circle at 85% 75%,#7a2a6a40,transparent 45%),linear-gradient(180deg,#071433ee,#050c20f5),repeating-linear-gradient(90deg,#16306b 0 118px,#0c1d47 118px 122px),repeating-linear-gradient(0deg,#1b3a80 0 158px,#0c1d47 158px 162px)}
+.hero-home h1{font-size:44px;line-height:1.15;max-width:820px;margin:0 auto 12px}
+.hero-home .w>p{max-width:640px;margin:0 auto 26px;font-size:17px}
+.hero-home .chk{margin:0 auto;max-width:560px;text-align:left}
+.chk-t{font-weight:700;margin:0 0 14px;font-size:15px}
+.btn2{display:block;text-align:center;border:2px solid #0b5fff;color:#0b5fff;border-radius:8px;padding:12px;font-weight:700;text-decoration:none;margin-top:10px;background:#fff}
+.btn2:hover{background:#eef3ff}
+.strip{background:#fff;border-bottom:1px solid #e2e8f0;padding:22px 0;text-align:center}
+.strip p{margin:0 0 10px;color:#667;font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.strip .names{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px}
+.strip .names span{font-weight:800;font-size:20px;color:#3a4766}
+@media (max-width:640px){.hero-home{padding:32px 0 40px}.hero-home h1{font-size:28px}.hero-home .w>p{font-size:15px}.strip .names{gap:8px 18px}.strip .names span{font-size:16px}}

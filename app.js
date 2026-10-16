@@ -163,13 +163,13 @@ function showArea(info,g,label){
 })();
 
 /* ---- Provider logos ----
-   Put each provider's official logo in a "logos" folder in your repo, using these exact file names.
+   Put each provider's official logo in the main folder of your repo, using these exact file names.
    Use .png or .svg (change the extension below to match). If a file is missing, the name shows as text. */
 var LOGOS={
- spectrum:"/logos/spectrum.png", xfinity:"/logos/xfinity.png", att:"/logos/att.png", verizon:"/logos/verizon.png",
- tmobile:"/logos/tmobile.png", cox:"/logos/cox.png", optimum:"/logos/optimum.png", frontier:"/logos/frontier.png",
- googlefiber:"/logos/googlefiber.png", hughesnet:"/logos/hughesnet.png", starlink:"/logos/starlink.png",
- viasat:"/logos/viasat.png", directv:"/logos/directv.png", dish:"/logos/dish.png"
+ spectrum:"/spectrum.png", xfinity:"/xfinity.png", att:"/att.png", verizon:"/verizon.png",
+ tmobile:"/tmobile.png", cox:"/cox.png", optimum:"/optimum.png", frontier:"/frontier.png",
+ googlefiber:"/googlefiber.png", hughesnet:"/hughesnet.png", starlink:"/starlink.png",
+ viasat:"/viasat.png", directv:"/directv.png", dish:"/dish.png"
 };
 function logoKey(name){
  var n=String(name).toLowerCase().replace(/&amp;/g,"&");

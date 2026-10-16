@@ -289,9 +289,35 @@ function showArea(info, location, label) {
       return filter === "all" || p[3].indexOf(filter) > -1;
     });
 
+    var logoFiles = {
+      "Spectrum Internet":"spectrum.png",
+      "Verizon Fios & 5G":"verizon.png",
+      "AT&T Internet & Fiber":"att.png",
+      "T-Mobile 5G Home":"tmobile.png",
+      "Xfinity":"xfinity.png",
+      "HughesNet":"Hugesnet.png",
+      "Starlink":"Starlink.png",
+      "Cox Internet":"Cox.png",
+      "Optimum":"Optimum.png",
+      "Frontier Fiber":"Frontier.png",
+      "Google Fiber":"Google Fiber.png",
+      "Verizon 5G Home":"verizon.png",
+      "AT&T Internet Air":"att.png",
+      "Viasat":"Viasat.png",
+      "Kinetic by Windstream":"Windstream.png",
+      "Brightspeed":"Brightspeed.png",
+      "Mediacom":"Mediacom.png",
+      "Quantum Fiber":"Quantum Fiber.png",
+      "Ziply Fiber":"Ziply Fiber.png"
+    };
+
     $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {
+      var logo = logoFiles[p[1]];
+      var logoHtml = logo
+        ? '<img src="/' + encodeURIComponent(logo).replace(/%2F/g, '/') + '" alt="' + esc(p[1]) + ' logo" loading="lazy" style="width:92px;height:42px;object-fit:contain;display:block;margin:0 0 8px">'
+        : '';
       return '<div class="row">' +
-        '<div><b>' + esc(p[1]) + '</b><br>' +
+        '<div style="min-width:0;flex:1">' + logoHtml + '<b>' + esc(p[1]) + '</b><br>' +
         '<span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) +
         (FOOT[p[1]] && stateName ? ' · Serves parts of ' + esc(stateName) : '') +
         '</span></div>' +

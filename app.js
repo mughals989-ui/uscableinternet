@@ -303,12 +303,7 @@ function showArea(info, location, label) {
       "Google Fiber":"Google Fiber.png",
       "Verizon 5G Home":"verizon.png",
       "AT&T Internet Air":"att.png",
-      "Viasat":"Viasat.png",
-      "Kinetic by Windstream":"Windstream.png",
-      "Brightspeed":"Brightspeed.png",
-      "Mediacom":"Mediacom.png",
-      "Quantum Fiber":"Quantum Fiber.png",
-      "Ziply Fiber":"Ziply Fiber.png"
+      "Viasat":"Viasat.png"
     };
 
     $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {

@@ -167,9 +167,9 @@ function showArea(info,g,label){
    Use .png or .svg (change the extension below to match). If a file is missing, the name shows as text. */
 var LOGOS={
  spectrum:"/spectrum.png", xfinity:"/xfinity.png", att:"/att.png", verizon:"/verizon.png",
- tmobile:"/tmobile.png", cox:"/cox.png", optimum:"/optimum.png", frontier:"/frontier.png",
- googlefiber:"/googlefiber.png", hughesnet:"/hughesnet.png", starlink:"/starlink.png",
- viasat:"/viasat.png", directv:"/directv.png", dish:"/dish.png"
+ tmobile:"/tmobile.png", cox:"/Cox.png", optimum:"/Optimum.png", frontier:"/Frontier.png",
+ googlefiber:"/Google%20Fiber.png", hughesnet:"/Hugesnet.png", starlink:"/Starlink.png",
+ viasat:"/Viasat.png", directv:"/Directv.png", dish:"/Dish.png"
 };
 function logoKey(name){
  var n=String(name).toLowerCase().replace(/&amp;/g,"&");

@@ -566,13 +566,17 @@ var LOGOS = {
   googlefiber:"/Google%20Fiber.png",hughesnet:"/Hugesnet.png",starlink:"/Starlink.png",
   viasat:"/Viasat.png",directv:"/Directv.png",dish:"/Dish.png",kinetic:"/Kinetic.png",
   brightspeed:"/Brightspeed.png",mediacom:"/Mediacom.png",quantum:"/Quantum%20Fiber.png",
-  ziply:"/Ziply.png"
+  ziply:"/Ziply.png",frndly:"/Frndly%20TV.png",youtube:"/YoutubeTV.png",
+  philo:"/Philo.png",hulu:"/Hulu%20%2B%20Live%20TV.png",fubo:"/Fubo%20TV.png",
+  sling:"/Sling%20TV.png",peacock:"/Peacock.png",paramount:"/Paramount%2B.png"
 };
 
 function logoKey(name) {
   var value = String(name).toLowerCase();
   var keys = [
-    ["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],
+    ["google fiber","googlefiber"],["youtube tv","youtube"],["frndly","frndly"],
+    ["hulu","hulu"],["fubo","fubo"],["sling","sling"],["peacock","peacock"],
+    ["paramount","paramount"],["philo","philo"],["t-mobile","tmobile"],["at&t","att"],
     ["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],
     ["cox","cox"],["optimum","optimum"],["frontier","frontier"],
     ["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"],

@@ -642,3 +642,38 @@ function logoTag(name) {
     footer.appendChild(p);
   }
 })();
+
+
+/* Working category filters for Internet and TV plan cards */
+(function() {
+  document.querySelectorAll(".chips[data-target]").forEach(function(group) {
+    var targetId = group.getAttribute("data-target");
+    var grid = document.getElementById(targetId);
+    if (!grid) return;
+
+    group.addEventListener("click", function(e) {
+      var button = e.target.closest("button[data-f]");
+      if (!button) return;
+
+      var filter = String(button.getAttribute("data-f") || "all").toLowerCase();
+      group.querySelectorAll("button[data-f]").forEach(function(item) {
+        item.classList.toggle("on", item === button);
+      });
+
+      grid.querySelectorAll(".card[data-t]").forEach(function(card) {
+        var type = String(card.getAttribute("data-t") || "").toLowerCase();
+        var price = parseFloat(card.getAttribute("data-p"));
+        var show = filter === "all" ||
+          (filter === "fiber" && type.indexOf("fiber") !== -1) ||
+          (filter === "cable" && type === "cable") ||
+          (filter === "5g" && type === "5g") ||
+          (filter === "satellite" && type.indexOf("satellite") !== -1) ||
+          (filter === "u35" && isFinite(price) && price < 35) ||
+          (filter === "cabletv" && type === "cabletv") ||
+          (filter === "stream" && type === "stream") ||
+          (filter === "satellite" && type === "satellite");
+        card.style.display = show ? "" : "none";
+      });
+    });
+  });
+})();

@@ -76,3 +76,33 @@ section.s h2{font-size:22px}
 .strip .names{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px}
 .strip .names span{font-weight:800;font-size:20px;color:#3a4766}
 @media (max-width:640px){.hero-home{padding:32px 0 40px}.hero-home h1{font-size:28px}.hero-home .w>p{font-size:15px}.strip .names{gap:8px 18px}.strip .names span{font-size:16px}}
+
+/* ---- Photo collage behind homepage hero ---- */
+.hero-home{position:relative;overflow:hidden}
+.hero-home>.w{position:relative;z-index:2}
+.hero-collage{position:absolute;inset:-30% -15% auto;display:grid;grid-template-columns:repeat(7,1fr);align-items:start;gap:14px;transform:rotate(-12deg);z-index:0;pointer-events:none}
+.hero-collage .col{display:flex;flex-direction:column;gap:14px;animation:heroDrift 50s linear infinite alternate}
+.hero-collage .col:nth-child(even){margin-top:-140px;animation-direction:alternate-reverse}
+.hero-collage img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:8px;box-shadow:0 10px 24px #0007;background:#16306b}
+.hero-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 55% 60% at center,#050c2085 0%,#050c2033 65%,#050c2059 100%)}
+@keyframes heroDrift{to{transform:translateY(-220px)}}
+.hero-home h1,.hero-home .w>p{text-shadow:0 2px 4px #000b,0 6px 24px #000d}
+.hero-home .w>p{opacity:1}
+@media (max-width:640px){.hero-collage{grid-template-columns:repeat(3,1fr);inset:-15% -30% auto}.hero-collage .col:nth-child(n+4){display:none}}
+@media (prefers-reduced-motion:reduce){.hero-collage .col{animation:none}}
+
+/* ---- Address checker: area card, filters, suggestions ---- */
+#res .area dl{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;margin:8px 0;font-size:14px}
+#res .area dt{font-weight:700;color:#556}
+#res .area dd{margin:0}
+#res .area iframe{display:block;width:100%;height:190px;border:0;border-radius:10px;margin:10px 0 6px;background:#eef3ff}
+#res .fcc{font-size:13px;font-weight:700}
+#res .rchips{margin:14px 0 4px}
+#res .rchips .chip{padding:5px 12px;font-size:13px}
+.fr label{position:relative}
+.sug{position:absolute;left:0;right:0;top:100%;z-index:20;margin:2px 0 0;padding:0;list-style:none;background:#fff;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 10px 24px #0002;max-height:260px;overflow:auto;display:none;font-weight:400}
+.sug.open{display:block}
+.sug li{padding:9px 12px;cursor:pointer;font-size:14px;border-top:1px solid #eef1f6;color:#1a2233}
+.sug li:first-child{border-top:0}
+.sug li small{display:block;color:#667;font-size:12px}
+.sug li:hover,.sug li.on{background:#eef3ff}

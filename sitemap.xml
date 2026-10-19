@@ -1,7 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://uscableinternet.com/</loc></url>
-  <url><loc>https://uscableinternet.com/internet-providers-new-york-ny.html</loc></url>
-  <url><loc>https://uscableinternet.com/internet-providers-los-angeles-ca.html</loc></url>
-  <url><loc>https://uscableinternet.com/internet-providers-chicago-il.html</loc></url>
-</urlset>
+name: Generate sitemap
+on:
+  push:
+    branches: [main]
+    paths: ['**.html']
+permissions:
+  contents: write
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build sitemap.xml
+        run: |
+          {
+            echo '<?xml version="1.0" encoding="UTF-8"?>'
+            echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            echo '  <url><loc>https://uscableinternet.com/</loc></url>'
+            for f in internet-providers-*.html; do
+              echo "  <url><loc>https://uscableinternet.com/$f</loc></url>"
+            done
+            echo '</urlset>'
+          } > sitemap.xml
+      - name: Commit sitemap
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add sitemap.xml
+          git diff --staged --quiet || (git commit -m "Update sitemap" && git push)

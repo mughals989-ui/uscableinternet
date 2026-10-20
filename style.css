@@ -124,3 +124,16 @@ footer a.flogo{display:inline-flex;margin:0 0 22px}
 footer .flogo .l1{color:#fff}
 footer .flogo .l2{color:#ff8fa3}
 @media (max-width:640px){.logo svg{width:34px;height:34px}.logo .l1{font-size:18px}.logo .l2{font-size:8px;letter-spacing:4px}}
+
+/* Persistent brand mark: restore the logo icon even when page markup only has the wordmark. */
+.logo:not(:has(svg))::before{
+  content:"";
+  display:block;
+  width:40px;
+  height:40px;
+  flex:0 0 40px;
+  background:url("/favicon.svg?logo=7") center/contain no-repeat;
+}
+@media(max-width:640px){
+  .logo:not(:has(svg))::before{width:34px;height:34px;flex-basis:34px}
+}

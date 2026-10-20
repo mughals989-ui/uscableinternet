@@ -16,7 +16,7 @@ OFFICIAL = {
  "frontier": "https://frontier.com/", "gfiber": "https://fiber.google.com/",
  "altafiber": "https://www.altafiber.com/", "wow": "https://www.wowway.com/",
  "tmobile": "https://www.t-mobile.com/home-internet", "starlink": "https://www.starlink.com/",
- "brightspeed": "https://www.brightspeed.com/",
+ "brightspeed": "https://www.brightspeed.com/", "ziply":"https://ziplyfiber.com/", "astound":"https://www.astound.com/", "shentel":"https://www.shentel.com/", "quantum":"https://www.quantumfiber.com/", "epb":"https://epb.com/", "metronet":"https://www.metronetinc.com/",
 }
 AFFILIATE = {k: "" for k in OFFICIAL}   # e.g. AFFILIATE["spectrum"] = "https://your-cj-link"
 
@@ -28,7 +28,7 @@ def link(key, label):
 
 NAMES = {"att":"AT&T Fiber","xfinity":"Xfinity","spectrum":"Spectrum","cox":"Cox","optimum":"Optimum","fios":"Verizon Fios",
  "frontier":"Frontier","gfiber":"Google Fiber","altafiber":"Altafiber","wow":"WOW!","tmobile":"T-Mobile Home Internet",
- "starlink":"Starlink","brightspeed":"Brightspeed"}
+ "starlink":"Starlink","brightspeed":"Brightspeed","ziply":"Ziply Fiber","astound":"Astound","shentel":"Shentel","quantum":"Quantum Fiber","epb":"EPB Fiber","metronet":"Metronet"}
 
 # ---- STATE DATA (edit freely; verify footprints before publishing) --------
 S = [
@@ -134,6 +134,11 @@ S = [
        ("What internet options exist in the NC mountains?","Fixed wireless, 5G home and satellite are common. Wired service is limited.")]),
 ]
 
+import re
+from data_more import S2
+S += S2
+def cid(c): return "city-"+re.sub(r"[^a-z0-9]+","-",c.lower()).strip("-")
+
 def header(): return f'''<header class="top"><div class="wrap bar"><a class="logo" href="/">US Cable Internet</a>
 <nav aria-label="Main"><a href="/internet">Internet</a><a href="/fiber">Fiber</a><a href="/tv">TV</a><a href="/wireless">5G Wireless</a><a href="/check-address">Check Address</a><a href="/speed-test">Speed Test</a><a href="/about">About</a><a href="/contact">Contact</a></nav>
 <a class="call" href="tel:{PHONE_TEL}">Call {PHONE_DISPLAY}</a></div></header>'''
@@ -147,7 +152,7 @@ def page(st):
     title = f"Internet Providers in {n}: Compare Fiber, Cable, 5G & Satellite (2026)"
     desc = f"Compare internet providers in {n}: " + ", ".join(NAMES[p[0]] for p in st["prov"][:4]) + ", 5G home and satellite. Check availability at your exact address."
     cards = "".join(f'<article class="card"><p class="tag">{e(t)}</p><h3>{e(NAMES[k])}</h3><p>{e(d)}</p>{link(k, "Check "+NAMES[k]+" availability")}</article>' for k,t,d in st["prov"])
-    cities = " &middot; ".join(e(c) for c in st["cities"])
+    cities = "<ul class=\"cities\">" + "".join(f'<li id="{cid(c)}"><a href="/check-address#check">{e(c)}: check providers at your address</a></li>' for c in st["cities"]) + "</ul>"
     faq = "".join(f'<h3>{e(q)}</h3><p>{e(a)}</p>' for q,a in st["faq"])
     jsonld = json.dumps([
      {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -183,7 +188,7 @@ h1{font-size:2rem;line-height:1.2;margin:.4em 0}h2{margin-top:1.8em}.lead{font-s
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}.card{border:1px solid #e3e8ef;border-radius:8px;padding:16px}.card h3{margin:.2em 0}.tag{margin:0;font-size:13px;color:#51607a}
 .btn{display:inline-block;background:#0b57d0;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600}.btn.big{padding:12px 20px;font-size:16px}
 .btn.ghost{background:#fff;color:#0b57d0;border:1px solid #0b57d0;padding:11px 20px;font-size:16px}.cta{background:#f1f4f9;border-radius:8px;padding:8px 20px 20px;margin:20px 0}
-footer{margin-top:48px;border-top:1px solid #e3e8ef;padding:20px 0;font-size:14px}footer nav a{display:inline-block;margin:0 14px 6px 0}
+ul.cities{padding-left:20px}footer{margin-top:48px;border-top:1px solid #e3e8ef;padding:20px 0;font-size:14px}footer nav a{display:inline-block;margin:0 14px 6px 0}
 @media(max-width:640px){.call{margin-left:0}}"""
 
 ALL_STATES = "alabama alaska arizona arkansas california colorado connecticut delaware florida georgia hawaii idaho illinois indiana iowa kansas kentucky louisiana maine maryland massachusetts michigan minnesota mississippi missouri montana nebraska nevada new-hampshire new-jersey new-mexico new-york north-carolina north-dakota ohio oklahoma oregon pennsylvania rhode-island south-carolina south-dakota tennessee texas utah vermont virginia washington west-virginia wisconsin wyoming".split()

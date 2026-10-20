@@ -1,0 +1,6 @@
+HOME PAGE (replace in your home page source)
+1. Heading  "Internet plans from $35 a month or less"  ->  "Popular internet providers to compare"
+2. Spectrum card: remove "Up to 500 Mbps" and "$30/mo". Use:  "Plans vary by location" / "Offers vary"
+3. Sub-line under heading: "Starting rates may depend on..." ->  "Plans, prices and availability vary by address. Confirm on the provider's website."
+4. Add to <head>:
+<meta property="og:type" content="website"><meta property="og:title" content="Compare Internet & TV Plans | US Cable Internet"><meta property="og:description" content="Compare internet and TV providers across the USA. Check availability at your address."><meta property="og:url" content="https://uscableinternet.com/">

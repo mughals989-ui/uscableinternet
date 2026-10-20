@@ -1,0 +1,11 @@
+*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#1b2430;background:#fff}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}a{color:#0b57d0}.notice{margin:0;padding:6px 20px;background:#f1f4f9;font-size:13px;text-align:center}
+.top{border-bottom:1px solid #e3e8ef}.bar{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;padding-top:12px;padding-bottom:12px}
+.logo{font-weight:700;font-size:18px;text-decoration:none;color:#0b2a5b}nav a{margin-right:14px;text-decoration:none;font-size:15px}
+.call{margin-left:auto;background:#0b57d0;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-weight:600}
+h1{font-size:2rem;line-height:1.2;margin:.4em 0}h2{margin-top:1.8em}.lead{font-size:1.1rem;max-width:70ch}.meta,.crumbs{font-size:14px;color:#51607a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}.card{border:1px solid #e3e8ef;border-radius:8px;padding:16px}.card h3{margin:.2em 0}.tag{margin:0;font-size:13px;color:#51607a}
+.btn{display:inline-block;background:#0b57d0;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600}.btn.big{padding:12px 20px;font-size:16px}
+.btn.ghost{background:#fff;color:#0b57d0;border:1px solid #0b57d0;padding:11px 20px;font-size:16px}.cta{background:#f1f4f9;border-radius:8px;padding:8px 20px 20px;margin:20px 0}
+ul.cities{padding-left:20px}footer{margin-top:48px;border-top:1px solid #e3e8ef;padding:20px 0;font-size:14px}footer nav a{display:inline-block;margin:0 14px 6px 0}
+@media(max-width:640px){.call{margin-left:0}}

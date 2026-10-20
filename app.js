@@ -564,7 +564,7 @@ var LOGOS = {
   spectrum:"/spectrum.png",xfinity:"/xfinity.png",att:"/att.png",verizon:"/verizon.png",
   tmobile:"/tmobile.png",cox:"/Cox.png",optimum:"/Optimum.png",frontier:"/Frontier.png",
   googlefiber:"/Google%20Fiber.png",hughesnet:"/Hugesnet.png",starlink:"/Starlink.png",
-  viasat:"/Viasat.png",directv:"/Directv.png",dish:"/Dish.png",kinetic:"/Kinetic.png",
+  viasat:"/Viasat.png",directv:"/Directv.png",dish:"/Dish.png",kinetic:"/Kinetic%20by%20Windstream.png",
   brightspeed:"/Brightspeed.png",mediacom:"/Mediacom.png",quantum:"/Quantum%20Fiber.png",
   ziply:"/Ziply.png",frndly:"/Frndly%20TV.png",youtube:"/YoutubeTV.png",
   philo:"/Philo.png",hulu:"/Hulu%20%2B%20Live%20TV.png",fubo:"/Fubo%20TV.png",

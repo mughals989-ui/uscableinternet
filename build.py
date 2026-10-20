@@ -16,7 +16,7 @@ OFFICIAL = {
  "frontier": "https://frontier.com/", "gfiber": "https://fiber.google.com/",
  "altafiber": "https://www.altafiber.com/", "wow": "https://www.wowway.com/",
  "tmobile": "https://www.t-mobile.com/home-internet", "starlink": "https://www.starlink.com/",
- "brightspeed": "https://www.brightspeed.com/", "ziply":"https://ziplyfiber.com/", "astound":"https://www.astound.com/", "shentel":"https://www.shentel.com/", "quantum":"https://www.quantumfiber.com/", "epb":"https://epb.com/", "metronet":"https://www.metronetinc.com/",
+ "brightspeed": "https://www.brightspeed.com/", "ziply":"https://ziplyfiber.com/", "astound":"https://www.astound.com/", "shentel":"https://www.shentel.com/", "quantum":"https://www.quantumfiber.com/", "epb":"https://epb.com/", "tds":"https://tdstelecom.com/", "comporium":"https://comporium.com/", "metronet":"https://www.metronetinc.com/",
 }
 AFFILIATE = {k: "" for k in OFFICIAL}   # e.g. AFFILIATE["spectrum"] = "https://your-cj-link"
 
@@ -28,7 +28,7 @@ def link(key, label):
 
 NAMES = {"att":"AT&T Fiber","xfinity":"Xfinity","spectrum":"Spectrum","cox":"Cox","optimum":"Optimum","fios":"Verizon Fios",
  "frontier":"Frontier","gfiber":"Google Fiber","altafiber":"Altafiber","wow":"WOW!","tmobile":"T-Mobile Home Internet",
- "starlink":"Starlink","brightspeed":"Brightspeed","ziply":"Ziply Fiber","astound":"Astound","shentel":"Shentel","quantum":"Quantum Fiber","epb":"EPB Fiber","metronet":"Metronet"}
+ "starlink":"Starlink","brightspeed":"Brightspeed","ziply":"Ziply Fiber","astound":"Astound","shentel":"Shentel","quantum":"Quantum Fiber","epb":"EPB Fiber","tds":"TDS","comporium":"Comporium","metronet":"Metronet"}
 
 # ---- STATE DATA (edit freely; verify footprints before publishing) --------
 S = [
@@ -136,7 +136,8 @@ S = [
 
 import re
 from data_more import S2
-S += S2
+from data_batch3 import S3
+S += S2 + S3
 def cid(c): return "city-"+re.sub(r"[^a-z0-9]+","-",c.lower()).strip("-")
 
 def header(): return f'''<header class="top"><div class="wrap bar"><a class="logo" href="/">US Cable Internet</a>
@@ -192,9 +193,22 @@ ul.cities{padding-left:20px}footer{margin-top:48px;border-top:1px solid #e3e8ef;
 @media(max-width:640px){.call{margin-left:0}}"""
 
 ALL_STATES = "alabama alaska arizona arkansas california colorado connecticut delaware florida georgia hawaii idaho illinois indiana iowa kansas kentucky louisiana maine maryland massachusetts michigan minnesota mississippi missouri montana nebraska nevada new-hampshire new-jersey new-mexico new-york north-carolina north-dakota ohio oklahoma oregon pennsylvania rhode-island south-carolina south-dakota tennessee texas utah vermont virginia washington west-virginia wisconsin wyoming".split()
-CORE = ["", "internet","fiber","tv","wireless","check-address","speed-test","about","contact","privacy","terms","states"]
+CORE = ["", "internet","fiber","tv","wireless","check-address","speed-test","about","contact","privacy","terms","states","affiliate-disclosure"]
+
+def disclosure():
+    t="Affiliate Disclosure | US Cable Internet"
+    return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{t}</title>
+<meta name="description" content="How US Cable Internet earns money, how we compare internet providers, and what an affiliate link means for you."><link rel="canonical" href="{SITE}/affiliate-disclosure"><link rel="stylesheet" href="/assets/state.css"></head><body>
+{header()}<main class="wrap"><h1>Affiliate Disclosure</h1>
+<p>US Cable Internet is a free, independent comparison website. Some links on our pages are affiliate links. If you click one and sign up for a service, we may earn a commission from the provider. You pay the same price either way.</p>
+<h2>How this affects our pages</h2><p>Commissions do not change the facts we show. We describe provider coverage and plan types as accurately as we can, and we tell you to confirm availability at your exact address on the provider's website.</p>
+<h2>What we do not control</h2><p>Plans, prices, speeds, promotions and availability are set by providers and change often. Always confirm details with the provider before you order.</p>
+<h2>Phone calls</h2><p>If you call {PHONE_DISPLAY}, you may be connected to a provider or an authorized sales partner.</p>
+<h2>Questions</h2><p>Email <a href="mailto:info@uscableinternet.com">info@uscableinternet.com</a> or call <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a>.</p>
+<p class="meta">Last updated: {date.today().strftime("%B %Y")}</p></main>{footer()}</body></html>'''
 
 if __name__ == "__main__":
+    open("affiliate-disclosure.html","w").write(disclosure())
     os.makedirs("assets", exist_ok=True)
     open("assets/state.css","w").write(CSS)
     for st in S: open(f'internet-providers-{st["slug"]}.html',"w").write(page(st))

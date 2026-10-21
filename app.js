@@ -247,8 +247,32 @@ function showArea(info, location, label) {
 
   var stateName = STN[area.state] || "";
   var place = [area.city, area.state].filter(Boolean).join(", ") || "ZIP " + area.zip;
+  // Start with the state-level shortlist; replace it with area-level API results when available.
   var list = providersIn(area.state);
-  var wiredCount = list.filter(function(p) { return !!FOOT[p[1]]; }).length;
+  var apiStatus = "fallback";
+  var providerUrls = {
+    "Verizon":"https://www.verizon.com/home/internet/",
+    "Skywire Networks":"https://www.skywirenetworks.com/",
+    "Astound Broadband":"https://www.astound.com/",
+    "Spectrum":"https://www.spectrum.com/internet",
+    "Starry Inc":"https://starry.com/",
+    "Starlink":"https://www.starlink.com/",
+    "HughesNet":"https://www.hughesnet.com/",
+    "MINTernet":"https://www.t-mobile.com/home-internet",
+    "T-Mobile":"https://www.t-mobile.com/home-internet",
+    "Viasat Inc":"https://www.viasat.com/",
+    "AT&T":"https://www.att.com/internet/",
+    "Xfinity":"https://www.xfinity.com/learn/internet-service",
+    "Cox":"https://www.cox.com/",
+    "Optimum":"https://www.optimum.com/",
+    "Frontier":"https://frontier.com/",
+    "Google Fiber":"https://fiber.google.com/",
+    "Kinetic by Windstream":"https://www.windstream.com/",
+    "Brightspeed":"https://www.brightspeed.com/",
+    "Mediacom":"https://mediacomcable.com/",
+    "Quantum Fiber":"https://www.quantumfiber.com/",
+    "Ziply Fiber":"https://ziplyfiber.com/"
+  };
 
   var rows = [
     ["Address", area.street],
@@ -273,7 +297,7 @@ function showArea(info, location, label) {
     '<div class="area">' +
       '<h2>Internet providers to check in ' + esc(place) + '</h2>' +
       (location ? "" : '<p class="err">We could not place this address on the map. Results may be less specific.</p>') +
-      '<p class="nt">' + list.length + ' potential providers to check. This is a state-level shortlist, not a confirmation that these providers serve your exact address.</p>' +
+      '<p class="nt" id="availability-note">' + (apiStatus === "area" ? list.length + ' providers reported for this geographic area. This does not guarantee service at your exact address.' : list.length + ' potential providers to check based on state-level coverage. Exact-address availability is not confirmed.</p>' ) +
       '<dl>' + rows.filter(function(row) { return row[1]; }).map(function(row) {
         return '<dt>' + row[0] + '</dt><dd>' + esc(row[1]) + '</dd>';
       }).join("") + '</dl>' +
@@ -282,7 +306,7 @@ function showArea(info, location, label) {
       '<p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p>' +
     '</div>' +
     '<div class="chips rchips">' +
-      [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["5G Home","5G Home"],["Satellite","Satellite"]].map(function(c,i) {
+      [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed Wireless"],["5G Home","5G Home"],["Satellite","Satellite"]].map(function(c,i) {
         return '<button type="button" class="chip' + (i ? "" : " on") + '" data-f="' + c[0] + '">' + c[1] + '</button>';
       }).join("") +
     '</div>' +
@@ -292,7 +316,7 @@ function showArea(info, location, label) {
 
   function draw(filter) {
     var filtered = list.filter(function(p) {
-      return filter === "all" || p[3].indexOf(filter) > -1;
+      return filter === "all" || String(p[3]).toLowerCase().indexOf(String(filter).toLowerCase()) > -1;
     });
 
     var logoFiles = {
@@ -320,7 +344,7 @@ function showArea(info, location, label) {
       return '<div class="row">' +
         '<div style="min-width:0;flex:1">' + logoHtml + '<b>' + esc(p[1]) + '</b><br>' +
         '<span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) +
-        (FOOT[p[1]] && stateName ? ' · Serves parts of ' + esc(stateName) : '') +
+        (apiStatus === "area" ? ' · Reported in this area; confirm with provider' : (FOOT[p[1]] && stateName ? ' · Serves parts of ' + esc(stateName) : '')) +
         '</span></div>' +
         '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="sponsored noopener">Visit Website</a>' +
       '</div>';
@@ -328,6 +352,38 @@ function showArea(info, location, label) {
   }
 
   draw("all");
+
+  // Query the secure Cloudflare Worker for providers reported near the geocoded location.
+  if (isFinite(area.lat) && isFinite(area.lon)) {
+    fetch("https://uscableinternet-availability.mughals989.workers.dev/?lat=" +
+      encodeURIComponent(area.lat) + "&lng=" + encodeURIComponent(area.lon))
+      .then(function(response) {
+        if (!response.ok) throw new Error("Availability lookup failed");
+        return response.json();
+      })
+      .then(function(data) {
+        if (!data || !Array.isArray(data.providers)) throw new Error("Unexpected API response");
+        var mapped = data.providers.map(function(item) {
+          var name = String(item.name || "Internet provider");
+          var technology = String(item.technology || "Internet");
+          var down = Number(item.max_download_mbps);
+          var up = Number(item.max_upload_mbps);
+          var speed = (Number.isFinite(down) ? "Up to " + down.toLocaleString() + " Mbps download" : "Speed varies") +
+            (Number.isFinite(up) ? " / " + up.toLocaleString() + " Mbps upload" : "");
+          return ["i", name, providerUrls[name] || "#", technology, speed, 999, "Check price with provider"];
+        });
+        if (!mapped.length) throw new Error("No providers returned");
+        list = mapped;
+        apiStatus = "area";
+        var note = $("availability-note");
+        if (note) note.textContent = list.length +
+          " provider entries reported for this geographic area. This is not a guarantee of service at your exact address; confirm with each provider.";
+        draw("all");
+      })
+      .catch(function() {
+        // Keep the state-level shortlist visible if the API is unavailable.
+      });
+  }
 
   result.querySelector(".rchips").onclick = function(e) {
     var button = e.target.closest(".chip");

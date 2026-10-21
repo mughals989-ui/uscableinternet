@@ -281,26 +281,16 @@ function showArea(info, location, label) {
     ["ZIP code", area.zip]
   ];
 
-  var map = "";
-  if (isFinite(area.lat) && isFinite(area.lon)) {
-    var delta = 0.02;
-    map = '<iframe title="Map of your area" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=' +
-      (area.lon-delta) + ',' + (area.lat-delta*0.6) + ',' +
-      (area.lon+delta) + ',' + (area.lat+delta*0.6) +
-      '&layer=mapnik&marker=' + area.lat + ',' + area.lon + '"></iframe>';
-  }
-
   var result = $("res");
 
   result.innerHTML =
     '<div class="area">' +
       '<h2>Internet providers to check in ' + esc(place) + '</h2>' +
-      (location ? "" : '<p class="err">We could not place this address on the map. Results may be less specific.</p>') +
+      (location ? "" : '<p class="err">We could not locate this address precisely. Results may be less specific.</p>') +
       '<p class="nt" id="availability-note">' + (apiStatus === "area" ? list.length + ' providers reported for this geographic area. This does not guarantee service at your exact address.' : list.length + ' potential providers to check based on state-level coverage. Exact-address availability is not confirmed.</p>' ) +
       '<dl>' + rows.filter(function(row) { return row[1]; }).map(function(row) {
         return '<dt>' + row[0] + '</dt><dd>' + esc(row[1]) + '</dd>';
       }).join("") + '</dl>' +
-      map +
       '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify availability on the FCC Broadband Map →</a>' +
       '<p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p>' +
     '</div>' +

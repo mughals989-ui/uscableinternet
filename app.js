@@ -87,9 +87,15 @@ function stCode(name) {
 }
 
 function providersIn(state) {
+  /* Only show providers with a listed state footprint, plus nationwide satellite options.
+     This is still a state-level shortlist, not exact-address availability. */
+  var nationwideSatellite = ["HughesNet", "Starlink", "Viasat"];
   return D.filter(function(p) {
-    return p[0] === "i" &&
-      (!state || !FOOT[p[1]] || FOOT[p[1]].split(" ").indexOf(state) > -1);
+    if (p[0] !== "i") return false;
+    if (FOOT[p[1]]) {
+      return !!state && FOOT[p[1]].split(" ").indexOf(state) > -1;
+    }
+    return nationwideSatellite.indexOf(p[1]) > -1;
   }).sort(function(a,b) {
     return a[5] - b[5];
   });

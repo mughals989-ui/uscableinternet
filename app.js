@@ -265,9 +265,9 @@ function showArea(info, location, label) {
 
   result.innerHTML =
     '<div class="area">' +
-      '<h2>Internet providers in ' + esc(place) + '</h2>' +
+      '<h2>Internet providers to check in ' + esc(place) + '</h2>' +
       (location ? "" : '<p class="err">We could not place this address on the map. Results may be less specific.</p>') +
-      '<p class="nt">' + list.length + ' providers to check in this area. Exact availability must be confirmed on each provider website.</p>' +
+      '<p class="nt">' + list.length + ' potential providers to check. This is a state-level shortlist, not a confirmation that these providers serve your exact address.</p>' +
       '<dl>' + rows.filter(function(row) { return row[1]; }).map(function(row) {
         return '<dt>' + row[0] + '</dt><dd>' + esc(row[1]) + '</dd>';
       }).join("") + '</dl>' +
@@ -280,7 +280,7 @@ function showArea(info, location, label) {
         return '<button type="button" class="chip' + (i ? "" : " on") + '" data-f="' + c[0] + '">' + c[1] + '</button>';
       }).join("") +
     '</div>' +
-    '<p class="nt">Availability depends on your exact address. Visit the provider website to confirm coverage and current prices.</p>' +
+    '<p class="nt">For a free independent check, open the official FCC National Broadband Map below. Then confirm service directly with each provider; map data can be incomplete and does not guarantee service at your address.</p>' +
     '<button type="button" class="ghost" id="cp">Copy address</button>' +
     '<div id="rlist"></div>';
 

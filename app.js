@@ -258,7 +258,6 @@ function showArea(info, location, label) {
     "Starry Inc":"https://starry.com/",
     "Starlink":"https://www.starlink.com/",
     "HughesNet":"https://www.hughesnet.com/",
-    "MINTernet":"https://www.t-mobile.com/home-internet",
     "T-Mobile":"https://www.t-mobile.com/home-internet",
     "Viasat Inc":"https://www.viasat.com/",
     "AT&T":"https://www.att.com/internet/",
@@ -346,7 +345,9 @@ function showArea(info, location, label) {
         '<span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) +
         (apiStatus === "area" ? ' · Reported in this area; confirm with provider' : (FOOT[p[1]] && stateName ? ' · Serves parts of ' + esc(stateName) : '')) +
         '</span></div>' +
-        '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="sponsored noopener">Visit Website</a>' +
+        (p[2] && p[2] !== "#" ?
+          '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="noopener">Visit Website</a>' :
+          '<span class="nt">Website not verified</span>') +
       '</div>';
     }).join("") : '<p class="nt">No ' + esc(filter) + ' providers listed for this area.</p>';
   }

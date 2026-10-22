@@ -20,5 +20,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+      - name: Validate audit script syntax
+        run: python -m py_compile scripts/seo-audit.py
       - name: Audit HTML, internal links, canonicals and sitemap
-        run: python scripts/seo-audit.py
+        run: |
+          set -o pipefail
+          python scripts/seo-audit.py 2>&1 | tee seo-audit-report.txt
+      - name: Save audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seo-audit-report
+          path: seo-audit-report.txt
+          if-no-files-found: ignore

@@ -60,31 +60,14 @@ a.lk{text-decoration:none;color:inherit;display:block}a.lk:hover{border-color:#2
 .names span:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(15,23,42,.1)}
 
 /* Homepage hero with controlled photo backdrop */
-.hero-home{text-align:center;padding:56px 0 64px;background:#050c20;position:relative;overflow:hidden}
+.hero-home{text-align:center;padding:56px 0 64px;background:#050c20 url("https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=2000&q=85") center/cover no-repeat;position:relative;overflow:hidden}
+.hero-home::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(5,12,32,.62),rgba(5,12,32,.76) 45%,rgba(5,12,32,.9))}
+.fr[hidden]{display:none!important}
 .hero-home>.w{position:relative;z-index:3}
 .hero-home h1{font-size:clamp(30px,5vw,46px);line-height:1.12;max-width:860px;margin:0 auto 14px;font-weight:800;letter-spacing:-.03em;text-shadow:0 2px 16px rgba(0,0,0,.5);color:#fff}
 .hero-home .w>p{max-width:640px;margin:0 auto 24px;font-size:17px;opacity:.92;text-shadow:0 1px 8px rgba(0,0,0,.4);color:#fff}
 .hero-home .chk{margin:0 auto;max-width:560px;text-align:left}
 .chk-t{font-weight:700;margin:0 0 14px;font-size:15px;color:#0f172a}
-
-/* Subtle photo collage BEHIND content - does not expand height */
-.hero-collage{position:absolute;inset:0;display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:8px;z-index:0;pointer-events:none;opacity:.55}
-.hero-collage .col{display:flex;flex-direction:column;gap:8px;min-height:0}
-.hero-collage img{display:block;width:100%;height:120px;object-fit:cover;border-radius:8px;flex:none}
-.hero-shade{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(5,12,32,.55) 0%,rgba(5,12,32,.75) 40%,rgba(5,12,32,.88) 100%)}
-@media (max-width:900px){
-  .hero-collage{grid-template-columns:repeat(4,1fr)}
-  .hero-collage .col:nth-child(n+5){display:none}
-  .hero-collage img{height:90px}
-}
-@media (max-width:640px){
-  .hero-collage{grid-template-columns:repeat(3,1fr)}
-  .hero-collage .col:nth-child(n+4){display:none}
-  .hero-collage img{height:70px}
-  .hero-home{padding:40px 0 48px}
-  .hero-home h1{font-size:28px}
-  .hero-home .w>p{font-size:15px}
-}
 
 /* Speed test */
 .st{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:32px;text-align:center;max-width:520px;margin:0 auto;box-shadow:0 8px 32px rgba(15,23,42,.08)}

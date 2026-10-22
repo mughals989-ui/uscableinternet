@@ -137,3 +137,126 @@ footer .flogo .l2{color:#ff8fa3}
 @media(max-width:640px){
   .logo::before{width:34px;height:34px;flex-basis:34px}
 }
+
+
+/* ---- Address checker results: use page width and readable provider cards ---- */
+.address-page .chk{
+  width:100%;
+  max-width:none;
+}
+.address-page #af,
+.address-page .modes,
+.address-page .priv,
+.address-page #ae{
+  max-width:760px;
+}
+.address-page #res{
+  width:100%;
+  max-width:none;
+  margin-top:24px;
+  padding-top:22px;
+  border-top:1px solid #e2e8f0;
+}
+.address-page #res .area{
+  background:#f8faff;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  padding:18px 20px;
+}
+.address-page #res .area h2{
+  font-size:clamp(20px,2.2vw,26px);
+  line-height:1.25;
+  margin:0 0 8px;
+}
+.address-page #res .area dl{
+  grid-template-columns:max-content minmax(0,1fr);
+  gap:4px 16px;
+  max-width:760px;
+}
+.address-page #res .rchips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:18px 0 10px;
+}
+.address-page #res .rchips .chip{
+  border:1px solid #cbd5e1;
+  border-radius:999px;
+  background:#fff;
+  color:#26344d;
+  cursor:pointer;
+  padding:8px 15px;
+  font-weight:700;
+}
+.address-page #res .rchips .chip.on{
+  background:#0b5fff;
+  border-color:#0b5fff;
+  color:#fff;
+}
+.address-page #res > .nt{
+  max-width:900px;
+}
+.address-page #rlist{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  align-items:stretch;
+  margin-top:16px;
+}
+.address-page #rlist .row{
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px;
+  border:1px solid #dfe5ef;
+  border-radius:14px;
+  background:#fff;
+  box-shadow:0 3px 12px #0b1f4d0a;
+  overflow-wrap:anywhere;
+}
+.address-page #rlist .row > div{
+  flex:none !important;
+  width:100%;
+}
+.address-page #rlist .row img{
+  max-width:100%;
+  margin-bottom:12px !important;
+}
+.address-page #rlist .row b{
+  display:block;
+  font-size:17px;
+  line-height:1.35;
+  margin-bottom:6px;
+}
+.address-page #rlist .row .nt{
+  display:block;
+  line-height:1.6;
+}
+.address-page #rlist .row .btn{
+  display:block;
+  width:100%;
+  text-align:center;
+  margin-top:auto;
+}
+.address-page #rlist > .nt{
+  grid-column:1/-1;
+  background:#fff;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  padding:18px;
+}
+@media(max-width:900px){
+  .address-page #rlist{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .address-page .chk{padding:14px}
+  .address-page #res .area{padding:14px}
+  .address-page #res .area dl{grid-template-columns:1fr;gap:0}
+  .address-page #res .area dd{margin:0 0 8px}
+  .address-page #rlist{grid-template-columns:1fr;gap:12px}
+  .address-page #rlist .row{padding:16px}
+}

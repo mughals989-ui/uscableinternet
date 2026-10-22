@@ -9,7 +9,7 @@
 <meta property="og:url" content="https://uscableinternet.com/channel-lineup">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VCZGZE76Q"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-5VCZGZE76Q');</script>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v=17">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"US Cable Internet","url":"https://uscableinternet.com/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://uscableinternet.com/"},{"@type":"ListItem","position":2,"name":"TV","item":"https://uscableinternet.com/tv"},{"@type":"ListItem","position":3,"name":"Channel Lineups","item":"https://uscableinternet.com/channel-lineup"}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do channel numbers vary by location?","acceptedAnswer":{"@type":"Answer","text":"Yes. Channel numbers and exact lineups vary by market and ZIP code. Always confirm on the provider’s official website for your address."}},{"@type":"Question","name":"Which package has the most channels?","acceptedAnswer":{"@type":"Answer","text":"Higher tiers such as Spectrum Stream TV VIP, Xfinity TV Premium, DIRECTV Premier and DISH America’s Top 250 generally include the largest lineups. Premium movie channels are often add-ons."}},{"@type":"Question","name":"Are sports channels included in base packages?","acceptedAnswer":{"@type":"Answer","text":"ESPN and ESPN2 are commonly included in mid-tier and higher packages. Regional sports networks and specialty sports channels often require higher tiers or add-ons."}}]}]}</script>
 <style>
 .cl-table{width:100%;border-collapse:collapse;font-size:.9rem;margin:16px 0 32px}
@@ -22,6 +22,35 @@
 .provider-block h2{margin-bottom:8px}
 .provider-block .lead{margin-bottom:16px;color:#475569}
 </style>
+
+<style>
+.local-channel-tool{margin:30px 0 48px;padding:clamp(20px,4vw,36px);border:1px solid #dfe6f2;border-radius:20px;background:linear-gradient(145deg,#f7f9ff,#fff)}
+.local-kicker{font-size:10px;font-weight:900;letter-spacing:1.8px;color:#51408f}
+.local-tool-head h2{font-size:clamp(25px,3vw,35px);line-height:1.2;letter-spacing:-.8px;color:#171d40;margin:9px 0}
+.local-tool-head p{max-width:800px;color:#59667d;line-height:1.75}
+.local-zip-form{margin:20px 0 25px;padding:18px;background:#fff;border:1px solid #e0e6f1;border-radius:13px}
+.local-zip-form label{display:block;font-size:12px;font-weight:800;color:#25304d;margin-bottom:8px}
+.local-zip-row{display:flex;gap:10px;max-width:650px}
+.local-zip-row input{width:150px;min-width:0;border:1px solid #cfd8e7;border-radius:8px;padding:12px;font:inherit}
+.local-zip-row button{border:0;border-radius:8px;background:#292c61;color:#fff;font-weight:800;padding:12px 16px;cursor:pointer}
+.local-zip-error{color:#b42318;font-size:12px}
+.local-networks h3{font-size:18px;color:#192342;margin:18px 0 13px}
+.local-network-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.local-network-grid>div{display:flex;flex-direction:column;gap:4px;padding:13px;border:1px solid #e0e6f0;background:#fff;border-radius:9px;min-width:0}
+.local-network-grid b{font-size:13px;color:#282b5f}.local-network-grid span{font-size:10px;color:#69758a}
+.local-provider-results{margin-top:20px}
+.local-provider-results h3{font-size:20px;color:#17213e}
+.local-provider-results>p{font-size:12px;color:#5f6b80;line-height:1.7}
+.local-result-grid,.official-channel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0 28px}
+.local-result-grid a,.official-channel-grid a{display:flex;flex-direction:column;gap:7px;padding:16px;border:1px solid #dfe5ef;background:#fff;border-radius:12px;text-decoration:none;color:#1b2543;min-width:0}
+.local-result-grid a:hover,.official-channel-grid a:hover{border-color:#a9b9e4;box-shadow:0 8px 20px #1d28520e}
+.local-result-grid b,.official-channel-grid b{font-size:14px}
+.local-result-grid span,.official-channel-grid span{font-size:11px;line-height:1.5;color:#5d6a80}
+.local-result-grid i,.official-channel-grid i{font-style:normal;font-size:10px;font-weight:800;color:#51408f;margin-top:auto}
+@media(max-width:800px){.local-network-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.local-result-grid,.official-channel-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.local-zip-row{flex-direction:column}.local-zip-row input{width:100%}.local-zip-row button{width:100%}.local-result-grid,.official-channel-grid{grid-template-columns:1fr}}
+</style>
+
 </head><body>
 <div class="disc">US Cable Internet may earn commissions from some providers listed. <a href="/about#methodology">Learn more</a></div>
 <header><div class="w bar"><a class="logo" href="/">uscableinternet &#9889;</a><nav>
@@ -43,6 +72,45 @@
 <main>
 <section class="s"><div class="w">
 <p class="lead">Channel numbers and availability vary by location. Always confirm the exact lineup on the provider’s official website. Last updated: October 2026.</p>
+
+<section class="local-channel-tool" id="local-channels">
+  <div class="local-tool-head">
+    <span class="local-kicker">LOCAL CHANNEL LOOKUP</span>
+    <h2>Find ABC, CBS, NBC, FOX, The CW and more by ZIP code</h2>
+    <p>Local affiliates depend on your ZIP code and provider. Enter your ZIP, then open the official lineup tool for each streaming or satellite service to see the stations actually offered at your address.</p>
+  </div>
+  <form id="localZipForm" class="local-zip-form">
+    <label for="localZip">U.S. ZIP code</label>
+    <div class="local-zip-row"><input id="localZip" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" placeholder="e.g. 30303" required><button type="submit">Show official lineup tools →</button></div>
+    <p id="localZipError" class="local-zip-error" hidden>Enter a valid 5-digit U.S. ZIP code.</p>
+  </form>
+  <div class="local-networks">
+    <h3>Local broadcast networks to check</h3>
+    <div class="local-network-grid">
+      <div><b>ABC</b><span>Local affiliate</span></div><div><b>CBS</b><span>Local affiliate</span></div><div><b>NBC</b><span>Local affiliate</span></div><div><b>FOX</b><span>Local affiliate</span></div><div><b>The CW</b><span>Market-dependent</span></div><div><b>PBS</b><span>Regional stations</span></div><div><b>Telemundo</b><span>Market-dependent</span></div><div><b>Univision</b><span>Market-dependent</span></div><div><b>UniMás</b><span>Market-dependent</span></div><div><b>MyNetworkTV</b><span>Market-dependent</span></div><div><b>MeTV / other diginets</b><span>Station-dependent</span></div><div><b>Local news subchannels</b><span>Station-dependent</span></div>
+    </div>
+    <p class="cl-note">No provider guarantees every network in every ZIP code. The official provider results are the source of truth for your location.</p>
+  </div>
+  <div id="localZipResults" class="local-provider-results" hidden aria-live="polite"></div>
+</section>
+
+
+
+<div class="provider-block" id="official-channel-tools">
+<h2>Official full channel lineups</h2>
+<p class="lead">Use the provider’s own channel finder for the complete current lineup, including local affiliates, channel numbers, package tiers and add-ons. These listings can change by market and subscription.</p>
+<div class="official-channel-grid">
+<a href="https://tv.youtube.com/welcome/" target="_blank" rel="noopener"><b>YouTube TV</b><span>Streaming · ZIP-based local networks</span><i>Open official channel finder ↗</i></a>
+<a href="https://www.sling.com/programming/local-channels" target="_blank" rel="noopener"><b>Sling TV</b><span>Streaming · FOX, NBC and ABC in eligible markets</span><i>Check local channels ↗</i></a>
+<a href="https://www.directv.com/channel-lineup/" target="_blank" rel="noopener"><b>DIRECTV</b><span>Streaming and satellite lineup tools</span><i>Browse official channels ↗</i></a>
+<a href="https://webapps.dish.com/local-channels/" target="_blank" rel="noopener"><b>DISH</b><span>Satellite · local station lookup</span><i>Find local channels ↗</i></a>
+<a href="https://www.dish.com/packages" target="_blank" rel="noopener"><b>DISH package finder</b><span>Satellite · channel-based package search</span><i>Compare packages ↗</i></a>
+<a href="https://www.xfinity.com/learn/channel-lineup" target="_blank" rel="noopener"><b>Xfinity</b><span>Cable · channel lineup</span><i>View official lineup ↗</i></a>
+<a href="https://www.spectrum.com/cable-tv/channel-lineup" target="_blank" rel="noopener"><b>Spectrum</b><span>Cable · channel lineup</span><i>View official lineup ↗</i></a>
+<a href="https://www.fubo.tv/welcome/channels" target="_blank" rel="noopener"><b>Fubo</b><span>Streaming · live channel lineup</span><i>View official channels ↗</i></a>
+<a href="https://www.hulu.com/live-tv" target="_blank" rel="noopener"><b>Hulu + Live TV</b><span>Streaming · live channels</span><i>View official plans ↗</i></a>
+</div>
+</div>
 
 <div class="provider-block" id="directv">
 <h2>DIRECTV Channel Lineup</h2>
@@ -216,6 +284,35 @@
 </div>
 <p style="margin-top:24px">&copy; 2026 USCableInternet.com. Independent telecom comparison. <a href="mailto:info@uscableinternet.com">info@uscableinternet.com</a></p>
 </div></footer>
+
+<script>
+(function(){
+  var form=document.getElementById('localZipForm');
+  if(!form)return;
+  var input=document.getElementById('localZip');
+  var error=document.getElementById('localZipError');
+  var output=document.getElementById('localZipResults');
+  var services=[
+    {name:'YouTube TV',type:'Streaming',detail:'Check local broadcast networks for your home ZIP code.',url:'https://tv.youtube.com/welcome/'},
+    {name:'Sling TV',type:'Streaming',detail:'FOX, NBC and ABC are available only in designated markets; confirm which locals are offered.',url:'https://www.sling.com/programming/local-channels'},
+    {name:'DIRECTV',type:'Streaming + satellite',detail:'Use the official channel lineup and set your ZIP code to check local stations and package channels.',url:'https://www.directv.com/channel-lineup/'},
+    {name:'DISH',type:'Satellite',detail:'Use DISH’s local-channel lookup for stations available at your location.',url:'https://webapps.dish.com/local-channels/'},
+    {name:'Fubo',type:'Streaming',detail:'Check the official channel lineup and local coverage for your market.',url:'https://www.fubo.tv/welcome/channels'},
+    {name:'Hulu + Live TV',type:'Streaming',detail:'Check official live TV plan details and local network availability.',url:'https://www.hulu.com/live-tv'},
+    {name:'Spectrum',type:'Cable',detail:'Check local cable lineup and service availability for your address.',url:'https://www.spectrum.com/cable-tv/channel-lineup'},
+    {name:'Xfinity',type:'Cable',detail:'Check the current channel lineup for your service area.',url:'https://www.xfinity.com/learn/channel-lineup'}
+  ];
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var zip=input.value.trim();
+    if(!/^\d{5}$/.test(zip)){error.hidden=false;output.hidden=true;return;}
+    error.hidden=true;output.hidden=false;
+    output.innerHTML='<h3>Official channel lookups for ZIP '+zip+'</h3><p>For accuracy, each provider’s official page below is where you can verify its exact local affiliate list. Some sites may ask you to enter the ZIP code again after opening.</p><div class="local-result-grid">'+services.map(function(s){return '<a href="'+s.url+'" target="_blank" rel="noopener"><b>'+s.name+'</b><span>'+s.type+' · '+s.detail+'</span><i>Check ZIP '+zip+' on official site ↗</i></a>';}).join('')+'</div><p class="cl-note">ZIP '+zip+' is a search hint only; this page does not claim that every network is carried by every provider. Local rights and station carriage vary by market, package and provider.</p>';
+    output.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+</script>
+
 <script src="/app.js"></script>
 <script type="text/javascript" src="https://s.skimresources.com/js/311394X1799903.skimlinks.js"></script>
 </body></html>

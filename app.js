@@ -25,7 +25,7 @@ var $ = function(id) { return document.getElementById(id); };
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, function(c) {
-    return {"&":"&","<":"<",">":">",'"':""","'":"&#39;"}[c];
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
   });
 }
 

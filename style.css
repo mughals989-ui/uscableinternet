@@ -281,3 +281,36 @@ section.s h2{font-size:22px}
 .provider-guide .w>ul li:before{content:"✓";position:absolute;left:16px;top:16px;color:#147d67;font-weight:900}
 @media(max-width:850px){.provider-hero{padding:48px 0 55px}.provider-hero-inner{grid-template-columns:1fr .75fr;gap:15px}.provider-hero-art{min-height:275px}.signal-card{padding:21px 19px}.chip-fiber{left:-7px}.chip-price{right:-4px}.provider-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.provider-hero{padding:43px 0 38px}.provider-hero-inner{grid-template-columns:1fr}.provider-hero h1{font-size:42px;letter-spacing:-1.6px}.provider-hero-copy>p{font-size:15px}.provider-trust{gap:9px 14px;margin-top:23px}.provider-hero-art{min-height:260px;margin:4px 0 0}.signal-card{width:255px}.chip-fiber{left:2%;top:20px}.chip-price{right:1%;bottom:17px}.provider-section-heading{display:block}.provider-heading-link{display:inline-block;margin-top:15px}.provider-grid{grid-template-columns:1fr}.provider-grid .card{padding:21px}.provider-results-note{align-items:flex-start;flex-direction:column;gap:4px}.provider-guide .w>ul{grid-template-columns:1fr}.provider-filter-wrap{padding:14px}.provider-filter-wrap .chip{padding:8px 11px}}
+
+
+/* Address checker embedded in internet plan comparison */
+.provider-availability{padding-top:30px;padding-bottom:64px}
+.availability-panel{display:grid;grid-template-columns:.85fr 1.15fr;gap:35px;align-items:start;background:linear-gradient(135deg,#081a38,#123e78 70%,#1b5797);border-radius:22px;padding:clamp(23px,4vw,42px);box-shadow:0 20px 50px #0b2b501f;color:#fff;position:relative;overflow:hidden}
+.availability-panel:after{content:"";position:absolute;right:-100px;top:-170px;width:360px;height:360px;border:1px solid #ffffff17;border-radius:50%;pointer-events:none}
+.availability-copy{position:relative;z-index:1;padding-top:5px}
+.availability-copy .section-kicker{color:#9dc9ff}
+.availability-copy h2{color:#fff;font-size:clamp(27px,3.5vw,39px);line-height:1.12;letter-spacing:-1.1px;margin:10px 0 15px}
+.availability-copy>p{font-size:14px;line-height:1.8;color:#d4e4f9;margin:0}
+.availability-points{display:grid;gap:11px;margin:23px 0}
+.availability-points span{font-size:12px;color:#e5f0ff;font-weight:700}
+.availability-points span:first-letter{color:#74e3bf}
+.availability-copy .availability-note{font-size:11px;color:#a9c3e4;border-top:1px solid #ffffff26;padding-top:15px}
+.availability-form{position:relative;z-index:1;min-width:0;background:#fff;color:#14253e;border-radius:15px;padding:20px;box-shadow:0 12px 34px #03112d25}
+.availability-form .chk{margin:0;padding:0;background:transparent;border:0;box-shadow:none}
+.availability-form .modes{display:flex;gap:8px;margin-bottom:16px}
+.availability-form .mode{flex:1;border:1px solid #d9e4f2;background:#f7faff;color:#445a76;border-radius:8px;padding:10px 8px;font-size:12px;font-weight:750;cursor:pointer}
+.availability-form .mode.on{background:#e8f2ff;color:#174a88;border-color:#9bc2f3}
+.availability-form .fr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.65fr);gap:11px;margin-bottom:11px}
+.availability-form .fr label{display:block;min-width:0;font-size:11px;font-weight:750;color:#40536d}
+.availability-form .fr input,.availability-form .fr select{display:block;width:100%;min-width:0;margin-top:6px;border:1px solid #d5e0ee;background:#fff;border-radius:8px;padding:11px 10px;font:inherit;font-size:13px;color:#152b49;outline:none}
+.availability-form .fr input:focus,.availability-form .fr select:focus{border-color:#4e8fdb;box-shadow:0 0 0 3px #3b82f61c}
+.availability-form .fr.full:nth-of-type(2){grid-template-columns:minmax(0,1fr) .7fr .75fr}
+.availability-form .fr[hidden]{display:none!important}
+.availability-form .go{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;border:0;border-radius:9px;background:#123d78;color:#fff;padding:13px 14px;font-size:13px;font-weight:850;cursor:pointer;margin-top:4px}
+.availability-form .go:hover{background:#1e5aa3}
+.availability-form .go:disabled{opacity:.65;cursor:wait}
+.availability-form .err{font-size:12px;color:#b42318;margin:7px 0 0}
+.availability-form .priv{font-size:10px;line-height:1.6;color:#738197;margin:13px 0 0}
+.availability-form #res{margin-top:15px;overflow-wrap:anywhere}
+@media(max-width:850px){.availability-panel{grid-template-columns:1fr;gap:22px}.availability-copy{max-width:680px}.availability-points{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.provider-availability{padding-top:12px;padding-bottom:45px}.availability-panel{padding:20px 14px;border-radius:16px;gap:19px}.availability-form{padding:14px}.availability-form .fr,.availability-form .fr.full:nth-of-type(2){grid-template-columns:1fr 1fr}.availability-form .fr.full:first-of-type label:first-child{grid-column:1/-1}.availability-points{grid-template-columns:1fr;gap:8px}}

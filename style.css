@@ -157,3 +157,62 @@ section.s h2{font-size:22px}
 .provider-block{margin-bottom:48px}
 .provider-block h2{margin-bottom:8px}
 .provider-block .lead{margin-bottom:16px;color:#64748b}
+
+
+/* Free speed test page redesign */
+.speed-hero{background:radial-gradient(ellipse at 78% 45%,rgba(56,189,248,.2),transparent 36%),linear-gradient(125deg,#07152f 0%,#102b63 58%,#164e8b 100%);padding:58px 0 64px;min-height:290px}
+.speed-hero-inner{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(220px,.65fr);align-items:center;gap:30px}
+.speed-eyebrow,.speed-kicker{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:800;letter-spacing:.14em;color:#93c5fd}
+.speed-hero h1{margin:12px 0;font-size:clamp(32px,4.2vw,48px);max-width:650px}
+.speed-hero p{max-width:650px;font-size:17px;line-height:1.7;color:#dbeafe;margin:0}
+.speed-trust{display:flex;gap:12px 22px;flex-wrap:wrap;margin-top:23px;color:#dbeafe;font-size:13px;font-weight:600}
+.speed-hero-art{height:210px;position:relative;display:flex;align-items:center;justify-content:center}
+.speed-orbit{position:absolute;border:1px solid rgba(147,197,253,.3);border-radius:50%;transform:rotate(-25deg)}
+.orbit-one{width:245px;height:115px}.orbit-two{width:205px;height:175px;transform:rotate(35deg)}
+.speed-gauge{position:relative;width:142px;height:142px;border-radius:50%;background:linear-gradient(145deg,#fff,#dbeafe);box-shadow:0 18px 55px rgba(0,0,0,.22),inset 0 0 0 8px rgba(59,130,246,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#12336c}
+.gauge-icon{font-size:40px;line-height:1;color:#2563eb}.speed-gauge strong{font-size:18px;letter-spacing:.1em}.speed-gauge small{font-size:8px;letter-spacing:.09em;margin-top:3px}
+.speed-main{background:#f3f7fc;padding-bottom:54px}
+.speed-section{padding-top:0;margin-top:-26px;position:relative;z-index:2}
+.speed-panel{background:#fff;border:1px solid #e0e9f5;border-radius:22px;padding:30px;box-shadow:0 18px 55px rgba(15,39,80,.11)}
+.speed-panel-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:23px;border-bottom:1px solid #e8eef7}
+.speed-panel-head h2{font-size:24px;line-height:1.25;margin:8px 0 4px;color:#10264d}
+.speed-panel-head p{margin:0;color:#64748b;font-size:14px}
+.speed-live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:8px;box-shadow:0 0 0 4px #dcfce7}
+.speed-kicker{color:#64748b;font-size:10px}
+.speed-server{display:flex;align-items:center;gap:11px;padding:12px 15px;border:1px solid #e5edf7;border-radius:14px;background:#f8fbff;white-space:nowrap}
+.server-icon{width:35px;height:35px;border-radius:11px;background:#dbeafe;color:#1d4ed8;display:grid;place-items:center;font-size:21px}
+.speed-server b,.speed-server small{display:block}.speed-server b{font-size:12px;color:#1e293b}.speed-server small{font-size:11px;color:#64748b;margin-top:2px}
+.speed-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:24px 0}
+.speed-metric{position:relative;min-width:0;padding:21px 20px 18px;border:1px solid #e5edf7;border-radius:17px;background:linear-gradient(160deg,#fff,#f8fbff);display:grid;grid-template-columns:38px 1fr;align-items:center;column-gap:10px}
+.speed-metric.download-metric{background:linear-gradient(150deg,#eff6ff,#f8fbff);border-color:#bfdbfe}
+.metric-symbol{grid-row:span 2;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#dbeafe;color:#1d4ed8;font-size:25px;font-weight:700}
+.upload-symbol{background:#dcfce7;color:#15803d}.ping-symbol{background:#fef3c7;color:#b45309}
+.metric-label{font-size:10px;letter-spacing:.13em;font-weight:800;color:#64748b}
+.metric-value{display:inline-block;font-size:clamp(31px,4vw,43px);font-weight:800;letter-spacing:-.05em;line-height:1.2;color:#10264d;font-variant-numeric:tabular-nums;margin-top:7px;overflow-wrap:anywhere}
+.metric-unit{font-size:12px;font-weight:700;color:#64748b;margin-left:5px}
+.metric-caption{grid-column:1/-1;border-top:1px solid #e5edf7;padding-top:12px;margin-top:16px;font-size:11px;color:#64748b}
+.speed-action{text-align:center;padding:5px 0 19px}
+.speed-start{min-width:230px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 26px;border-radius:13px;background:linear-gradient(135deg,#2563eb,#1d4ed8);box-shadow:0 8px 20px rgba(37,99,235,.28);font-size:16px}
+.speed-start span{font-size:13px}
+.speed-status{margin:12px 0 0;font-size:12px;color:#64748b}
+.speed-disclaimer{border-top:1px solid #e8eef7;padding-top:17px;text-align:center;color:#64748b;font-size:12px}
+.speed-faq{padding-top:54px}
+.speed-faq-intro{text-align:center;max-width:650px;margin:0 auto 26px}
+.speed-faq-intro h2{font-size:clamp(25px,3vw,32px);letter-spacing:-.03em;line-height:1.2;margin:10px 0}
+.speed-faq-intro p{margin:0;color:#64748b}
+.speed-faq-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.speed-faq-grid article{background:#fff;border:1px solid #e3ebf5;border-radius:17px;padding:23px}
+.faq-icon{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:#dbeafe;color:#1d4ed8;font-size:24px;font-weight:800}
+.speed-faq-grid h3{font-size:17px;margin:14px 0 7px}.speed-faq-grid p{font-size:14px;color:#64748b;margin:0;line-height:1.7}
+.speed-tips{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:20px;padding:23px;background:#e8f1ff;border:1px solid #cfe0fb;border-radius:17px}
+.speed-tips>div{display:flex;align-items:flex-start;gap:13px}
+.tips-icon{display:grid;place-items:center;flex:0 0 38px;height:38px;border-radius:12px;background:#fff;color:#1d4ed8;font-size:22px}
+.speed-tips h3{margin:0 0 5px;font-size:16px}.speed-tips p{margin:0;color:#475569;font-size:13px;max-width:690px}
+.speed-compare-link{white-space:nowrap;font-weight:800;text-decoration:none;color:#1d4ed8}
+.speed-compare-link span{font-size:19px;margin-left:5px}
+.speed-faq-bottom{max-width:800px;margin:48px auto 0}
+.speed-faq-bottom h2{font-size:25px;margin-bottom:17px}
+.speed-faq-bottom details{background:#fff;border:1px solid #e3ebf5;border-radius:12px;padding:16px 19px;margin:10px 0}
+.speed-faq-bottom summary{font-weight:700;cursor:pointer;color:#1e293b}
+.speed-faq-bottom details p{color:#64748b;font-size:14px;margin:12px 0 0}
+@media(max-width:760px){.speed-hero{padding:42px 0 52px}.speed-hero-inner{grid-template-columns:1fr}.speed-hero-art{display:none}.speed-trust{gap:8px 14px}.speed-panel{padding:20px 15px;border-radius:17px}.speed-panel-head{align-items:flex-start;flex-direction:column}.speed-metrics{grid-template-columns:1fr;gap:10px;padding:18px 0}.speed-metric{grid-template-columns:40px 1fr auto;padding:15px}.metric-symbol{grid-row:span 2}.metric-value{font-size:34px}.metric-unit{align-self:end;margin-bottom:5px}.metric-caption{margin-top:10px;padding-top:9px}.speed-faq-grid{grid-template-columns:1fr}.speed-tips{align-items:flex-start;flex-direction:column}.speed-compare-link{white-space:normal}.speed-faq{padding-top:40px}}

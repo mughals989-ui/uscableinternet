@@ -2,6 +2,13 @@ var FS = "";
 var PHONE = "888-630-3881";
 var PHONE_LINK = "tel:8886303881";
 
+// Verified official provider destinations for names returned by the FCC map.
+var providerUrls = {
+  "Kinetic":"https://www.gokinetic.com/",
+  "Kinetic by Windstream":"https://www.gokinetic.com/",
+  "Smart Way Communications":"https://thinksmartway.com/"
+};
+
 var D = [
   ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","Up to 500 Mbps",30,"$30/mo"],
   ["i","Verizon Fios & 5G","https://www.verizon.com/home/fios-fastest-internet/","Fiber","300-940 Mbps",30,"$30/mo with mobile plan"],
@@ -322,7 +329,9 @@ function showArea(info, location, label) {
       "Google Fiber":"Google Fiber.png",
       "Verizon 5G Home":"verizon.png",
       "AT&T Internet Air":"att.png",
-      "Viasat":"Viasat.png"
+      "Viasat":"Viasat.png",
+      "Kinetic":"Kinetic by Windstream.png",
+      "Kinetic by Windstream":"Kinetic by Windstream.png"
     };
 
     $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {
@@ -361,7 +370,7 @@ function showArea(info, location, label) {
           var up = Number(item.max_upload_mbps);
           var speed = (Number.isFinite(down) ? "Up to " + down.toLocaleString() + " Mbps download" : "Speed varies") +
             (Number.isFinite(up) ? " / " + up.toLocaleString() + " Mbps upload" : "");
-          return ["i", name, providerUrls[name] || "#", technology, speed, 999, "Check price with provider"];
+          return ["i", name, providerUrls[name] || (name === "MINTernet" ? "" : "#"), technology, speed, 999, "Check price with provider"];
         });
         if (!mapped.length) throw new Error("No providers returned");
         list = mapped;

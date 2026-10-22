@@ -337,8 +337,10 @@ function showArea(info, location, label) {
     $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {
       var logo = logoFiles[p[1]];
       var logoHtml = logo
-        ? '<img src="/' + encodeURIComponent(logo).replace(/%2F/g, '/') + '" alt="' + esc(p[1]) + ' logo" loading="lazy" style="width:92px;height:42px;object-fit:contain;display:block;margin:0 0 8px">'
-        : '';
+        ? '<img src="/' + encodeURIComponent(logo).replace(/%2F/g, '/') + '" alt="' + esc(p[1]) + ' logo" loading="lazy" style="width:92px;height:42px;object-fit:contain;display:inline-block;vertical-align:middle;margin:0 12px 0 0">'
+        : (p[1] === "Smart Way Communications"
+          ? '<img src="https://www.google.com/s2/favicons?domain=thinksmartway.com&sz=128" alt="Smart Way Communications logo" loading="lazy" style="width:42px;height:42px;object-fit:contain;display:inline-block;vertical-align:middle;margin:0 12px 0 0">'
+          : '<span class="provider-mark" aria-hidden="true">' + esc(p[1].split(/\\s+/).map(function(part){return part.charAt(0);}).join("").slice(0,3).toUpperCase()) + '</span>');
       return '<div class="row">' +
         '<div style="min-width:0;flex:1">' + logoHtml + '<b>' + esc(p[1]) + '</b><br>' +
         '<span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) +

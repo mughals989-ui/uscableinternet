@@ -314,3 +314,85 @@ section.s h2{font-size:22px}
 .availability-form #res{margin-top:15px;overflow-wrap:anywhere}
 @media(max-width:850px){.availability-panel{grid-template-columns:1fr;gap:22px}.availability-copy{max-width:680px}.availability-points{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.provider-availability{padding-top:12px;padding-bottom:45px}.availability-panel{padding:20px 14px;border-radius:16px;gap:19px}.availability-form{padding:14px}.availability-form .fr,.availability-form .fr.full:nth-of-type(2){grid-template-columns:1fr 1fr}.availability-form .fr.full:first-of-type label:first-child{grid-column:1/-1}.availability-points{grid-template-columns:1fr;gap:8px}}
+
+
+/* Premium fiber landing page */
+.fiber-hero{position:relative;overflow:hidden;background:radial-gradient(ellipse at 82% 45%,#247bca42,transparent 33%),linear-gradient(118deg,#07162f,#0d2c58 56%,#114d83);color:#fff;padding:66px 0 73px}
+.fiber-hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#b6d8ff0a 1px,transparent 1px),linear-gradient(90deg,#b6d8ff0a 1px,transparent 1px);background-size:38px 38px;mask-image:linear-gradient(90deg,transparent,#000 50%,#000);pointer-events:none}
+.fiber-hero-inner{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:28px;position:relative;z-index:1}
+.fiber-hero-copy{max-width:660px}
+.fiber-eyebrow{display:flex;align-items:center;gap:9px;font-size:10px;letter-spacing:2px;font-weight:850;color:#a9d4ff;margin-bottom:19px}
+.fiber-eyebrow i,.fiber-live i{display:inline-block;width:7px;height:7px;background:#6de4c3;border-radius:50%;box-shadow:0 0 0 5px #6de4c31c}
+.fiber-hero h1{font-size:clamp(40px,5.4vw,67px);line-height:1.02;letter-spacing:-2.5px;color:#fff;margin:0 0 20px;max-width:650px}
+.fiber-hero h1 em{font-style:normal;color:#85caff}
+.fiber-hero-copy>p{font-size:16px;line-height:1.8;color:#d4e5fb;max-width:560px;margin:0 0 27px}
+.fiber-hero-actions{display:flex;align-items:center;gap:23px;flex-wrap:wrap}
+.fiber-main-btn{display:inline-flex;align-items:center;gap:13px;background:#fff;color:#12345f!important;text-decoration:none;font-weight:850;padding:14px 18px;border-radius:9px;box-shadow:0 8px 23px #020b2438}
+.fiber-main-btn:hover{background:#eaf4ff}
+.fiber-secondary-link{color:#fff;text-decoration:none;font-size:13px;font-weight:750}
+.fiber-hero-proof{display:flex;flex-wrap:wrap;gap:12px 18px;margin-top:30px;color:#c7dcf6;font-size:10px;font-weight:700}
+.fiber-visual{position:relative;min-height:330px;display:flex;align-items:center;justify-content:center}
+.fiber-glow{position:absolute;width:300px;height:300px;background:#3e9eff30;filter:blur(42px);border-radius:50%}
+.fiber-ring{position:absolute;border:1px solid #a7d5ff2c;border-radius:50%;transform:rotate(-28deg)}
+.fiber-ring-a{width:355px;height:220px}.fiber-ring-b{width:260px;height:340px}
+.fiber-speed-card{z-index:2;position:relative;width:min(340px,88%);padding:24px;border:1px solid #ffffff30;border-radius:19px;background:linear-gradient(145deg,#ffffff24,#ffffff09);box-shadow:0 25px 70px #020a274d;backdrop-filter:blur(15px);transform:rotate(-2deg)}
+.fiber-speed-top{display:flex;align-items:center;gap:10px;color:#d5e9ff;font-size:8px;letter-spacing:1.1px;font-weight:850}
+.fiber-speed-icon{display:grid;place-items:center;width:35px;height:35px;border-radius:10px;background:#9ed6ff;color:#11376b;font-size:25px}
+.fiber-live{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:8px;color:#9bf0d7;letter-spacing:.6px}
+.fiber-live i{width:5px;height:5px;box-shadow:none}
+.fiber-speed-big{font-size:72px;line-height:1;letter-spacing:-4px;font-weight:850;margin-top:28px}
+.fiber-speed-big small{font-size:23px;letter-spacing:-.5px;color:#b4d8ff}
+.fiber-speed-sub{font-size:11px;color:#d4e5fb;margin-top:8px}
+.fiber-speed-meter{display:flex;align-items:end;gap:4px;height:37px;margin-top:25px}
+.fiber-speed-meter i{flex:1;border-radius:3px 3px 1px 1px;background:linear-gradient(#9bf0d7,#57b8e8)}
+.fiber-speed-meter i:nth-child(1){height:22%}.fiber-speed-meter i:nth-child(2){height:33%}.fiber-speed-meter i:nth-child(3){height:43%}.fiber-speed-meter i:nth-child(4){height:55%}.fiber-speed-meter i:nth-child(5){height:63%}.fiber-speed-meter i:nth-child(6){height:70%}.fiber-speed-meter i:nth-child(7){height:78%}.fiber-speed-meter i:nth-child(8){height:83%}.fiber-speed-meter i:nth-child(9){height:89%}.fiber-speed-meter i:nth-child(10){height:93%}.fiber-speed-meter i:nth-child(11){height:97%}.fiber-speed-meter i:nth-child(12){height:100%}
+.fiber-speed-bottom{display:flex;justify-content:space-between;gap:10px;border-top:1px solid #ffffff25;margin-top:17px;padding-top:13px;font-size:9px;color:#d5e8ff}
+.fiber-float{position:absolute;z-index:3;display:flex;align-items:center;gap:9px;padding:11px 14px;border-radius:12px;background:#fff;color:#15345c;box-shadow:0 12px 32px #020b2540}
+.fiber-float>span{display:grid;place-items:center;width:34px;height:34px;background:#e1f8ef;color:#12836a;border-radius:9px;font-size:20px;font-weight:900}
+.fiber-float b{display:block;font-size:11px}.fiber-float small{display:block;font-size:9px;color:#6b7b90;margin-top:2px}
+.fiber-float-top{left:-1px;top:35px}.fiber-float-bottom{right:-1px;bottom:30px}
+.fiber-providers-section{padding-top:55px}
+.fiber-section-head{display:flex;align-items:end;justify-content:space-between;gap:22px;margin-bottom:25px}
+.fiber-kicker{display:block;color:#2868ad;font-size:10px;letter-spacing:1.7px;font-weight:850;margin-bottom:7px}
+.fiber-section-head h2{font-size:clamp(26px,3vw,36px);letter-spacing:-1px;line-height:1.2;color:#10264b;margin:0 0 9px}
+.fiber-section-head .lead{margin:0;max-width:720px;color:#617188}
+.fiber-head-link{flex-shrink:0;text-decoration:none;color:#194f8e;font-size:12px;font-weight:850;padding-bottom:5px}
+.fiber-provider-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.fiber-provider-grid .card{display:flex;flex-direction:column;align-items:flex-start;min-width:0;position:relative;overflow:hidden;background:#fff;border:1px solid #e0e9f4;border-radius:15px;padding:19px;box-shadow:0 5px 17px #173c6709;transition:transform .2s,border-color .2s,box-shadow .2s}
+.fiber-provider-grid .card:hover{transform:translateY(-4px);border-color:#a9c9ee;box-shadow:0 16px 34px #173c6715}
+.fiber-provider-grid .card .tag{order:0;display:inline-flex;background:#edf5ff;color:#245b9a;border-radius:6px;padding:5px 8px;font-size:9px;letter-spacing:.4px;font-weight:850}
+.fiber-provider-mark{display:grid;place-items:center;min-height:48px;margin-top:13px;color:#153d72;font-weight:900;font-size:21px;letter-spacing:-.7px}
+.fiber-provider-grid .card h3{font-size:17px;line-height:1.3;color:#10264b;letter-spacing:-.35px;margin:8px 0}
+.fiber-provider-grid .card .pr{font-size:22px;line-height:1.25;font-weight:850;letter-spacing:-.7px;color:#17477f;margin:0 0 10px}
+.fiber-provider-grid .card>p:not(.pr):not(.nt){font-size:12px;line-height:1.65;color:#4e6179;margin:0 0 8px}
+.fiber-provider-grid .card .nt{font-size:10px;line-height:1.6;color:#738197;margin:0 0 18px}
+.fiber-provider-grid .card .btn{display:flex;justify-content:center;align-items:center;gap:7px;width:100%;margin-top:auto;padding:11px 10px;background:#123d78;color:#fff;border-radius:8px;text-align:center;text-decoration:none;font-size:11px;font-weight:800;line-height:1.45}
+.fiber-provider-grid .card .btn:hover{background:#1f5ca2}
+.fiber-availability{padding-top:35px;padding-bottom:58px}
+.fiber-availability-panel{display:grid;grid-template-columns:.85fr 1.15fr;gap:32px;align-items:start;padding:clamp(22px,4vw,40px);border-radius:21px;background:linear-gradient(125deg,#081a38,#123e78 72%,#1b5797);color:#fff;box-shadow:0 20px 48px #0b2b501c;position:relative;overflow:hidden}
+.fiber-availability-panel:after{content:"";position:absolute;right:-110px;top:-170px;width:360px;height:360px;border:1px solid #ffffff17;border-radius:50%;pointer-events:none}
+.fiber-availability-copy{position:relative;z-index:1}
+.fiber-availability-copy .fiber-kicker{color:#9dc9ff}
+.fiber-availability-copy h2{font-size:clamp(27px,3.5vw,38px);line-height:1.13;letter-spacing:-1px;color:#fff;margin:10px 0 14px}
+.fiber-availability-copy>p{font-size:13px;line-height:1.8;color:#d4e4f9;margin:0}
+.fiber-availability-checks{display:grid;gap:10px;margin:22px 0}
+.fiber-availability-checks span{font-size:11px;font-weight:750;color:#e5f0ff}
+.fiber-availability-copy .fiber-fineprint{font-size:10px;color:#a9c3e4;border-top:1px solid #ffffff26;padding-top:14px}
+.fiber-form-card{position:relative;z-index:1;min-width:0;background:#fff;color:#14253e;border-radius:14px;padding:19px;box-shadow:0 12px 34px #03112d25}
+.fiber-form-card .modes{display:flex;gap:8px;margin-bottom:15px}
+.fiber-form-card .mode{flex:1;border:1px solid #d9e4f2;background:#f7faff;color:#445a76;border-radius:8px;padding:10px 8px;font-size:12px;font-weight:750;cursor:pointer}
+.fiber-form-card .mode.on{background:#e8f2ff;color:#174a88;border-color:#9bc2f3}
+.fiber-form-card .fr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.65fr);gap:10px;margin-bottom:10px}
+.fiber-form-card .fr label{display:block;min-width:0;font-size:11px;font-weight:750;color:#40536d}
+.fiber-form-card .fr input,.fiber-form-card .fr select{display:block;width:100%;min-width:0;margin-top:6px;border:1px solid #d5e0ee;background:#fff;border-radius:8px;padding:11px 10px;font:inherit;font-size:12px;color:#152b49;outline:none}
+.fiber-form-card .fr input:focus,.fiber-form-card .fr select:focus{border-color:#4e8fdb;box-shadow:0 0 0 3px #3b82f61c}
+.fiber-form-card .fr.full:nth-of-type(2){grid-template-columns:minmax(0,1fr) .7fr .75fr}
+.fiber-form-card .fr[hidden]{display:none!important}
+.fiber-form-card .go{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;border:0;border-radius:9px;background:#123d78;color:#fff;padding:13px 14px;font-size:12px;font-weight:850;cursor:pointer;margin-top:4px}
+.fiber-form-card .go:hover{background:#1e5aa3}
+.fiber-form-card .err{font-size:12px;color:#b42318;margin:7px 0 0}
+.fiber-form-card .priv{font-size:10px;line-height:1.6;color:#738197;margin:12px 0 0}
+.fiber-form-card #res{margin-top:14px;overflow-wrap:anywhere}
+@media(max-width:1000px){.fiber-provider-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.fiber-hero{padding:48px 0 54px}.fiber-hero-inner{grid-template-columns:1fr .8fr;gap:15px}.fiber-visual{min-height:275px}.fiber-speed-card{padding:19px}.fiber-speed-big{font-size:58px}.fiber-float-top{left:-7px}.fiber-float-bottom{right:-7px}.fiber-availability-panel{grid-template-columns:1fr;gap:22px}}
+@media(max-width:620px){.fiber-hero{padding:40px 0 37px}.fiber-hero-inner{grid-template-columns:1fr}.fiber-hero h1{font-size:42px;letter-spacing:-1.7px}.fiber-hero-copy>p{font-size:14px}.fiber-hero-proof{gap:9px 13px;margin-top:23px}.fiber-visual{min-height:260px;margin-top:3px}.fiber-speed-card{width:270px}.fiber-float-top{left:0;top:15px}.fiber-float-bottom{right:0;bottom:14px}.fiber-section-head{display:block}.fiber-head-link{display:inline-block;margin-top:14px}.fiber-provider-grid{grid-template-columns:1fr}.fiber-provider-grid .card{padding:20px}.fiber-availability{padding-top:12px;padding-bottom:42px}.fiber-availability-panel{padding:19px 14px;border-radius:16px;gap:18px}.fiber-form-card{padding:14px}.fiber-form-card .fr,.fiber-form-card .fr.full:nth-of-type(2){grid-template-columns:1fr 1fr}.fiber-form-card .fr.full:first-of-type label:first-child{grid-column:1/-1}}

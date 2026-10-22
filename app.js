@@ -216,44 +216,7 @@ function setupSpeedTest() {
 }
 setupSpeedTest();
 
-/* Homepage photo backdrop: use stable, fixed image URLs and load immediately */
-(function() {
-  var hero = document.querySelector(".hero-home");
-  if (!hero || hero.querySelector(".hero-collage")) return;
-  var photos = [
-    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=500&q=80",
-    "https://images.unsplash.com/photo-1473968512647-3e447244af8f?auto=format&fit=crop&w=500&q=80"
-  ];
-  var order = [[0,1,2],[3,4,5],[6,7,0],[1,3,6],[2,5,7],[4,0,3]];
-  var wall = document.createElement("div");
-  wall.className = "hero-collage";
-  wall.setAttribute("aria-hidden", "true");
-  order.forEach(function(items) {
-    var column = document.createElement("div");
-    column.className = "col";
-    items.forEach(function(i) {
-      var img = document.createElement("img");
-      img.alt = "";
-      img.decoding = "async";
-      img.loading = "eager";
-      img.src = photos[i];
-      img.onerror = function() { img.onerror = null; img.style.display = "none"; };
-      column.appendChild(img);
-    });
-    wall.appendChild(column);
-  });
-  var shade = document.createElement("div");
-  shade.className = "hero-shade";
-  shade.setAttribute("aria-hidden", "true");
-  hero.insertBefore(shade, hero.firstChild);
-  hero.insertBefore(wall, hero.firstChild);
-})();
+
 
 var LOGOS = {
   spectrum:"/spectrum.png",xfinity:"/xfinity.png",att:"/att.png",verizon:"/verizon.png",

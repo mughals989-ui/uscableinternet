@@ -9,3 +9,62 @@ h1{font-size:2rem;line-height:1.2;margin:.4em 0}h2{margin-top:1.8em}.lead{font-s
 .btn.ghost{background:#fff;color:#0b57d0;border:1px solid #0b57d0;padding:11px 20px;font-size:16px}.cta{background:#f1f4f9;border-radius:8px;padding:8px 20px 20px;margin:20px 0}
 ul.cities{padding-left:20px}footer{margin-top:48px;border-top:1px solid #e3e8ef;padding:20px 0;font-size:14px}footer nav a{display:inline-block;margin:0 14px 6px 0}
 @media(max-width:640px){.call{margin-left:0}}
+
+/* USCableInternet shared premium interior-page design system */
+:root{--uci-ink:#10172f;--uci-navy:#101b38;--uci-teal:#0f766e;--uci-mint:#ccfbf1;--uci-muted:#526078;--uci-line:#e1e8f1;--uci-surface:#fff;--uci-bg:#f5f7fb;--uci-radius:20px}
+html{scroll-behavior:smooth}
+body{color:#172033;background:var(--uci-bg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.68}
+a{color:#0f766e;text-underline-offset:3px}
+a:hover{color:#115e59}
+h1,h2,h3,h4{color:#10172f;letter-spacing:-.025em;line-height:1.2}
+h1{font-size:clamp(2rem,4vw,3.25rem);letter-spacing:-.04em}
+h2{font-size:clamp(1.45rem,2.6vw,2rem)}
+p{max-width:78ch}
+header,.top{background:rgba(255,255,255,.96);border-bottom:1px solid var(--uci-line);box-shadow:0 4px 20px #10172f06}
+header .bar,.top .bar{min-height:68px}
+.logo{font-weight:850;letter-spacing:-.035em;color:#10172f!important}
+nav a{color:#34425b;text-decoration:none;font-weight:650;transition:color .15s ease}
+nav a:hover,nav a.on{color:#0f766e}
+.disc,.notice{background:#edf2f8;color:#34425b;border-bottom:1px solid #e2e8f0;font-size:12px;padding:8px 14px}
+.hero,.about-hero,.contact-hero,.wireless-premium-hero{background:radial-gradient(circle at 85% 12%,rgba(45,212,191,.2),transparent 28%),linear-gradient(135deg,#0b1530,#192e57 66%,#293d70);color:#fff}
+.hero h1,.hero h2,.about-hero h1,.contact-hero h1,.wireless-premium-hero h1{color:#fff}
+.hero p,.about-hero p,.contact-hero p{color:#dbeafe}
+main{min-width:0}
+main>section,.s{scroll-margin-top:24px}
+.card,.about-panel,.contact-card,.about-sections article{background:#fff;border:1px solid var(--uci-line);border-radius:var(--uci-radius);box-shadow:0 12px 34px #10172f08}
+.card{padding:22px;transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.card:hover{border-color:#c6d7e8;box-shadow:0 18px 42px #10172f12}
+.btn,.call,button.go,button[type=submit]{background:#0f766e;color:#fff;border:0;border-radius:11px;font-weight:750;box-shadow:none}
+.btn:hover,.call:hover,button.go:hover,button[type=submit]:hover{background:#115e59;color:#fff}
+.btn.ghost{background:#fff;color:#0f766e;border:1px solid #b8d8d4}
+.tag{display:inline-flex;align-items:center;background:#ccfbf1;color:#115e59;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800}
+.cta{background:#edf4f8;border:1px solid #dce8f0;border-radius:20px;padding:22px}
+table{border-collapse:separate;border-spacing:0;width:100%;overflow:hidden;border-radius:14px;border:1px solid var(--uci-line);background:#fff}
+th{background:#eef4f8;color:#14203a;font-weight:800;text-align:left}
+th,td{padding:12px 14px;border-bottom:1px solid #e7edf4}
+tr:last-child td{border-bottom:0}
+input,select,textarea{border:1px solid #cbd5e1;border-radius:10px}
+input:focus,select:focus,textarea:focus{outline:3px solid #99f6e4;border-color:#0f766e}
+footer{background:#0c1429;color:#d8e1f0;border:0;padding:34px 0;margin-top:52px}
+footer h4,footer strong{color:#fff}
+footer a{color:#d8e1f0;text-decoration:none}
+footer a:hover{color:#99f6e4}
+.meta,.crumbs,.contact-note{color:#64748b}
+@media(max-width:700px){.bar{gap:10px}.card{padding:18px}th,td{padding:10px;font-size:14px}footer{margin-top:34px}}
+
+/* Legacy state and city page components aligned to the new site style */
+.wrap{max-width:1160px}
+.top .bar{gap:14px 20px}
+.top nav{display:flex;flex-wrap:wrap;gap:8px 14px}
+.top nav a{margin:0;padding:7px 0}
+.call{margin-left:auto;padding:10px 15px;text-decoration:none}
+main.wrap{padding-top:26px;padding-bottom:28px}
+main.wrap>h1{max-width:900px;margin:.35em 0 .25em}
+main.wrap>.lead{color:#526078;font-size:1.12rem}
+.grid{gap:18px}
+.grid .card{padding:22px}
+.grid .card h3{margin:.15em 0 .5em}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 16px}
+footer nav a{margin:0}
+ul.cities{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px 18px;padding-left:20px}
+@media(max-width:640px){.top .bar{align-items:flex-start}.top nav{width:100%;gap:5px 12px}.call{margin-left:0}.wrap{padding-left:16px;padding-right:16px}}

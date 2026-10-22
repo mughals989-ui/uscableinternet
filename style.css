@@ -260,3 +260,66 @@ footer .flogo .l2{color:#ff8fa3}
   .address-page #rlist{grid-template-columns:1fr;gap:12px}
   .address-page #rlist .row{padding:16px}
 }
+
+
+/* Homepage address results: expand beyond the narrow search form */
+.hero-home #check{
+  width:100%;
+  max-width:none;
+  margin-left:auto;
+  margin-right:auto;
+}
+.hero-home #af,
+.hero-home #check .modes,
+.hero-home #check .priv,
+.hero-home #check #ae{
+  max-width:760px;
+}
+.hero-home #res{
+  width:100%;
+  max-width:none;
+  margin:24px auto 0;
+  padding-top:22px;
+  border-top:1px solid #ffffff40;
+  text-align:left;
+}
+.hero-home #res .area{
+  padding:18px 20px;
+  border:1px solid #ffffff38;
+  border-radius:12px;
+  background:#ffffff12;
+}
+.hero-home #res .area h2{font-size:clamp(20px,2.2vw,26px);line-height:1.25;margin:0 0 8px}
+.hero-home #res .area dl{grid-template-columns:max-content minmax(0,1fr);gap:3px 16px;max-width:760px}
+.hero-home #res .rchips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 10px}
+.hero-home #res .rchips .chip{border:1px solid #ffffff80;border-radius:999px;background:#fff;color:#26344d;cursor:pointer;padding:8px 15px;font-weight:700}
+.hero-home #res .rchips .chip.on{background:#0b5fff;border-color:#0b5fff;color:#fff}
+.hero-home #res > .nt{max-width:900px}
+.hero-home #rlist{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+  align-items:stretch;
+  margin-top:16px;
+}
+.hero-home #rlist .row{
+  min-width:0;height:100%;
+  display:flex;flex-direction:column;align-items:stretch;justify-content:space-between;
+  gap:16px;padding:18px;border:1px solid #ffffff36;border-radius:14px;
+  background:#fff;color:#1a2233;box-shadow:0 4px 16px #0002;overflow-wrap:anywhere;
+}
+.hero-home #rlist .row > div{flex:none!important;width:100%}
+.hero-home #rlist .row img{max-width:100%;margin-bottom:12px!important}
+.hero-home #rlist .row b{display:block;font-size:17px;line-height:1.35;margin-bottom:6px}
+.hero-home #rlist .row .nt{display:block;line-height:1.6}
+.hero-home #rlist .row .btn{display:block;width:100%;text-align:center;margin-top:auto}
+.hero-home #rlist > .nt{grid-column:1/-1;background:#fff;color:#26344d;border-radius:12px;padding:18px}
+@media(max-width:900px){.hero-home #rlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){
+  .hero-home #check{padding:14px}
+  .hero-home #res .area{padding:14px}
+  .hero-home #res .area dl{grid-template-columns:1fr;gap:0}
+  .hero-home #res .area dd{margin:0 0 8px}
+  .hero-home #rlist{grid-template-columns:1fr;gap:12px}
+  .hero-home #rlist .row{padding:16px}
+}

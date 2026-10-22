@@ -323,3 +323,27 @@ footer .flogo .l2{color:#ff8fa3}
   .hero-home #rlist{grid-template-columns:1fr;gap:12px}
   .hero-home #rlist .row{padding:16px}
 }
+
+
+/* Homepage provider results should be a full-width list, not cards */
+.hero-home #rlist{display:block;width:100%;margin-top:16px}
+.hero-home #rlist .row{
+  width:100%;min-height:94px;height:auto;display:flex;flex-direction:row;
+  align-items:center;justify-content:space-between;gap:20px;padding:16px 18px;margin:0;
+  border:0;border-bottom:1px solid #dfe5ef;border-radius:0;background:#fff;
+  color:#1a2233;box-shadow:none;overflow-wrap:anywhere
+}
+.hero-home #rlist .row:first-child{border-top:1px solid #dfe5ef;border-radius:10px 10px 0 0}
+.hero-home #rlist .row:last-child{border-radius:0 0 10px 10px}
+.hero-home #rlist .row>div{flex:1 1 auto!important;width:auto;min-width:0}
+.hero-home #rlist .row img{display:inline-block!important;width:92px;height:42px;object-fit:contain;vertical-align:middle;margin:0 14px 0 0!important}
+.hero-home #rlist .row b{display:inline;font-size:17px;margin:0}
+.hero-home #rlist .row .nt{display:block;margin-top:5px;line-height:1.5}
+.hero-home #rlist .row .btn{flex:0 0 auto;display:inline-block;width:auto;min-width:120px;text-align:center;margin:0;white-space:nowrap}
+.hero-home #rlist>.nt{margin:0;border-radius:10px}
+@media(max-width:640px){
+ .hero-home #rlist .row{align-items:flex-start;gap:12px;padding:14px 12px}
+ .hero-home #rlist .row img{width:64px;height:34px;margin-right:8px!important}
+ .hero-home #rlist .row b{font-size:15px}
+ .hero-home #rlist .row .btn{min-width:0;padding:10px 12px;white-space:normal}
+}

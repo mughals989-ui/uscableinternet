@@ -132,10 +132,10 @@ def main():
                     warnings.append(f"{name}: anchor not found: {href}")
     for title, owners in title_owners.items():
         if len(owners) > 1:
-            warnings.append(f"duplicate title used by {len(owners)} pages: {\", \".join(owners)}")
+            warnings.append(f"duplicate title used by {len(owners)} pages: " + ", ".join(owners))
     for description, owners in description_owners.items():
         if len(owners) > 1:
-            warnings.append(f"duplicate meta description used by {len(owners)} pages: {\", \".join(owners)}")
+            warnings.append(f"duplicate meta description used by {len(owners)} pages: " + ", ".join(owners))
     sitemap = ROOT / "sitemap.xml"
     if not sitemap.exists():
         errors.append("sitemap.xml is missing")

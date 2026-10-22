@@ -74,43 +74,23 @@
 <p class="lead">Channel numbers and availability vary by location. Always confirm the exact lineup on the provider’s official website. Last updated: October 2026.</p>
 
 <section class="local-channel-tool" id="local-channels">
-  <div class="local-tool-head">
-    <span class="local-kicker">LOCAL CHANNEL LOOKUP</span>
-    <h2>Find ABC, CBS, NBC, FOX, The CW and more by ZIP code</h2>
-    <p>Local affiliates depend on your ZIP code and provider. Enter your ZIP, then open the official lineup tool for each streaming or satellite service to see the stations actually offered at your address.</p>
-  </div>
-  <form id="localZipForm" class="local-zip-form">
-    <label for="localZip">U.S. ZIP code</label>
-    <div class="local-zip-row"><input id="localZip" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" placeholder="e.g. 30303" required><button type="submit">Show official lineup tools →</button></div>
-    <p id="localZipError" class="local-zip-error" hidden>Enter a valid 5-digit U.S. ZIP code.</p>
-  </form>
-  <div class="local-networks">
-    <h3>Local broadcast networks to check</h3>
-    <div class="local-network-grid">
-      <div><b>ABC</b><span>Local affiliate</span></div><div><b>CBS</b><span>Local affiliate</span></div><div><b>NBC</b><span>Local affiliate</span></div><div><b>FOX</b><span>Local affiliate</span></div><div><b>The CW</b><span>Market-dependent</span></div><div><b>PBS</b><span>Regional stations</span></div><div><b>Telemundo</b><span>Market-dependent</span></div><div><b>Univision</b><span>Market-dependent</span></div><div><b>UniMás</b><span>Market-dependent</span></div><div><b>MyNetworkTV</b><span>Market-dependent</span></div><div><b>MeTV / other diginets</b><span>Station-dependent</span></div><div><b>Local news subchannels</b><span>Station-dependent</span></div>
-    </div>
-    <p class="cl-note">No provider guarantees every network in every ZIP code. The official provider results are the source of truth for your location.</p>
-  </div>
+  <div class="local-tool-head"><span class="local-kicker">CHANNEL DIRECTORY</span><h2>Browse TV channels by category</h2><p>Explore major local broadcast networks, news, sports, entertainment, family, Spanish-language and premium channels directly on this page.</p></div>
+  <form id="localZipForm" class="local-zip-form"><label for="localZip">Optional: enter your U.S. ZIP code</label><div class="local-zip-row"><input id="localZip" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" placeholder="e.g. 30303"><button type="submit">Show local channel guidance</button></div><p id="localZipError" class="local-zip-error" hidden>Enter a valid 5-digit U.S. ZIP code.</p></form>
   <div id="localZipResults" class="local-provider-results" hidden aria-live="polite"></div>
+  <div class="channel-directory-grid">
+    <article class="channel-category"><h3>Local broadcast networks</h3><p>ABC · CBS · NBC · FOX · The CW · PBS · MyNetworkTV · MeTV · Antenna TV · Comet · Bounce · Court TV · ION · NewsNation</p></article>
+    <article class="channel-category"><h3>Spanish-language &amp; international</h3><p>Univision · UniMás · Telemundo · EstrellaTV · Galavisión · CNN en Español · Discovery en Español · ESPN Deportes · beIN SPORTS en Español · TV5MONDE · BBC News</p></article>
+    <article class="channel-category"><h3>News &amp; business</h3><p>CNN · Fox News Channel · MSNBC · CNBC · Bloomberg Television · Newsmax · NewsNation · BBC News · FOX Business · C-SPAN · The Weather Channel · AccuWeather</p></article>
+    <article class="channel-category"><h3>Sports</h3><p>ESPN · ESPN2 · ESPNews · ESPNU · FS1 · FS2 · NFL Network · MLB Network · NBA TV · NHL Network · Golf Channel · Tennis Channel · Big Ten Network · SEC Network · ACC Network · TBS · TNT</p></article>
+    <article class="channel-category"><h3>Entertainment &amp; drama</h3><p>USA Network · FX · FXX · AMC · Bravo · Comedy Central · Paramount Network · TNT · TBS · Syfy · truTV · E! · Oxygen · WE tv · IFC · SundanceTV · TV Land · BET · VH1</p></article>
+    <article class="channel-category"><h3>Movies &amp; premium</h3><p>HBO · HBO2 · HBO Signature · Cinemax · Showtime · STARZ · STARZ Encore · MGM+ · Hallmark Movies &amp; Mysteries · TCM · FXM · Movies! · Lifetime Movie Network</p></article>
+    <article class="channel-category"><h3>Family, kids &amp; education</h3><p>Disney Channel · Disney Junior · Nickelodeon · Nick Jr. · TeenNick · Cartoon Network · Boomerang · Discovery Family · PBS Kids · Universal Kids · National Geographic · Nat Geo Wild · Smithsonian Channel</p></article>
+    <article class="channel-category"><h3>Home, food &amp; lifestyle</h3><p>HGTV · Food Network · Cooking Channel · TLC · OWN · Magnolia Network · Travel Channel · Animal Planet · Discovery Channel · History · A&amp;E · Lifetime · Hallmark Channel · Great American Family</p></article>
+    <article class="channel-category"><h3>Music &amp; culture</h3><p>CMT · MTV · MTV2 · BET Her · Fuse · Revolt · INSP · BYUtv</p></article>
+    <article class="channel-category"><h3>Streaming services &amp; add-ons</h3><p>YouTube TV · Hulu + Live TV · Sling TV · Fubo · DIRECTV STREAM · Peacock · Paramount+ · ESPN+ · Max · Disney+ · Netflix · Prime Video · Apple TV+</p></article>
+  </div>
+  <p class="cl-note">This is a directory of major networks and services, not a guarantee that every provider or package carries every channel. Local affiliates and channel numbers depend on ZIP code, provider, package and rights.</p>
 </section>
-
-
-
-<div class="provider-block" id="official-channel-tools">
-<h2>Official full channel lineups</h2>
-<p class="lead">Use the provider’s own channel finder for the complete current lineup, including local affiliates, channel numbers, package tiers and add-ons. These listings can change by market and subscription.</p>
-<div class="official-channel-grid">
-<a href="https://tv.youtube.com/welcome/" target="_blank" rel="noopener"><b>YouTube TV</b><span>Streaming · ZIP-based local networks</span><i>Open official channel finder ↗</i></a>
-<a href="https://www.sling.com/programming/local-channels" target="_blank" rel="noopener"><b>Sling TV</b><span>Streaming · FOX, NBC and ABC in eligible markets</span><i>Check local channels ↗</i></a>
-<a href="https://www.directv.com/channel-lineup/" target="_blank" rel="noopener"><b>DIRECTV</b><span>Streaming and satellite lineup tools</span><i>Browse official channels ↗</i></a>
-<a href="https://webapps.dish.com/local-channels/" target="_blank" rel="noopener"><b>DISH</b><span>Satellite · local station lookup</span><i>Find local channels ↗</i></a>
-<a href="https://www.dish.com/packages" target="_blank" rel="noopener"><b>DISH package finder</b><span>Satellite · channel-based package search</span><i>Compare packages ↗</i></a>
-<a href="https://www.xfinity.com/learn/channel-lineup" target="_blank" rel="noopener"><b>Xfinity</b><span>Cable · channel lineup</span><i>View official lineup ↗</i></a>
-<a href="https://www.spectrum.com/cable-tv/channel-lineup" target="_blank" rel="noopener"><b>Spectrum</b><span>Cable · channel lineup</span><i>View official lineup ↗</i></a>
-<a href="https://www.fubo.tv/welcome/channels" target="_blank" rel="noopener"><b>Fubo</b><span>Streaming · live channel lineup</span><i>View official channels ↗</i></a>
-<a href="https://www.hulu.com/live-tv" target="_blank" rel="noopener"><b>Hulu + Live TV</b><span>Streaming · live channels</span><i>View official plans ↗</i></a>
-</div>
-</div>
 
 <div class="provider-block" id="directv">
 <h2>DIRECTV Channel Lineup</h2>
@@ -292,23 +272,13 @@
   var input=document.getElementById('localZip');
   var error=document.getElementById('localZipError');
   var output=document.getElementById('localZipResults');
-  var services=[
-    {name:'YouTube TV',type:'Streaming',detail:'Check local broadcast networks for your home ZIP code.',url:'https://tv.youtube.com/welcome/'},
-    {name:'Sling TV',type:'Streaming',detail:'FOX, NBC and ABC are available only in designated markets; confirm which locals are offered.',url:'https://www.sling.com/programming/local-channels'},
-    {name:'DIRECTV',type:'Streaming + satellite',detail:'Use the official channel lineup and set your ZIP code to check local stations and package channels.',url:'https://www.directv.com/channel-lineup/'},
-    {name:'DISH',type:'Satellite',detail:'Use DISH’s local-channel lookup for stations available at your location.',url:'https://webapps.dish.com/local-channels/'},
-    {name:'Fubo',type:'Streaming',detail:'Check the official channel lineup and local coverage for your market.',url:'https://www.fubo.tv/welcome/channels'},
-    {name:'Hulu + Live TV',type:'Streaming',detail:'Check official live TV plan details and local network availability.',url:'https://www.hulu.com/live-tv'},
-    {name:'Spectrum',type:'Cable',detail:'Check local cable lineup and service availability for your address.',url:'https://www.spectrum.com/cable-tv/channel-lineup'},
-    {name:'Xfinity',type:'Cable',detail:'Check the current channel lineup for your service area.',url:'https://www.xfinity.com/learn/channel-lineup'}
-  ];
   form.addEventListener('submit',function(e){
     e.preventDefault();
     var zip=input.value.trim();
     if(!/^\d{5}$/.test(zip)){error.hidden=false;output.hidden=true;return;}
     error.hidden=true;output.hidden=false;
-    output.innerHTML='<h3>Official channel lookups for ZIP '+zip+'</h3><p>For accuracy, each provider’s official page below is where you can verify its exact local affiliate list. Some sites may ask you to enter the ZIP code again after opening.</p><div class="local-result-grid">'+services.map(function(s){return '<a href="'+s.url+'" target="_blank" rel="noopener"><b>'+s.name+'</b><span>'+s.type+' · '+s.detail+'</span><i>Check ZIP '+zip+' on official site ↗</i></a>';}).join('')+'</div><p class="cl-note">ZIP '+zip+' is a search hint only; this page does not claim that every network is carried by every provider. Local rights and station carriage vary by market, package and provider.</p>';
-    output.scrollIntoView({behavior:'smooth',block:'start'});
+    output.innerHTML='<h3>Local channel guidance for ZIP '+zip+'</h3><p>Look for local ABC, CBS, NBC, FOX, The CW and PBS affiliates, plus Spanish-language stations and subchannels. Actual station names and availability depend on provider and package. This directory does not have a live station database, so it cannot reliably identify your exact local affiliates from ZIP code alone.</p><p><strong>Local channels to look for:</strong> ABC · CBS · NBC · FOX · The CW · PBS · Telemundo · Univision · UniMás · MyNetworkTV · MeTV and other digital subchannels.</p>';
+    output.scrollIntoView({behavior:'smooth',block:'nearest'});
   });
 })();
 </script>

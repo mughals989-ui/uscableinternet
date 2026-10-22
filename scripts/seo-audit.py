@@ -14,7 +14,9 @@ class PageParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.title = []
+        self.description = []
         self.in_title = False
+        self.images_missing_alt = 0
         self.canonicals = []
         self.h1 = 0
         self.ids = set()
@@ -24,6 +26,10 @@ class PageParser(HTMLParser):
         a = dict(attrs)
         if tag == "title":
             self.in_title = True
+        if tag == "meta" and (a.get("name") or "").lower() == "description":
+            self.description.append((a.get("content") or "").strip())
+        if tag == "img" and "alt" not in a:
+            self.images_missing_alt += 1
         if tag == "h1":
             self.h1 += 1
         if a.get("id"):
@@ -71,6 +77,8 @@ def main():
     pages = {}
     errors = []
     warnings = []
+    title_owners = {}
+    description_owners = {}
     for path in html_files:
         p = parse_page(path)
         if p is None:
@@ -82,8 +90,22 @@ def main():
             if p.canonicals:
                 warnings.append(f"{name}: 404 page has a canonical tag; check whether intentional")
             continue
-        if not p.title or not "".join(p.title).strip():
+        title = " ".join("".join(p.title).split())
+        if not title:
             errors.append(f"{name}: missing title")
+        else:
+            title_owners.setdefault(title.casefold(), []).append(name)
+            if len(title) < 25 or len(title) > 65:
+                warnings.append(f"{name}: title is {len(title)} characters; review the 25–65 character range")
+        if len(p.description) != 1 or not p.description[0]:
+            warnings.append(f"{name}: expected exactly one non-empty meta description, found {len(p.description)}")
+        else:
+            description = p.description[0]
+            description_owners.setdefault(description.casefold(), []).append(name)
+            if len(description) < 70 or len(description) > 170:
+                warnings.append(f"{name}: meta description is {len(description)} characters; review the 70–170 character range")
+        if p.images_missing_alt:
+            warnings.append(f"{name}: {p.images_missing_alt} image(s) missing an alt attribute")
         if len(p.canonicals) != 1:
             errors.append(f"{name}: expected exactly one canonical, found {len(p.canonicals)}")
         elif p.canonicals[0].rstrip("/") != expected.rstrip("/"):
@@ -108,6 +130,12 @@ def main():
                 dest = parse_page(target)
                 if dest and unquote(u.fragment) not in dest.ids:
                     warnings.append(f"{name}: anchor not found: {href}")
+    for title, owners in title_owners.items():
+        if len(owners) > 1:
+            warnings.append(f"duplicate title used by {len(owners)} pages: {\", \".join(owners)}")
+    for description, owners in description_owners.items():
+        if len(owners) > 1:
+            warnings.append(f"duplicate meta description used by {len(owners)} pages: {\", \".join(owners)}")
     sitemap = ROOT / "sitemap.xml"
     if not sitemap.exists():
         errors.append("sitemap.xml is missing")

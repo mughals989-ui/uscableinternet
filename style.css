@@ -539,3 +539,5 @@ footer a:hover{color:#99f6e4}
 .suggestion-main{display:block;font-size:13px;font-weight:700;line-height:1.45}
 .suggestion-hint{display:block;margin-top:2px;color:#64748b;font-size:11px}
 .address-suggestion-status{padding:12px;color:#64748b;font-size:13px}
+
+.address-attribution{padding:8px 12px;color:#64748b;font-size:10px;line-height:1.4;background:#f8fafc}.address-attribution a{color:#475569;text-decoration:underline}

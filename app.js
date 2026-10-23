@@ -81,7 +81,8 @@ function geo(params) {
 (function() {
   var form = $("af");
   if (!form) return;
-  setupAddressAutocomplete();\n  var mode = "full";
+  setupAddressAutocomplete();
+  var mode = "full";
   document.querySelectorAll(".mode").forEach(function(button) {
     button.onclick = function() {
       mode = button.dataset.mode;
@@ -247,7 +248,8 @@ function setupAddressAutocomplete() {
     if (!label.contains(event.target)) closeMenu();
   });
 }
-\nfunction lookupArea(info, label) {
+
+function lookupArea(info, label) {
   var result = $("res");
   if (!result) return;
   result.hidden = false;

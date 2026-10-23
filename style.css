@@ -528,3 +528,14 @@ footer a{color:#d8e1f0;text-decoration:none}
 footer a:hover{color:#99f6e4}
 .meta,.crumbs,.contact-note{color:#64748b}
 @media(max-width:700px){.bar{gap:10px}.card{padding:18px}th,td{padding:10px;font-size:14px}footer{margin-top:34px}}
+
+/* U.S. address autocomplete */
+.address-autocomplete{position:relative;z-index:30}
+.address-suggestions{position:absolute;top:calc(100% + 4px);left:0;width:min(520px,calc(100vw - 48px));max-height:300px;overflow-y:auto;background:#fff;border:1px solid #cbd5e1;border-radius:10px;box-shadow:0 12px 30px rgba(15,23,42,.18);z-index:1000}
+.address-suggestions[hidden]{display:none!important}
+.address-suggestion{display:block;width:100%;padding:11px 13px;text-align:left;background:#fff;border:0;border-bottom:1px solid #e8edf3;border-radius:0;color:#172033;cursor:pointer}
+.address-suggestion:last-child{border-bottom:0}
+.address-suggestion:hover,.address-suggestion.active{background:#eff6ff}
+.suggestion-main{display:block;font-size:13px;font-weight:700;line-height:1.45}
+.suggestion-hint{display:block;margin-top:2px;color:#64748b;font-size:11px}
+.address-suggestion-status{padding:12px;color:#64748b;font-size:13px}

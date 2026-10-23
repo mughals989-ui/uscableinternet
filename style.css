@@ -638,3 +638,49 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{ou
  .card{padding:18px;border-radius:14px}
  .strip{padding:17px 0}
 }
+
+
+/* Sitewide refresh — shared navigation and responsive content */
+header{backdrop-filter:saturate(150%) blur(14px);background:rgba(255,255,255,.96)}
+header .bar{gap:14px;align-items:center}
+nav{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:3px}
+nav a{margin:0;padding:9px 10px;border-radius:9px;font-size:13px;font-weight:750;white-space:nowrap;color:#34465c}
+nav a:hover,nav a.on{background:#e5f7f4;color:#08786f}
+nav a.nav-call{margin-left:5px;padding:10px 13px;background:#0b8178;color:#fff;border:1px solid #0b8178;border-radius:10px;box-shadow:0 5px 14px rgba(8,129,120,.18)}
+nav a.nav-call:hover{background:#086c65;color:#fff;transform:translateY(-1px)}
+main{min-height:45vh}
+main .w>h1,main article h1,main .content h1{color:#10233f;letter-spacing:-.035em;line-height:1.15}
+main .w>h2,main article h2,main .content h2{color:#10233f;letter-spacing:-.025em;line-height:1.25}
+main p,main li{line-height:1.78}
+main a:not(.btn):not(.btn2):not(.lk){color:#087b73;text-underline-offset:3px}
+main a:not(.btn):not(.btn2):not(.lk):hover{color:#075e58}
+main ul,main ol{padding-left:1.4rem}
+main li{margin:.28rem 0}
+main h2{scroll-margin-top:110px}
+main h3{color:#17324d;line-height:1.35}
+main table{border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:12px;border:1px solid #dce6ef}
+main th{background:#10233f;color:#fff}
+main td,main th{padding:13px 15px;border-right:1px solid #e3eaf1;border-bottom:1px solid #e3eaf1}
+main tr:last-child td{border-bottom:0}
+main td:last-child,main th:last-child{border-right:0}
+main tr:nth-child(even) td{background:#f8fbfd}
+main blockquote{margin:22px 0;padding:16px 20px;border-left:4px solid #0d9488;background:#ecfdf9;border-radius:0 12px 12px 0;color:#40546b}
+main hr{border:0;border-top:1px solid #e1e9f1;margin:28px 0}
+main input,main select,main textarea{border:1px solid #d5e0ea;border-radius:10px}
+main input:focus,main select:focus,main textarea:focus{outline:3px solid #b8eee6;border-color:#0d9488}
+footer .cols{gap:26px}
+footer .cols a{display:block;margin:8px 0;color:#cbd5e1;text-decoration:none}
+footer .cols a:hover{color:#70e1d2}
+@media(max-width:1100px){header .bar{justify-content:center}nav{justify-content:center}nav a{font-size:12px;padding:8px}nav a.nav-call{margin-left:0}}
+@media(max-width:700px){
+  header{position:relative}
+  header .bar{padding-top:12px;padding-bottom:12px;gap:10px}
+  .logo{font-size:19px}
+  nav{width:100%;display:flex;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;overflow-y:hidden;padding:2px 0 7px;scrollbar-width:thin;gap:5px}
+  nav a{flex:0 0 auto;font-size:12px;padding:8px 10px}
+  nav a.nav-call{flex:0 0 auto}
+  main p,main li{font-size:15px}
+  main td,main th{padding:10px;font-size:13px}
+  footer{padding:34px 0 24px!important}
+  footer .cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+}

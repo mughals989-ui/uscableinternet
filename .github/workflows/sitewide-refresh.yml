@@ -15,7 +15,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: \${{ secrets.GITHUB_TOKEN }}
       - name: Refresh all HTML pages and shared styling
         shell: bash
         run: |
@@ -63,11 +63,11 @@ jobs:
           changed = 0
           for path in html_files:
               original = path.read_text(encoding="utf-8")
-              text = re.sub(r'<nav\\b[^>]*>[\\s\\S]*?</nav>', lambda _: nav_for(path.name), original, count=1, flags=re.I)
-              if re.search(r'href=(["\'])/?style\\.css(?:\\?v=[^"\']*)?\\1', text, flags=re.I):
-                  text = re.sub(r'href=(["\'])/?style\\.css(?:\\?v=[^"\']*)?\\1', 'href="/style.css?v=25"', text, flags=re.I)
+              text = re.sub(r'<nav\b[^>]*>[\s\S]*?</nav>', lambda _: nav_for(path.name), original, count=1, flags=re.I)
+              if re.search(r'href=(["\'])/?style\.css(?:\?v=[^"\']*)?\1', text, flags=re.I):
+                  text = re.sub(r'href=(["\'])/?style\.css(?:\?v=[^"\']*)?\1', 'href="/style.css?v=25"', text, flags=re.I)
               elif re.search(r'</head>', text, flags=re.I):
-                  text = re.sub(r'</head>', '<link rel="stylesheet" href="/style.css?v=25">\\n</head>', text, count=1, flags=re.I)
+                  text = re.sub(r'</head>', '<link rel="stylesheet" href="/style.css?v=25">\n</head>', text, count=1, flags=re.I)
               if text != original:
                   path.write_text(text, encoding="utf-8")
                   changed += 1

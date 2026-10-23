@@ -70,26 +70,27 @@ jobs:
                   text = re.sub(r'</head>', '<link rel="stylesheet" href="/style.css?v=25">\n</head>', text, count=1, flags=re.I)
 
               # Give each real HTML page one canonical URL using the site's clean URL format.
-              # GitHub Pages serves /page and /page.html from the same file; this signals the clean URL.
+              # This signals the preferred URL; it does not create an HTTP redirect.
               if path.name != "404.html" and re.search(r'</head>', text, flags=re.I):
                   canonical_path = aliases.get(path.name)
                   if canonical_path is None:
                       canonical_path = "/" + path.stem
                   canonical_url = "https://uscableinternet.com" + canonical_path
                   canonical_tag = f'<link rel="canonical" href="{canonical_url}">'
-                  if re.search(r'<link\\b[^>]*rel=["\\']canonical["\\'][^>]*>', text, flags=re.I):
+                  if re.search(r'<link\\b[^>]*rel="canonical"[^>]*>', text, flags=re.I):
                       text = re.sub(
-                          r'<link\\b(?=[^>]*rel=["\\']canonical["\\'])[^>]*>',
+                          r'<link\\b(?=[^>]*rel="canonical")[^>]*>',
                           canonical_tag, text, count=1, flags=re.I
                       )
                   else:
                       text = re.sub(r'</head>', canonical_tag + "\\n</head>", text, count=1, flags=re.I)
 
-              # Remove repeated identical shared stylesheet references if a page already had duplicates.
-              text = re.sub(
-                  r'(<link\\b[^>]*href=["\\']/style\\.css(?:\\?v=25)?["\\'][^>]*>)(?:\\s*<link\\b[^>]*href=["\\']/style\\.css(?:\\?v=25)?["\\'][^>]*>)+',
-                  r'\\1', text, flags=re.I
-              )
+              # Remove repeated stylesheet links on pages that contain the same reference twice.
+              stylesheet = r'<link\\b[^>]*href="/style\\.css\\?v=25"[^>]*>'
+              matches = list(re.finditer(stylesheet, text, flags=re.I))
+              if len(matches) > 1:
+                  for match in reversed(matches[1:]):
+                      text = text[:match.start()] + text[match.end():]
               if text != original:
                   path.write_text(text, encoding="utf-8")
                   changed += 1

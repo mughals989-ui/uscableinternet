@@ -181,7 +181,7 @@ function setupAddressAutocomplete() {
     menu.innerHTML = current.map(function(item, i) {
       return '<button type="button" role="option" aria-selected="false" class="address-suggestion" data-index="' + i + '">' +
         '<span class="suggestion-main">' + esc(item.label) + '</span><span class="suggestion-hint">Use this address</span></button>';
-    }).join("");
+    }).join("") + '<div class="address-attribution">Address data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · Search by Photon</div>';
     menu.hidden = false;
     streetInput.setAttribute("aria-expanded", "true");
     menu.querySelectorAll("button[data-index]").forEach(function(button) {

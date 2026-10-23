@@ -130,7 +130,7 @@ def main():
                 dest = parse_page(target)
                 if dest and unquote(u.fragment) not in dest.ids:
                     warnings.append(f"{name}: anchor not found: {href}")
-    # Build joined owner lists separately for Python-version-safe f-strings.
+    # Keep joined owner lists separate to avoid nested-expression f-string syntax issues.
     for title, owners in title_owners.items():
         if len(owners) > 1:
             owner_list = ", ".join(owners)

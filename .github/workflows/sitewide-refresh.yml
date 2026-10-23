@@ -77,13 +77,9 @@ jobs:
                       canonical_path = "/" + path.stem
                   canonical_url = "https://uscableinternet.com" + canonical_path
                   canonical_tag = f'<link rel="canonical" href="{canonical_url}">'
-                  if re.search(r'<link\b[^>]*rel="canonical"[^>]*>', text, flags=re.I):
-                      text = re.sub(
-                          r'<link\b(?=[^>]*rel="canonical")[^>]*>',
-                          canonical_tag, text, count=1, flags=re.I
-                      )
-                  else:
-                      text = re.sub(r'</head>', canonical_tag + "\n</head>", text, count=1, flags=re.I)
+                  # Remove every existing canonical tag, then insert exactly one.
+                  text = re.sub(r'<link\b[^>]*rel=["\']canonical["\'][^>]*>', '', text, flags=re.I)
+                  text = re.sub(r'</head>', canonical_tag + "\n</head>", text, count=1, flags=re.I)
 
               # Remove repeated stylesheet links on pages that contain the same reference twice.
               stylesheet = r'<link\b[^>]*href="/style\.css\?v=25"[^>]*>'

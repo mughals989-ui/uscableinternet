@@ -81,7 +81,7 @@ function geo(params) {
 (function() {
   var form = $("af");
   if (!form) return;
-  var mode = "full";
+  setupAddressAutocomplete();\n  var mode = "full";
   document.querySelectorAll(".mode").forEach(function(button) {
     button.onclick = function() {
       mode = button.dataset.mode;
@@ -117,7 +117,137 @@ function geo(params) {
   };
 })();
 
-function lookupArea(info, label) {
+
+function setupAddressAutocomplete() {
+  var streetInput = $("a-street");
+  if (!streetInput || streetInput.dataset.autocompleteReady === "1") return;
+  streetInput.dataset.autocompleteReady = "1";
+  var label = streetInput.closest("label");
+  if (!label) return;
+  label.classList.add("address-autocomplete");
+  var menu = document.createElement("div");
+  menu.className = "address-suggestions";
+  menu.id = "address-suggestions";
+  menu.setAttribute("role", "listbox");
+  menu.hidden = true;
+  label.appendChild(menu);
+  var timer = null;
+  var requestNumber = 0;
+  var activeIndex = -1;
+  var current = [];
+
+  function closeMenu() {
+    menu.hidden = true;
+    menu.innerHTML = "";
+    current = [];
+    activeIndex = -1;
+    streetInput.setAttribute("aria-expanded", "false");
+  }
+  function stateAbbr(value) {
+    var upper = String(value || "").toUpperCase().trim();
+    if (STN[upper]) return upper;
+    return stCode(value || "");
+  }
+  function displayAddress(p) {
+    var number = p.housenumber || "";
+    var street = p.street || p.name || "";
+    var line = [number, street].filter(Boolean).join(" ");
+    var city = p.city || p.town || p.village || p.locality || p.district || "";
+    var state = stateAbbr(p.state);
+    var zip = p.postcode || "";
+    return {
+      line: line || p.name || "",
+      city: city,
+      state: state,
+      zip: zip,
+      label: [line || p.name, city, state, zip].filter(Boolean).join(", ")
+    };
+  }
+  function choose(item) {
+    streetInput.value = item.line || "";
+    if ($("a-city") && item.city) $("a-city").value = item.city;
+    if ($("a-state") && item.state) $("a-state").value = item.state;
+    if ($("a-zip") && item.zip) $("a-zip").value = item.zip;
+    closeMenu();
+    streetInput.dispatchEvent(new Event("change", {bubbles:true}));
+    if ($("a-unit")) $("a-unit").focus();
+  }
+  function render(features) {
+    current = features.map(function(feature) {
+      return displayAddress(feature.properties || {});
+    }).filter(function(item) { return item.line && item.label; });
+    if (!current.length) { closeMenu(); return; }
+    menu.innerHTML = current.map(function(item, i) {
+      return '<button type="button" role="option" aria-selected="false" class="address-suggestion" data-index="' + i + '">' +
+        '<span class="suggestion-main">' + esc(item.label) + '</span><span class="suggestion-hint">Use this address</span></button>';
+    }).join("");
+    menu.hidden = false;
+    streetInput.setAttribute("aria-expanded", "true");
+    menu.querySelectorAll("button[data-index]").forEach(function(button) {
+      button.addEventListener("mousedown", function(event) { event.preventDefault(); });
+      button.addEventListener("click", function() {
+        var item = current[Number(button.dataset.index)];
+        if (item) choose(item);
+      });
+    });
+  }
+  streetInput.setAttribute("aria-autocomplete", "list");
+  streetInput.setAttribute("aria-controls", menu.id);
+  streetInput.setAttribute("aria-expanded", "false");
+  streetInput.addEventListener("input", function() {
+    if (timer) clearTimeout(timer);
+    var value = streetInput.value.trim();
+    var city = $("a-city") ? $("a-city").value.trim() : "";
+    var state = $("a-state") ? $("a-state").value : "";
+    var query = [value, city, state ? (STN[state] || state) : ""].filter(Boolean).join(", ");
+    var thisRequest = ++requestNumber;
+    if (value.length < 3) { closeMenu(); return; }
+    menu.hidden = false;
+    menu.innerHTML = '<div class="address-suggestion-status">Searching U.S. addresses…</div>';
+    streetInput.setAttribute("aria-expanded", "true");
+    timer = setTimeout(function() {
+      fetch("https://photon.komoot.io/api/?q=" + encodeURIComponent(query) + "&limit=12&lang=en", {
+        headers: {"Accept":"application/json"}
+      }).then(function(response) {
+        if (!response.ok) throw new Error("Address search unavailable");
+        return response.json();
+      }).then(function(data) {
+        if (thisRequest !== requestNumber) return;
+        var features = (data.features || []).filter(function(feature) {
+          var p = feature.properties || {};
+          return String(p.countrycode || "").toLowerCase() === "us";
+        }).slice(0, 6);
+        render(features);
+      }).catch(function() {
+        if (thisRequest !== requestNumber) return;
+        closeMenu();
+      });
+    }, 350);
+  });
+  streetInput.addEventListener("keydown", function(event) {
+    if (menu.hidden || !current.length) {
+      if (event.key === "Escape") closeMenu();
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      activeIndex = event.key === "ArrowDown" ? (activeIndex + 1) % current.length : (activeIndex - 1 + current.length) % current.length;
+      menu.querySelectorAll(".address-suggestion").forEach(function(button, i) {
+        button.classList.toggle("active", i === activeIndex);
+        button.setAttribute("aria-selected", i === activeIndex ? "true" : "false");
+      });
+    } else if (event.key === "Enter" && activeIndex >= 0) {
+      event.preventDefault();
+      choose(current[activeIndex]);
+    } else if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+  document.addEventListener("click", function(event) {
+    if (!label.contains(event.target)) closeMenu();
+  });
+}
+\nfunction lookupArea(info, label) {
   var result = $("res");
   if (!result) return;
   result.hidden = false;

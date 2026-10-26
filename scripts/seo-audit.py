@@ -122,7 +122,9 @@ def main():
                 continue
             if href.startswith("//"):
                 continue
-            target = url_to_file(u.path if u.netloc else href.split("#", 1)[0])
+            pathpart = u.path if u.netloc else href.split("#", 1)[0]
+            # Empty paths such as href="#plans" point to this page, not the homepage.
+            target = path if not pathpart else url_to_file(pathpart)
             if not target.is_file():
                 errors.append(f"{name}: internal link target missing: {href}")
                 continue

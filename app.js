@@ -325,7 +325,12 @@ function showArea(info, location, label) {
       return filter === "all" || String(p[3]).toLowerCase().indexOf(String(filter).toLowerCase()) > -1;
     });
     $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {
-      return '<div class="row"><div style="min-width:0;flex:1"><b>' + esc(p[1]) + '</b><br><span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) + '</span></div>' +
+      var key = typeof logoKey === "function" ? logoKey(p[1]) : "";
+      var logo = key && typeof LOGOS !== "undefined" && LOGOS[key]
+        ? '<img src="' + esc(LOGOS[key]) + '" alt="' + esc(p[1]) + ' logo" loading="lazy" width="52" height="44" style="display:block;width:52px;height:44px;object-fit:contain;flex:0 0 52px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:4px;box-sizing:border-box">'
+        : '<span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:52px;height:44px;flex:0 0 52px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-weight:800;color:#1d4ed8">' + esc(String(p[1]).charAt(0)) + '</span>';
+      return '<div class="row"><div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">' + logo +
+        '<div style="min-width:0;flex:1"><b>' + esc(p[1]) + '</b><br><span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) + '</span></div></div>' +
         (p[2] && p[2] !== "#" ? '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="noopener">Visit Website</a>' : '') + '</div>';
     }).join("") : '<p class="nt">No providers listed for this filter.</p>';
   }

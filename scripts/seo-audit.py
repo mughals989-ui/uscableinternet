@@ -85,7 +85,14 @@ def main():
             continue
         pages[path] = p
         name = path.name
-        expected = "https://uscableinternet.com/" if name == "index.html" else "https://uscableinternet.com/" + name[:-5]
+        legacy_redirects = {
+            "att-fiber-plans.html": "https://uscableinternet.com/fiber",
+            "xfinity-internet-plans.html": "https://uscableinternet.com/internet",
+        }
+        expected = legacy_redirects.get(
+            name,
+            "https://uscableinternet.com/" if name == "index.html" else "https://uscableinternet.com/" + name[:-5],
+        )
         if name == "404.html":
             if p.canonicals:
                 warnings.append(f"{name}: 404 page has a canonical tag; check whether intentional")

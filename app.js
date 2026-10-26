@@ -56,8 +56,14 @@ var STN = {
 };
 
 function stCode(name) {
-  for (var k in STN) { if (STN[k] === name) return k; }
+  var value = String(name || "").trim().toLowerCase();
+  for (var k in STN) { if (STN[k].toLowerCase() === value) return k; }
   return "";
+}
+
+function normalizeState(value) {
+  var code = String(value || "").trim().toUpperCase();
+  return STN[code] ? code : stCode(value);
 }
 
 function providersIn(state) {
@@ -72,10 +78,15 @@ function providersIn(state) {
 function geo(params) {
   var url = "https://nominatim.openstreetmap.org/search?format=jsonv2&addressdetails=1&limit=1&countrycodes=us";
   for (var k in params) { if (params[k]) url += "&" + k + "=" + encodeURIComponent(params[k]); }
-  return fetch(url, {headers:{"Accept-Language":"en"}})
-    .then(function(r) { return r.json(); })
+  var controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+  var timeout = controller ? setTimeout(function() { controller.abort(); }, 8000) : null;
+  var options = {headers:{"Accept-Language":"en"}};
+  if (controller) options.signal = controller.signal;
+  return fetch(url, options)
+    .then(function(r) { if (!r.ok) throw new Error("Address lookup failed"); return r.json(); })
     .then(function(data) { return data && data[0] ? data[0] : null; })
-    .catch(function() { return null; });
+    .catch(function() { return null; })
+    .then(function(location) { if (timeout) clearTimeout(timeout); return location; });
 }
 
 (function() {
@@ -253,14 +264,26 @@ function lookupArea(info, label) {
   var result = $("res");
   if (!result) return;
   result.hidden = false;
-  result.innerHTML = '<p class="nt">Finding your area...</p>';
-  var attempts = info.street ? [
-    {street:info.street, city:info.city, state:info.state, postalcode:info.zip},
-    {city:info.city, state:info.state, postalcode:info.zip},
-    {postalcode:info.zip}
-  ] : [{postalcode:info.zip}];
+
+  // A full address already includes the state. Render its provider shortlist
+  // immediately instead of making visitors wait for a separate geocoder.
+  var submittedState = normalizeState(info.state);
+  if (submittedState) {
+    info.state = submittedState;
+    showArea(info, null, label);
+    return;
+  }
+
+  result.innerHTML = '<p class="nt">Looking up the ZIP code to identify your area…</p>';
+  var attempts = [{postalcode:info.zip}];
+
   function tryNext(i) {
-    if (i >= attempts.length) { showArea(info, null, label); return; }
+    if (i >= attempts.length) {
+      result.innerHTML =
+        '<div class="area"><h2>We couldn’t identify the state for ZIP code ' + esc(info.zip || "") + '.</h2>' +
+        '<p class="nt">Try Full address mode and enter the city and state to see the provider shortlist.</p></div>';
+      return;
+    }
     geo(attempts[i]).then(function(location) {
       if (location) showArea(info, location, label);
       else tryNext(i + 1);
@@ -276,7 +299,7 @@ function showArea(info, location, label) {
     street:info.street ? info.street + (info.unit ? ", " + info.unit : "") : "",
     city:info.city || address.city || address.town || address.village || "",
     county:address.county || "",
-    state:info.state || stateCode || stCode(address.state),
+    state:normalizeState(info.state) || normalizeState(stateCode) || normalizeState(address.state),
     zip:info.zip || address.postcode || "",
     lat:location ? parseFloat(location.lat) : NaN,
     lon:location ? parseFloat(location.lon) : NaN

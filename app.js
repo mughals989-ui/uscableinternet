@@ -3,24 +3,47 @@ var PHONE = "888-630-3881";
 var PHONE_LINK = "tel:8886303881";
 
 var D = [
-  ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","Up to 500 Mbps",30,"$30/mo"],
-  ["i","Verizon Fios & 5G","https://www.verizon.com/home/fios-fastest-internet/","Fiber","300-940 Mbps",30,"$30/mo with mobile plan"],
-  ["i","AT&T Internet & Fiber","https://www.att.com/internet/","Fiber","300-1,000 Mbps",35,"$35/mo"],
-  ["i","T-Mobile 5G Home","https://www.t-mobile.com/home-internet","5G Home","72-245 Mbps",35,"$35/mo with voice line"],
-  ["i","Xfinity","https://www.xfinity.com/learn/internet-service","Cable","Up to 800 Mbps",40,"$40/mo"],
-  ["i","HughesNet","https://www.hughesnet.com/","Satellite","Up to 100 Mbps",39.99,"$39.99/mo"],
-  ["i","Starlink","https://www.starlink.com/","Satellite","50-220 Mbps",55,"$55/mo"],
+  ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","100 Mbps starting tier; up to 2 Gbps in select areas",30,"$30/mo for 12 months"],
+  ["i","Verizon Fios & 5G","https://www.verizon.com/home/internet/","Fiber / 5G","Fios 300 Mbps starting tier; 5G speeds vary by address",30,"Fios from $30/mo; 5G from $35/mo with qualifying mobile plan"],
+  ["i","AT&T Internet & Fiber","https://www.att.com/internet/internet-service-plans/","Fiber","300 Mbps starting tier; higher tiers available",50,"$50/mo for 300 Mbps with eligible AutoPay/paperless discount"],
+  ["i","T-Mobile 5G Home","https://www.t-mobile.com/home-internet/plans","5G Home","Typical speeds vary; some plans report about 170-498 Mbps",35,"$50/mo with AutoPay; $35 with eligible voice line"],
+  ["i","Xfinity","https://www.xfinity.com/learn/internet-service","Cable","300 Mbps starting offer; faster tiers vary by area",40,"$40/mo for 1 year on a 300 Mbps offer; verify terms"],
+  ["i","HughesNet","https://www.hughesnet.com/home-satellite-internet-plans","Satellite","Plans advertised up to 100 Mbps",39.99,"From $39.99/mo for 12 months; minimum-term terms apply"],
+  ["i","Starlink","https://starlink.com/us/service-plans","Satellite","100 Mbps tier in select areas; faster tiers cost more",55,"$55/mo for Residential 100 Mbps where available"],
   ["t","Spectrum TV Select Plus","https://www.spectrum.com/cable-tv","Cable TV","160+ channels",69.99,"$69.99/mo for 12 mos"],
   ["t","Xfinity X1 TV","https://www.xfinity.com/learn/digital-cable-tv","Cable TV","185+ channels",70,"$70/mo"],
   ["t","DIRECTV Stream","https://www.directv.com/","Streaming","165+ channels",84.99,"$84.99/mo"],
   ["t","DISH Top 120","https://www.dish.com/","Satellite","190 channels",84.99,"$84.99/mo"],
-  ["i","Cox Internet","https://www.cox.com/","Cable","Up to 2 Gbps",99,"See price at your address"],
-  ["i","Optimum","https://www.optimum.com/","Cable","Up to 8 Gbps",99,"See price at your address"],
-  ["i","Frontier Fiber","https://frontier.com/","Fiber","Up to 7 Gbps",99,"See price at your address"],
-  ["i","Google Fiber","https://fiber.google.com/","Fiber","Up to 8 Gbps",99,"See price at your address"],
-  ["i","Viasat","https://www.viasat.com/","Satellite","Up to 150 Mbps",99,"See price at your address"]
+  ["i","Cox Internet","https://www.cox.com/residential/internet.html","Cable","500 Mbps starting offer; faster tiers available",50,"$50/mo for 500 Mbps for 12 months; taxes/fees extra"],
+  ["i","Optimum","https://www.optimum.com/internet","Cable","300 Mbps promotional tier; multi-gig in select markets",30,"Promotional offers from $30/mo in select areas; standard rates can be higher"],
+  ["i","Frontier Fiber","https://go.frontier.com/fiber/internet","Fiber","500 Mbps symmetrical starting tier; up to 7 Gbps in select areas",44.99,"$44.99/mo for 500/500 Mbps with AutoPay/paperless billing"],
+  ["i","Google Fiber","https://fiber.google.com/","Fiber","1 Gbps symmetrical; multi-gig in select metro areas",70,"$70/mo for 1 Gig; availability varies by metro"],
+  ["i","Viasat","https://www.viasat.com/isg/availability/","Satellite","Essentials baseline up to 80 Mbps; burst speeds up to 150 Mbps",39.99,"From $39.99/mo for 12 months with a 24-month term"],
 ];
 
+function trackUciEvent(name, params) {
+  if (typeof window.gtag !== "function") return;
+  try { window.gtag("event", name, params || {}); } catch (e) {}
+}
+(function setupUciTracking() {
+  if (document.documentElement.dataset.uciTrackingReady === "1") return;
+  document.documentElement.dataset.uciTrackingReady = "1";
+  document.addEventListener("click", function(event) {
+    var link = event.target && event.target.closest ? event.target.closest("a") : null;
+    if (!link) return;
+    var href = link.getAttribute("href") || "";
+    if (/^tel:/i.test(href)) {
+      trackUciEvent("phone_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
+      return;
+    }
+    var host = "";
+    try { host = new URL(link.href, window.location.href).hostname.toLowerCase(); } catch (e) {}
+    var domains = ["spectrum.com","xfinity.com","att.com","verizon.com","t-mobile.com","cox.com","optimum.com","frontier.com","fiber.google.com","hughesnet.com","starlink.com","viasat.com","directv.com","dish.com","youtube.com","sling.com","fubo.tv","hulu.com","philo.com","frndlytv.com","peacocktv.com","paramountplus.com"];
+    if (host && domains.some(function(d){return host===d || host.endsWith("."+d);})) {
+      trackUciEvent("provider_click", {provider_domain:host,link_text:String(link.textContent || "").trim().slice(0,80)});
+    }
+  });
+})();
 var $ = function(id) { return document.getElementById(id); };
 
 function esc(s) {
@@ -112,6 +135,7 @@ function geo(params) {
     if (mode === "zip") {
       var zipOnly = $("z-zip") ? $("z-zip").value.trim() : "";
       if (!zipPattern.test(zipOnly)) { if (err) err.textContent = "Enter a valid 5-digit ZIP code."; return; }
+      trackUciEvent("address_check_submit", {lookup_type:"zip_code"});
       lookupArea({zip:zipOnly}, "ZIP code " + zipOnly);
       return;
     }
@@ -125,6 +149,7 @@ function geo(params) {
     if (!state) { if (err) err.textContent = "Select your state."; return; }
     if (!zipPattern.test(zip)) { if (err) err.textContent = "Enter a valid 5-digit ZIP code."; return; }
     var label = street + (unit ? ", " + unit : "") + ", " + city + ", " + state + " " + zip;
+    trackUciEvent("address_check_submit", {lookup_type:"full_address", state:normalizeState(state)});
     lookupArea({street:street, unit:unit, city:city, state:state, zip:zip}, label);
   };
 })();
@@ -307,6 +332,7 @@ function showArea(info, location, label) {
   var stateName = STN[area.state] || "";
   var place = [area.city, area.state].filter(Boolean).join(", ") || "ZIP " + area.zip;
   var list = providersIn(area.state);
+  trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code", state:area.state || "unknown", provider_count:list.length});
   var rows = [["Address", area.street],["City", area.city],["County", area.county],["State", stateName ? stateName + " (" + area.state + ")" : area.state],["ZIP code", area.zip]];
   var result = $("res");
   result.innerHTML =
@@ -331,7 +357,7 @@ function showArea(info, location, label) {
         : '<span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:52px;height:44px;flex:0 0 52px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-weight:800;color:#1d4ed8">' + esc(String(p[1]).charAt(0)) + '</span>';
       return '<div class="row"><div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">' + logo +
         '<div style="min-width:0;flex:1"><b>' + esc(p[1]) + '</b><br><span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) + '</span></div></div>' +
-        (p[2] && p[2] !== "#" ? '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="noopener">Visit Website</a>' : '') + '</div>';
+        (p[2] && p[2] !== "#" ? '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="sponsored nofollow noopener">Visit Website</a>' : '') + '</div>';
     }).join("") : '<p class="nt">No providers listed for this filter.</p>';
   }
   draw("all");

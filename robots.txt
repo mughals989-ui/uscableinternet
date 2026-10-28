@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://uscableinternet.com/sitemap.xml
+
+# Prefer HTTPS
+Host: https://uscableinternet.com

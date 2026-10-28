@@ -145,7 +145,7 @@ def header(): return f'''<header class="top"><div class="wrap bar"><a class="log
 <a class="call" href="tel:{PHONE_TEL}">Call {PHONE_DISPLAY}</a></div></header>'''
 
 def footer(): return f'''<footer><div class="wrap"><nav aria-label="Footer"><a href="/internet">Internet Plans</a><a href="/fiber">Fiber</a><a href="/tv">TV</a><a href="/wireless">5G Wireless</a><a href="/states">Internet by State</a><a href="/about#methodology">Methodology</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/affiliate-disclosure">Affiliate disclosure</a><a href="/contact">Contact</a></nav>
-<p>&copy; 2026 USCableInternet.com. Independent telecom comparison. Call <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p></div></footer>'''
+<p>&copy; 2026 USCableInternet.com. Independent comparison site. We may earn commissions from some providers listed. Call <a href="tel:{PHONE_TEL}">{PHONE_DISPLAY}</a></p></div></footer>'''
 
 def page(st):
     n, e = st["name"], html.escape
@@ -164,7 +164,7 @@ def page(st):
         {"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in st["faq"]]}])
     return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{e(title)}</title><meta name="description" content="{e(desc)}"><link rel="canonical" href="{url}">
-<meta property="og:type" content="article"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{url}"><meta property="og:site_name" content="US Cable Internet">
+<meta property="og:type" content="article"><meta property="og:title" content="{e(title)}"><meta property="og:description" content="{e(desc)}"><meta property="og:url" content="{url}"><meta property="og:site_name" content="US Cable Internet"><meta property="og:image" content="{SITE}/assets/og-us-cable-internet.svg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{e(title)}"><meta name="twitter:description" content="{e(desc)}"><meta name="twitter:image" content="{SITE}/assets/og-us-cable-internet.svg">
 <link rel="stylesheet" href="/assets/state.css"><script type="application/ld+json">{jsonld}</script></head><body>
 <p class="notice">US Cable Internet may earn commissions from some providers listed. <a href="/about#methodology">Learn more</a></p>
 {header()}<main class="wrap"><p class="crumbs"><a href="/">Home</a> / <a href="/states">All States</a> / {e(n)}</p>

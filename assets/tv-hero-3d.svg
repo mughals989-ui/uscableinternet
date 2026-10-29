@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="820" viewBox="0 0 1200 820" role="img" aria-labelledby="title desc">
+<title id="title">3D home television and streaming setup</title><desc id="desc">A glossy modern television with streaming tiles, floating TV provider badges, glowing internet connections, a router and a miniature home.</desc>
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081b4d"/><stop offset=".55" stop-color="#2537a0"/><stop offset="1" stop-color="#9b4cce"/></linearGradient>
+ <linearGradient id="screen" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#08132e"/><stop offset="1" stop-color="#151e4a"/></linearGradient>
+ <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#83eaff"/><stop offset=".4" stop-color="#245dff"/><stop offset="1" stop-color="#101a55"/></linearGradient>
+ <linearGradient id="floor" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#1b2770" stop-opacity="0"/><stop offset=".5" stop-color="#58bfff" stop-opacity=".55"/><stop offset="1" stop-color="#d7a5ff" stop-opacity="0"/></linearGradient>
+ <linearGradient id="router" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#354a8c"/><stop offset="1" stop-color="#07132d"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="12"/></filter>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="24" stdDeviation="18" flood-color="#02091f" flood-opacity=".55"/></filter>
+ <linearGradient id="badge" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#566cff"/><stop offset="1" stop-color="#17155c"/></linearGradient>
+</defs>
+<rect width="1200" height="820" rx="34" fill="url(#bg)"/>
+<circle cx="940" cy="150" r="200" fill="#b46cff" opacity=".16"/><circle cx="270" cy="650" r="260" fill="#14c9ff" opacity=".12"/>
+<path d="M30 710 Q400 590 770 710 T1170 690 L1200 820H0Z" fill="url(#floor)"/>
+<ellipse cx="650" cy="685" rx="470" ry="55" fill="#39bfff" opacity=".2" filter="url(#glow)"/>
+<!-- floating provider badges -->
+<g filter="url(#shadow)" font-family="Arial, sans-serif" font-weight="700" text-anchor="middle">
+ <g transform="translate(140 125) rotate(-7)"><rect width="210" height="88" rx="20" fill="url(#badge)" stroke="#8bcbff" stroke-opacity=".9" stroke-width="3"/><text x="105" y="55" font-size="28" fill="#fff">DIRECTV</text></g>
+ <g transform="translate(440 48) rotate(5)"><rect width="190" height="84" rx="20" fill="#3520a2" stroke="#a9a2ff" stroke-width="3"/><text x="95" y="53" font-size="29" fill="#fff">xfinity</text></g>
+ <g transform="translate(880 90) rotate(7)"><rect width="178" height="84" rx="20" fill="#d92358" stroke="#ff9ab7" stroke-width="3"/><text x="89" y="53" font-size="31" fill="#fff">dish</text></g>
+ <g transform="translate(980 330) rotate(5)"><rect width="190" height="82" rx="20" fill="#0c225c" stroke="#64baff" stroke-width="3"/><text x="95" y="51" font-size="25" fill="#fff">Spectrum</text></g>
+</g>
+<!-- TV halo -->
+<rect x="185" y="170" width="770" height="455" rx="35" fill="#2d7bff" opacity=".45" filter="url(#glow)"/>
+<!-- television body and screen -->
+<g filter="url(#shadow)">
+ <path d="M150 190 Q150 166 176 166H948Q974 166 974 192V590Q974 617 947 617H176Q150 617 150 590Z" fill="#071027" stroke="url(#edge)" stroke-width="9"/>
+ <rect x="170" y="187" width="784" height="406" rx="15" fill="url(#screen)"/>
+ <path d="M170 187H954V255Q740 220 560 280T170 300Z" fill="#354cff" opacity=".12"/>
+ <g font-family="Arial,sans-serif" font-size="26" font-weight="700" text-anchor="middle">
+  <g transform="translate(194 230)"><rect width="165" height="135" rx="16" fill="#111b3b" stroke="#324a88"/><text x="82" y="76" fill="#ff4357">NETFLIX</text></g>
+  <g transform="translate(373 230)"><rect width="165" height="135" rx="16" fill="#102a64" stroke="#356dff"/><text x="82" y="76" fill="#fff">Disney+</text></g>
+  <g transform="translate(552 230)"><rect width="165" height="135" rx="16" fill="#101a30" stroke="#314c76"/><text x="82" y="76" fill="#ff4c4c">YouTube TV</text></g>
+  <g transform="translate(731 230)"><rect width="195" height="135" rx="16" fill="#092c2a" stroke="#247b6d"/><text x="97" y="76" fill="#37e4bc">hulu</text></g>
+  <g transform="translate(194 386)"><rect width="165" height="135" rx="16" fill="#1649e8"/><text x="82" y="76" fill="#fff">max</text></g>
+  <g transform="translate(373 386)"><rect width="165" height="135" rx="16" fill="#167ac4"/><text x="82" y="76" fill="#fff">prime video</text></g>
+  <g transform="translate(552 386)"><rect width="165" height="135" rx="16" fill="#dc204b"/><text x="82" y="76" fill="#fff">ESPN</text></g>
+  <g transform="translate(731 386)"><rect width="195" height="135" rx="16" fill="#111827"/><text x="97" y="76" fill="#fff">Apple TV</text></g>
+ </g>
+ <path d="M485 620L455 675H670L640 620" fill="#101b3d" stroke="#5265b9" stroke-width="5"/><path d="M425 679H700L725 697H400Z" fill="#0b1430" stroke="#5265b9" stroke-width="4"/>
+</g>
+<!-- streaming light trails -->
+<g fill="none" stroke-linecap="round"><path d="M735 690C830 660 850 600 940 605S1060 580 1100 520" stroke="#26e5ff" stroke-width="8" opacity=".9"/><path d="M735 705C835 675 875 635 955 640S1065 615 1120 565" stroke="#4e8dff" stroke-width="5" opacity=".8"/></g>
+<!-- router -->
+<g transform="translate(760 620)" filter="url(#shadow)"><ellipse cx="145" cy="88" rx="170" ry="28" fill="#45d9ff" opacity=".25"/><path d="M15 34L105 0Q123 -8 145 0L276 40Q297 47 276 61L182 102Q165 110 142 102L12 61Q-8 52 15 34Z" fill="url(#router)" stroke="#6deaff" stroke-width="4"/><path d="M36 41L145 74L250 42" fill="none" stroke="#1edfff" stroke-width="5"/><path d="M140 29Q163 10 185 29M148 39Q163 28 177 39" fill="none" stroke="#45f2ff" stroke-width="6" stroke-linecap="round"/><circle cx="165" cy="50" r="5" fill="#80ffff"/></g>
+<!-- miniature 3D home -->
+<g transform="translate(1000 490)" filter="url(#shadow)"><path d="M0 88L95 12L195 87V211H0Z" fill="#f7f5ff" stroke="#78baff" stroke-width="5"/><path d="M-15 90L95 -4L212 85L196 102L95 27L0 105Z" fill="#283e9d" stroke="#7ae5ff" stroke-width="5"/><rect x="73" y="132" width="43" height="79" rx="3" fill="#283d80"/><rect x="22" y="112" width="34" height="34" fill="#8eeaff" stroke="#5a79dc" stroke-width="4"/><rect x="135" y="112" width="34" height="34" fill="#8eeaff" stroke="#5a79dc" stroke-width="4"/><path d="M22 129H56M39 112V146M135 129H169M152 112V146" stroke="#fff" stroke-width="3"/><circle cx="105" cy="171" r="3" fill="#fff"/><path d="M-20 216H220" stroke="#7ee9ff" stroke-width="5" stroke-linecap="round"/></g>
+<g font-family="Arial,sans-serif" fill="#e7f7ff" font-size="20" font-weight="600"><text x="55" y="770">SMART TV • LIVE CHANNELS • STREAMING</text><text x="860" y="770" fill="#80eaff">CONNECTED HOME</text></g>
+</svg>

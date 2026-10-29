@@ -24,10 +24,33 @@
 <button class="go" type="submit">Check Address</button><p id="ae" class="err" role="alert"></p></form>
 <p class="priv">We do not store your full address on our servers. Address details are sent to a third-party geocoding service to locate the area; coordinates are then used to request area-level provider information. Results are not a guarantee of exact-address service.</p>
 <div id="res" hidden></div></div></div></section><main><section class="s"><div class="w"><h2>How this checker works</h2><p>Enter a street address for a more useful location match, or use a ZIP code for a broader search. We use a third-party geocoding service to locate the area, then request area-level provider data where available. This is a shortlist—not a live confirmation that a provider serves your exact home.</p><p>Before ordering, confirm availability, speed, monthly price, equipment fees and promotional terms on the provider’s official website. You can also compare <a href="/internet">internet plans</a>, <a href="/fiber">fiber internet</a>, <a href="/wireless">5G home internet</a>, or browse <a href="/states">providers by state</a>.</p></div></section><section class="s"><div class="w"><h2>Frequently asked questions</h2><h3>What address details do I need?</h3><p>Your street address, city, state and ZIP code. Add your apartment or unit number if you have one.</p><h3>Do you save my address?</h3><p>No. It is used in your browser to show providers and is not sent to us.</p><h3>Does this confirm service at my address?</h3><p>No. It lists providers to check. Confirm availability on each provider&#x27;s official site.</p></div></section></main><footer><div class="w"><div class="cols">
-<div><h4>Compare</h4><a href="/internet">Internet Plans</a><a href="/fiber">Fiber Internet</a><a href="/tv">Cable &amp; Satellite TV</a><a href="/wireless">5G Wireless</a></div>
+<div><h4>Compare</h4><a href="/internet">Internet Plans</a><a href="/fiber">Fiber Internet</a><a href="/tv">Cable & Satellite TV</a><a href="/wireless">5G Wireless</a></div>
 <div><h4>Tools</h4><a href="/check-address">Check Your Address</a><a href="/states">Internet by State</a><a href="/speed-test">Speed Test</a></div>
 <div><h4>Company</h4><a href="/about">About Us</a><a href="/about#methodology">Methodology</a><a href="/contact">Contact Us</a></div>
 <div><h4>Legal</h4><a href="/privacy">Privacy Policy</a><a href="/terms">Terms of Use</a><a href="/privacy#do-not-sell">Do Not Sell My Info</a></div>
 </div><p style="margin-top:24px">&copy; 2026 USCableInternet.com. Independent comparison site. We may earn commissions from some providers listed. <a href="mailto:info@uscableinternet.com">info@uscableinternet.com</a></p></div></footer>
-<script src="/app.js?v=16"></script><script type="text/javascript" src="https://s.skimresources.com/js/311394X1799903.skimlinks.js"></script>
+<script src="/app.js?v=16"></script>
+<script>
+// Prefill ZIP mode when arriving from homepage with ?zip=
+(function(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var zip = params.get('zip') || params.get('q');
+    if (zip && /^\d{5}(-\d{4})?$/.test(zip.trim())) {
+      var zipBtn = document.querySelector('.mode[data-mode="zip"]');
+      var zipInput = document.getElementById('z-zip');
+      if (zipBtn) zipBtn.click();
+      if (zipInput) {
+        zipInput.value = zip.trim();
+        // Auto-submit after short delay so modes switch first
+        setTimeout(function(){
+          var form = document.getElementById('af');
+          if (form) form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
+        }, 300);
+      }
+    }
+  } catch(e){}
+})();
+</script>
+<script type="text/javascript" src="https://s.skimresources.com/js/311394X1799903.skimlinks.js"></script>
 </body></html>

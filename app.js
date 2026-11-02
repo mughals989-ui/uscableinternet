@@ -337,7 +337,7 @@ function showArea(info, location, label) {
   var result = $("res");
   result.innerHTML =
     '<div class="area"><h2>Internet providers to check in ' + esc(place) + '</h2>' +
-    '<p class="nt" id="availability-note">' + list.length + ' potential providers to check. Confirm with each provider.</p>' +
+    '<p class="nt" id="availability-note">' + list.length + ' potential providers listed for this state. This is a state-level shortlist, not live confirmation of service at your exact address. Confirm availability and current offers with each provider.</p>' +
     '<dl>' + rows.filter(function(row) { return row[1]; }).map(function(row) { return '<dt>' + row[0] + '</dt><dd>' + esc(row[1]) + '</dd>'; }).join("") + '</dl>' +
     '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify on FCC Broadband Map →</a>' +
     '<p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>' +

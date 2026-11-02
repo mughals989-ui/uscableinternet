@@ -136,4 +136,16 @@
 <url><loc>https://uscableinternet.com/affiliate-disclosure</loc><lastmod>2026-10-31</lastmod><changefreq>monthly</changefreq><priority>0.4</priority></url>
 <url><loc>https://uscableinternet.com/privacy</loc><lastmod>2026-10-31</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
 <url><loc>https://uscableinternet.com/terms</loc><lastmod>2026-10-31</lastmod><changefreq>yearly</changefreq><priority>0.3</priority></url>
+<url>
+<loc>https://uscableinternet.com/att-fiber-plans</loc>
+<lastmod>2026-11-02</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.75</priority>
+</url>
+<url>
+<loc>https://uscableinternet.com/xfinity-internet-plans</loc>
+<lastmod>2026-11-02</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.75</priority>
+</url>
 </urlset>

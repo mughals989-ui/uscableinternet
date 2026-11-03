@@ -349,13 +349,33 @@ function showArea(info, location, label) {
     })
     .then(function(data) {
       var providers = Array.isArray(data.providers) ? data.providers : [];
-      var list = providers.map(function(p) {
-        var tech = String(p.technology || "Internet").replace("Fixed Wireless","5G / Fixed Wireless").replace("LEO Satellite","Satellite").replace("GSO Satellite","Satellite");
-        var speed = Number(p.max_download_mbps);
-        var upload = Number(p.max_upload_mbps);
-        var speedText = isFinite(speed) ? "Up to " + speed + " Mbps download" : "Speed not reported";
-        if (isFinite(upload)) speedText += " / " + upload + " Mbps upload";
-        return {name:String(p.name || "Provider"),tech:tech,speed:speedText,url:providerWebsite(p.name),download:isFinite(speed)?speed:0};
+      function reportedSpeed(value) {
+        if (value === null || value === undefined || (typeof value === "string" && value.trim() === "")) return null;
+        var number = Number(value);
+        return isFinite(number) && number >= 0 ? number : null;
+      }
+      var uniqueProviders = Object.create(null);
+      providers.forEach(function(p) {
+        if (!p || typeof p !== "object") return;
+        var name = String(p.name || "Provider").trim() || "Provider";
+        var tech = String(p.technology || "Internet").trim() || "Internet";
+        tech = tech.replace("Fixed Wireless","5G / Fixed Wireless").replace("LEO Satellite","Satellite").replace("GSO Satellite","Satellite");
+        var key = name.toLowerCase().replace(/\\s+/g, " ") + "|" + tech.toLowerCase().replace(/\\s+/g, " ");
+        var download = reportedSpeed(p.max_download_mbps);
+        var upload = reportedSpeed(p.max_upload_mbps);
+        if (!uniqueProviders[key]) {
+          uniqueProviders[key] = {name:name,tech:tech,download:download,upload:upload};
+        } else {
+          var existing = uniqueProviders[key];
+          if (download !== null && (existing.download === null || download > existing.download)) existing.download = download;
+          if (upload !== null && (existing.upload === null || upload > existing.upload)) existing.upload = upload;
+        }
+      });
+      var list = Object.keys(uniqueProviders).map(function(key) {
+        var p = uniqueProviders[key];
+        var speedText = p.download === null ? "Speed not reported" : "Up to " + p.download + " Mbps download";
+        if (p.upload !== null) speedText += (p.download === null ? " · " : " / ") + p.upload + " Mbps upload";
+        return {name:p.name,tech:p.tech,speed:speedText,url:providerWebsite(p.name),download:p.download === null ? -1 : p.download};
       }).sort(function(a,b){return b.download-a.download;});
       trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap"});
       renderAvailability(area,place,stateName,list,"Broadband Map reported coverage in the nearby map cell. A provider listed here may not serve every address in that cell; confirm directly with the provider.");

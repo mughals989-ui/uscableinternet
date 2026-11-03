@@ -360,7 +360,7 @@ function showArea(info, location, label) {
         var name = String(p.name || "Provider").trim() || "Provider";
         var tech = String(p.technology || "Internet").trim() || "Internet";
         tech = tech.replace("Fixed Wireless","5G / Fixed Wireless").replace("LEO Satellite","Satellite").replace("GSO Satellite","Satellite");
-        var key = name.toLowerCase().replace(/\\s+/g, " ") + "|" + tech.toLowerCase().replace(/\\s+/g, " ");
+        var key = name.toLowerCase().replace(/\s+/g, " ") + "|" + tech.toLowerCase().replace(/\s+/g, " ");
         var download = reportedSpeed(p.max_download_mbps);
         var upload = reportedSpeed(p.max_upload_mbps);
         if (!uniqueProviders[key]) {

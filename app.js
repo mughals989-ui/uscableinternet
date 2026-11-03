@@ -288,36 +288,40 @@ function setupAddressAutocomplete() {
   });
 }
 
+var AVAILABILITY_API = "https://uscableinternet-availability.mughals989.workers.dev/";
+
 function lookupArea(info, label) {
   var result = $("res");
   if (!result) return;
   result.hidden = false;
-
-  // A full address already includes the state. Render its provider shortlist
-  // immediately instead of making visitors wait for a separate geocoder.
-  var submittedState = normalizeState(info.state);
-  if (submittedState) {
-    info.state = submittedState;
-    showArea(info, null, label);
-    return;
-  }
-
-  result.innerHTML = '<p class="nt">Looking up the ZIP code to identify your area…</p>';
-  var attempts = [{postalcode:info.zip}];
-
-  function tryNext(i) {
-    if (i >= attempts.length) {
-      result.innerHTML =
-        '<div class="area"><h2>We couldn’t identify the state for ZIP code ' + esc(info.zip || "") + '.</h2>' +
-        '<p class="nt">Try Full address mode and enter the city and state to see the provider shortlist.</p></div>';
+  result.innerHTML = '<p class="nt">Finding the location and checking reported internet coverage…</p>';
+  var query = info.street
+    ? {street:info.street + (info.unit ? " " + info.unit : ""), city:info.city, state:info.state, postalcode:info.zip, country:"United States"}
+    : {postalcode:info.zip, country:"United States"};
+  geo(query).then(function(location) {
+    if (!location || !isFinite(parseFloat(location.lat)) || !isFinite(parseFloat(location.lon))) {
+      result.innerHTML = '<div class="area"><h2>We couldn’t locate that U.S. address.</h2><p class="nt">Check the street, city, state and ZIP code, then try again.</p></div>';
       return;
     }
-    geo(attempts[i]).then(function(location) {
-      if (location) showArea(info, location, label);
-      else tryNext(i + 1);
-    });
-  }
-  tryNext(0);
+    showArea(info, location, label);
+  });
+}
+
+function providerWebsite(name) {
+  var n = String(name || "").toLowerCase();
+  var links = [
+    ["spectrum","https://www.spectrum.com/internet"],["xfinity","https://www.xfinity.com/learn/internet-service"],
+    ["comcast","https://www.xfinity.com/learn/internet-service"],["verizon","https://www.verizon.com/home/internet/"],
+    ["at&t","https://www.att.com/internet/"],["att","https://www.att.com/internet/"],
+    ["t-mobile","https://www.t-mobile.com/home-internet"],["starlink","https://www.starlink.com/"],
+    ["hughesnet","https://www.hughesnet.com/"],["viasat","https://www.viasat.com/"],
+    ["cox","https://www.cox.com/residential/internet.html"],["optimum","https://www.optimum.com/internet"],
+    ["frontier","https://www.frontier.com/"],["google fiber","https://fiber.google.com/"],
+    ["astound","https://www.astound.com/"],["windstream","https://www.windstream.com/"],
+    ["brightspeed","https://www.brightspeed.com/"]
+  ];
+  for (var i=0;i<links.length;i++) if (n.indexOf(links[i][0]) !== -1) return links[i][1];
+  return "";
 }
 
 function showArea(info, location, label) {
@@ -329,44 +333,71 @@ function showArea(info, location, label) {
     county:address.county || "",
     state:normalizeState(info.state) || normalizeState(stateCode) || normalizeState(address.state),
     zip:info.zip || address.postcode || "",
-    lat:location ? parseFloat(location.lat) : NaN,
-    lon:location ? parseFloat(location.lon) : NaN
+    lat:parseFloat(location.lat),
+    lon:parseFloat(location.lon)
   };
   var stateName = STN[area.state] || "";
   var place = [area.city, area.state].filter(Boolean).join(", ") || "ZIP " + area.zip;
-  var list = providersIn(area.state);
-  trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code", state:area.state || "unknown", provider_count:list.length});
-  var rows = [["Address", area.street],["City", area.city],["County", area.county],["State", stateName ? stateName + " (" + area.state + ")" : area.state],["ZIP code", area.zip]];
+  var result = $("res");
+  result.innerHTML = '<p class="nt">Checking Broadband Map coverage data…</p>';
+  fetch(AVAILABILITY_API + "?lat=" + encodeURIComponent(area.lat) + "&lng=" + encodeURIComponent(area.lon), {method:"GET",headers:{"Accept":"application/json"},cache:"no-store"})
+    .then(function(response) {
+      return response.json().catch(function(){return {};}).then(function(data) {
+        if (!response.ok) throw new Error(data.error || "Coverage lookup unavailable");
+        return data;
+      });
+    })
+    .then(function(data) {
+      var providers = Array.isArray(data.providers) ? data.providers : [];
+      var list = providers.map(function(p) {
+        var tech = String(p.technology || "Internet").replace("Fixed Wireless","5G / Fixed Wireless").replace("LEO Satellite","Satellite").replace("GSO Satellite","Satellite");
+        var speed = Number(p.max_download_mbps);
+        var upload = Number(p.max_upload_mbps);
+        var speedText = isFinite(speed) ? "Up to " + speed + " Mbps download" : "Speed not reported";
+        if (isFinite(upload)) speedText += " / " + upload + " Mbps upload";
+        return {name:String(p.name || "Provider"),tech:tech,speed:speedText,url:providerWebsite(p.name),download:isFinite(speed)?speed:0};
+      }).sort(function(a,b){return b.download-a.download;});
+      trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap"});
+      renderAvailability(area,place,stateName,list,"Broadband Map reported coverage in the nearby map cell. A provider listed here may not serve every address in that cell; confirm directly with the provider.");
+    })
+    .catch(function(error) {
+      trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:0,source:"lookup_error"});
+      result.innerHTML = '<div class="area"><h2>We couldn’t retrieve coverage data right now.</h2><p class="nt">' + esc(error.message || "Please try again shortly.") + ' Your address was located, but no provider availability is being claimed.</p><p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>';
+    });
+}
+
+function renderAvailability(area,place,stateName,list,note) {
+  var rows = [["Address",area.street],["City",area.city],["County",area.county],["State",stateName ? stateName + " (" + area.state + ")" : area.state],["ZIP code",area.zip]];
   var result = $("res");
   result.innerHTML =
-    '<div class="area"><h2>Internet providers to check in ' + esc(place) + '</h2>' +
-    '<p class="nt" id="availability-note">' + list.length + ' potential providers listed for this state. This is a state-level shortlist, not live confirmation of service at your exact address. Confirm availability and current offers with each provider.</p>' +
-    '<dl>' + rows.filter(function(row) { return row[1]; }).map(function(row) { return '<dt>' + row[0] + '</dt><dd>' + esc(row[1]) + '</dd>'; }).join("") + '</dl>' +
+    '<div class="area"><h2>Internet providers reported near ' + esc(place) + '</h2>' +
+    '<p class="nt" id="availability-note">' + esc(list.length + " provider/technology listings found. " + note) + '</p>' +
+    '<dl>' + rows.filter(function(row){return row[1];}).map(function(row){return '<dt>'+row[0]+'</dt><dd>'+esc(row[1])+'</dd>';}).join("") + '</dl>' +
     '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify on FCC Broadband Map →</a>' +
     '<p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>' +
     '<div class="chips rchips">' +
-    [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["5G Home","5G Home"],["Satellite","Satellite"]].map(function(c,i) {
-      return '<button type="button" class="chip' + (i ? "" : " on") + '" data-f="' + c[0] + '">' + c[1] + '</button>';
-    }).join("") + '</div><div id="rlist"></div>';
-
+    [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed Wireless"],["Satellite","Satellite"],["DSL","DSL"]].map(function(c,i){return '<button type="button" class="chip'+(i?"":" on")+'" data-f="'+c[0]+'">'+c[1]+'</button>';}).join("") +
+    '</div><div id="rlist"></div>';
   function draw(filter) {
-    var filtered = list.filter(function(p) {
-      return filter === "all" || String(p[3]).toLowerCase().indexOf(String(filter).toLowerCase()) > -1;
+    var filtered=list.filter(function(p){
+      if(filter==="all") return true;
+      var tech=p.tech.toLowerCase();
+      if(filter==="fixed wireless") return tech.indexOf("wireless")!==-1;
+      if(filter==="satellite") return tech.indexOf("satellite")!==-1;
+      return tech.indexOf(filter.toLowerCase())!==-1;
     });
-    $("rlist").innerHTML = filtered.length ? filtered.map(function(p) {
-      var key = typeof logoKey === "function" ? logoKey(p[1]) : "";
-      var logo = key && typeof LOGOS !== "undefined" && LOGOS[key]
-        ? '<img src="' + esc(LOGOS[key]) + '" alt="' + esc(p[1]) + ' logo" loading="lazy" width="52" height="44" style="display:block;width:52px;height:44px;object-fit:contain;flex:0 0 52px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:4px;box-sizing:border-box">'
-        : '<span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:52px;height:44px;flex:0 0 52px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-weight:800;color:#1d4ed8">' + esc(String(p[1]).charAt(0)) + '</span>';
-      return '<div class="row"><div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">' + logo +
-        '<div style="min-width:0;flex:1"><b>' + esc(p[1]) + '</b><br><span class="nt">' + esc(p[3]) + ' · ' + esc(p[4]) + ' · ' + esc(p[6]) + '</span></div></div>' +
-        (p[2] && p[2] !== "#" ? '<a class="btn" href="' + esc(p[2]) + '" target="_blank" rel="sponsored nofollow noopener">Visit Website</a>' : '') + '</div>';
-    }).join("") : '<p class="nt">No providers listed for this filter.</p>';
+    $("rlist").innerHTML=filtered.length?filtered.map(function(p){
+      var key=typeof logoKey==="function"?logoKey(p.name):"";
+      var logo=key&&typeof LOGOS!=="undefined"&&LOGOS[key]
+        ? '<img src="'+esc(LOGOS[key])+'" alt="'+esc(p.name)+' logo" loading="lazy" width="52" height="44" style="display:block;width:52px;height:44px;object-fit:contain;flex:0 0 52px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:4px;box-sizing:border-box">'
+        : '<span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:52px;height:44px;flex:0 0 52px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-weight:800;color:#1d4ed8">'+esc(p.name.charAt(0))+'</span>';
+      return '<div class="row"><div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">'+logo+'<div style="min-width:0;flex:1"><b>'+esc(p.name)+'</b><br><span class="nt">'+esc(p.tech)+' · '+esc(p.speed)+'</span></div></div>'+(p.url?'<a class="btn" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Visit Website</a>':'')+'</div>';
+    }).join(""):'<p class="nt">No providers reported for this technology filter.</p>';
   }
   draw("all");
-  document.querySelectorAll(".rchips .chip").forEach(function(button) {
-    button.onclick = function() {
-      document.querySelectorAll(".rchips .chip").forEach(function(item) { item.classList.toggle("on", item === button); });
+  document.querySelectorAll(".rchips .chip").forEach(function(button){
+    button.onclick=function(){
+      document.querySelectorAll(".rchips .chip").forEach(function(item){item.classList.toggle("on",item===button);});
       draw(button.dataset.f);
     };
   });

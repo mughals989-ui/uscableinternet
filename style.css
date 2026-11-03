@@ -69,10 +69,11 @@ footer h4{color:#fff;margin:0 0 12px;font-size:14px;text-transform:uppercase;let
 .fm{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:560px}
 
 .address-page .chk{width:100%;max-width:none}
-.address-page #rlist{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:16px}
-.address-page #rlist .row{flex-direction:column;padding:20px;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
-@media(max-width:900px){.address-page #rlist{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:640px){.address-page #rlist{grid-template-columns:1fr}}
+.address-page #rlist{display:flex;flex-direction:column;gap:10px;margin-top:16px;max-width:900px}
+.address-page #rlist .row{display:flex;flex-direction:row;justify-content:space-between;align-items:center;gap:16px;width:100%;min-width:0;padding:16px 18px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:0 2px 8px rgba(15,23,42,.04)}
+.address-page #rlist .row>div{min-width:0}
+.address-page #rlist .row .btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:640px){.address-page #rlist .row{align-items:stretch;flex-direction:column}.address-page #rlist .row .btn{width:100%;text-align:center}}
 
 .provider-grid .card,.fiber-provider-grid .card{transition:transform .3s,box-shadow .3s}
 .provider-grid .card:hover,.fiber-provider-grid .card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(15,23,42,.12)}

@@ -36,6 +36,9 @@ function trackUciEvent(name, params) {
       trackUciEvent("phone_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
       return;
     }
+    if (/^\\/check-address(?:[?#]|$)/i.test(href)) {
+      trackUciEvent("address_checker_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
+    }
     var host = "";
     try { host = new URL(link.href, window.location.href).hostname.toLowerCase(); } catch (e) {}
     var domains = ["spectrum.com","xfinity.com","att.com","verizon.com","t-mobile.com","cox.com","optimum.com","frontier.com","fiber.google.com","hughesnet.com","starlink.com","viasat.com","directv.com","dish.com","youtube.com","sling.com","fubo.tv","hulu.com","philo.com","frndlytv.com","peacocktv.com","paramountplus.com"];

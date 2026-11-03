@@ -36,7 +36,7 @@ function trackUciEvent(name, params) {
       trackUciEvent("phone_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
       return;
     }
-    if (/^\\/check-address(?:[?#]|$)/i.test(href)) {
+    if (/^\/check-address(?:[?#]|$)/i.test(href)) {
       trackUciEvent("address_checker_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
     }
     var host = "";

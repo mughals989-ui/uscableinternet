@@ -99,3 +99,18 @@ nav a{margin:0 4px 0 0;flex:none}
 @media (prefers-reduced-motion:reduce){
 .card,.btn,.go,a.btn,.logo::before,nav a{transition:none!important;transform:none!important}
 }
+
+/* Address checker: keep related address fields aligned in clean desktop rows. */
+.address-page #af .fr.full:first-of-type{
+  grid-template-columns:minmax(0,2fr) minmax(180px,1fr);
+}
+.address-page #af .fr.full:nth-of-type(2){
+  grid-template-columns:minmax(0,2fr) minmax(110px,.8fr) minmax(130px,1fr);
+}
+.address-page #af label{display:block;min-width:0;line-height:1.4}
+.address-page #af input,
+.address-page #af select{box-sizing:border-box;width:100%;min-width:0}
+@media(max-width:640px){
+  .address-page #af .fr.full:first-of-type,
+  .address-page #af .fr.full:nth-of-type(2){grid-template-columns:minmax(0,1fr)}
+}

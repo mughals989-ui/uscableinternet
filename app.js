@@ -128,42 +128,24 @@ function geo(params) {
 (function() {
   var form = $("af");
   if (!form) return;
-  setupAddressAutocomplete();
-  var mode = "full";
-  document.querySelectorAll(".mode").forEach(function(button) {
-    button.onclick = function() {
-      mode = button.dataset.mode;
-      document.querySelectorAll(".mode").forEach(function(item) { item.classList.toggle("on", item === button); });
-      document.querySelectorAll(".fr.full").forEach(function(row) { row.hidden = mode !== "full"; });
-      var zipRow = document.querySelector(".fr.zip");
-      if (zipRow) zipRow.hidden = mode !== "zip";
-      if ($("ae")) $("ae").textContent = "";
-    };
-  });
   form.onsubmit = function(e) {
     e.preventDefault();
     var err = $("ae");
-    var zipPattern = /^\d{5}(-\d{4})?$/;
+    var input = $("a-query");
+    var value = input ? input.value.trim() : "";
+    var zipPattern = /^\\d{5}(-\\d{4})?$/;
     if (err) err.textContent = "";
-    if (mode === "zip") {
-      var zipOnly = $("z-zip") ? $("z-zip").value.trim() : "";
-      if (!zipPattern.test(zipOnly)) { if (err) err.textContent = "Enter a valid 5-digit ZIP code."; return; }
+    if (zipPattern.test(value)) {
       trackUciEvent("address_check_submit", {lookup_type:"zip_code"});
-      lookupArea({zip:zipOnly}, "ZIP code " + zipOnly);
+      lookupArea({zip:value}, "ZIP code " + value);
       return;
     }
-    var street = $("a-street") ? $("a-street").value.trim() : "";
-    var unit = $("a-unit") ? $("a-unit").value.trim() : "";
-    var city = $("a-city") ? $("a-city").value.trim() : "";
-    var state = $("a-state") ? $("a-state").value : "";
-    var zip = $("a-zip") ? $("a-zip").value.trim() : "";
-    if (street.length < 3 || !/\d/.test(street)) { if (err) err.textContent = "Enter your street address with the house number."; return; }
-    if (city.length < 2) { if (err) err.textContent = "Enter your city."; return; }
-    if (!state) { if (err) err.textContent = "Select your state."; return; }
-    if (!zipPattern.test(zip)) { if (err) err.textContent = "Enter a valid 5-digit ZIP code."; return; }
-    var label = street + (unit ? ", " + unit : "") + ", " + city + ", " + state + " " + zip;
-    trackUciEvent("address_check_submit", {lookup_type:"full_address", state:normalizeState(state)});
-    lookupArea({street:street, unit:unit, city:city, state:state, zip:zip}, label);
+    if (value.length < 8 || !/\\d/.test(value)) {
+      if (err) err.textContent = "Enter a full U.S. street address or a valid 5-digit ZIP code.";
+      return;
+    }
+    trackUciEvent("address_check_submit", {lookup_type:"full_address"});
+    lookupArea({query:value}, value);
   };
 })();
 
@@ -308,8 +290,8 @@ function lookupArea(info, label) {
   if (!result) return;
   result.hidden = false;
   result.innerHTML = '<p class="nt">Finding the location and checking reported internet coverage…</p>';
-  var query = info.street
-    ? {street:info.street + (info.unit ? " " + info.unit : ""), city:info.city, state:info.state, postalcode:info.zip, country:"United States"}
+  var query = info.query
+    ? {q:info.query + ", United States"}
     : {postalcode:info.zip, country:"United States"};
 
   function usable(location) {
@@ -375,10 +357,10 @@ function showArea(info, location, label) {
   var address = location && location.address || {};
   var stateCode = (address["ISO3166-2-lvl4"] || "").replace("US-", "");
   var area = {
-    street:info.street ? info.street + (info.unit ? ", " + info.unit : "") : "",
-    city:info.city || address.city || address.town || address.village || "",
+    street:info.query ? [address.house_number, address.road].filter(Boolean).join(" ") : "",
+    city:address.city || address.town || address.village || address.hamlet || "",
     county:address.county || "",
-    state:normalizeState(info.state) || normalizeState(stateCode) || normalizeState(address.state),
+    state:normalizeState(stateCode) || normalizeState(address.state),
     zip:info.zip || address.postcode || "",
     lat:parseFloat(location.lat),
     lon:parseFloat(location.lon)
@@ -424,7 +406,7 @@ function showArea(info, location, label) {
         if (p.upload !== null) speedText += (p.download === null ? " · " : " / ") + p.upload + " Mbps upload";
         return {name:p.name,tech:p.tech,speed:speedText,url:providerWebsite(p.name),download:p.download === null ? -1 : p.download};
       }).sort(function(a,b){return b.download-a.download;});
-      trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap"});
+      trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap"});
       renderAvailability(area,place,stateName,list,"Broadband Map reported coverage in the nearby map cell. A provider listed here may not serve every address in that cell; confirm directly with the provider.");
     })
     .catch(function(error) {

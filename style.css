@@ -64,6 +64,46 @@ footer .cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr
 footer h4{color:#fff;margin:0 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:.06em}
 
 #res{margin-top:16px;border-top:1px solid #e2e8f0;padding-top:14px}
+
+/* BroadbandNow-inspired provider comparison rows for address results */
+.address-page #res .area{margin-bottom:18px}
+.address-page #res .provider-results{display:flex;flex-direction:column;gap:14px;max-width:1000px;margin-top:16px}
+.address-page #res .result-provider-card{background:#fff;border:1px solid #dbe3ef;border-radius:14px;overflow:hidden;box-shadow:0 3px 12px rgba(15,23,42,.055)}
+.address-page #res .result-provider-main{display:grid;grid-template-columns:minmax(210px,1.1fr) minmax(250px,1.25fr) minmax(150px,.65fr);gap:18px;align-items:center;padding:20px}
+.address-page #res .result-provider-brand{display:flex;align-items:center;gap:14px;min-width:0}
+.address-page #res .result-provider-logo{display:block;width:112px;height:54px;max-width:112px;object-fit:contain;object-position:left center;flex:0 0 112px}
+.address-page #res .result-provider-mark{display:flex;align-items:center;justify-content:center;width:54px;height:54px;flex:0 0 54px;border-radius:12px;background:#eff6ff;border:1px solid #dbeafe;color:#1d4ed8;font-size:25px;font-weight:800}
+.address-page #res .result-provider-name-wrap{min-width:0}
+.address-page #res .result-provider-name-wrap h3{margin:3px 0 2px;font-size:19px;line-height:1.25;color:#0f172a}
+.address-page #res .result-provider-sub{margin:0;color:#64748b;font-size:13px}
+.address-page #res .result-provider-rank{display:inline-block;color:#166534;background:#dcfce7;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;letter-spacing:.02em}
+.address-page #res .result-provider-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.address-page #res .result-provider-metrics>div{min-width:0}
+.address-page #res .result-provider-label{display:block;color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.045em;margin-bottom:4px}
+.address-page #res .result-provider-metrics strong{display:block;color:#0f172a;font-size:14px;line-height:1.4;overflow-wrap:anywhere}
+.address-page #res .result-provider-actions{display:flex;flex-direction:column;gap:9px}
+.address-page #res .result-provider-cta,.address-page #res .result-provider-phone{display:block;text-align:center;padding:11px 12px;border-radius:9px;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap}
+.address-page #res .result-provider-cta{background:#1d4ed8;color:#fff;box-shadow:0 3px 10px rgba(37,99,235,.2)}
+.address-page #res .result-provider-phone{border:1px solid #cbd5e1;color:#1e40af;background:#fff}
+.address-page #res .result-provider-details{border-top:1px solid #edf2f7;padding:0 20px}
+.address-page #res .result-provider-details summary{padding:12px 0;color:#1d4ed8;font-size:13px;font-weight:750;cursor:pointer;list-style:none}
+.address-page #res .result-provider-details summary::-webkit-details-marker{display:none}
+.address-page #res .result-provider-details summary:after{content:"＋";float:right;font-size:16px}
+.address-page #res .result-provider-details[open] summary:after{content:"−"}
+.address-page #res .result-provider-detail-body{padding:0 0 12px;color:#475569;font-size:13px;line-height:1.55}
+.address-page #res .result-provider-detail-body p{margin:6px 0}
+@media(max-width:760px){
+ .address-page #res .result-provider-main{grid-template-columns:minmax(0,1fr);gap:14px;padding:16px}
+ .address-page #res .result-provider-brand{align-items:center}
+ .address-page #res .result-provider-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .address-page #res .result-provider-actions{display:grid;grid-template-columns:1fr 1fr}
+ .address-page #res .result-provider-cta,.address-page #res .result-provider-phone{white-space:normal}
+}
+@media(max-width:380px){
+ .address-page #res .result-provider-actions{grid-template-columns:1fr}
+ .address-page #res .result-provider-logo{width:88px;max-width:88px;flex-basis:88px}
+}
+
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;border-top:1px solid #e2e8f0;padding:12px 0}
 .ghost{background:#eff6ff;border:0;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:700;color:#2563eb}
 .fm{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:560px}

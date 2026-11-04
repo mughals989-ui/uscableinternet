@@ -109,10 +109,20 @@ function geo(params) {
   var options = {headers:{"Accept-Language":"en"}};
   if (controller) options.signal = controller.signal;
   return fetch(url, options)
-    .then(function(r) { if (!r.ok) throw new Error("Address lookup failed"); return r.json(); })
-    .then(function(data) { return data && data[0] ? data[0] : null; })
-    .catch(function() { return null; })
-    .then(function(location) { if (timeout) clearTimeout(timeout); return location; });
+    .then(function(r) {
+      if (!r.ok) throw new Error("Address search service returned HTTP " + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      return {location:data && data[0] ? data[0] : null, error:false};
+    })
+    .catch(function(error) {
+      return {location:null, error:true, message:error && error.message ? error.message : "Network or timeout error"};
+    })
+    .then(function(outcome) {
+      if (timeout) clearTimeout(timeout);
+      return outcome;
+    });
 }
 
 (function() {
@@ -301,12 +311,46 @@ function lookupArea(info, label) {
   var query = info.street
     ? {street:info.street + (info.unit ? " " + info.unit : ""), city:info.city, state:info.state, postalcode:info.zip, country:"United States"}
     : {postalcode:info.zip, country:"United States"};
-  geo(query).then(function(location) {
-    if (!location || !isFinite(parseFloat(location.lat)) || !isFinite(parseFloat(location.lon))) {
-      result.innerHTML = '<div class="area"><h2>We couldn’t locate that U.S. address.</h2><p class="nt">Check the street, city, state and ZIP code, then try again.</p></div>';
+
+  function usable(location) {
+    return location && isFinite(parseFloat(location.lat)) && isFinite(parseFloat(location.lon));
+  }
+  function showLookupError() {
+    result.innerHTML = '<div class="area"><h2>Address lookup is temporarily unavailable.</h2><p class="nt">The address service did not respond reliably. Please wait a moment and try again. You can also use ZIP-code search.</p></div>';
+  }
+  function showNoMatch() {
+    result.innerHTML = '<div class="area"><h2>We couldn’t match that exact U.S. address.</h2><p class="nt">Check the house number, street, city, state and ZIP code. If the address is correct, try the ZIP-code search instead. ZIP results represent reported coverage near the ZIP location, not a confirmed result for an individual home.</p></div>';
+  }
+
+  geo(query).then(function(outcome) {
+    if (usable(outcome.location)) {
+      showArea(info, outcome.location, label);
       return;
     }
-    showArea(info, location, label);
+    if (outcome.error) {
+      showLookupError();
+      return;
+    }
+    if (!info.street) {
+      showNoMatch();
+      return;
+    }
+
+    // Retry a no-match street address as a single free-form query.
+    // Keep at least one second between public Nominatim requests.
+    result.innerHTML = '<p class="nt">Trying an alternate address match…</p>';
+    var fullAddress = [info.street, info.unit, info.city, info.state, info.zip, "United States"].filter(Boolean).join(", ");
+    setTimeout(function() {
+      geo({q:fullAddress}).then(function(fallback) {
+        if (usable(fallback.location)) {
+          showArea(info, fallback.location, label);
+        } else if (fallback.error) {
+          showLookupError();
+        } else {
+          showNoMatch();
+        }
+      });
+    }, 1100);
   });
 }
 

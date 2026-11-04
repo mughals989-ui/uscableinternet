@@ -133,14 +133,14 @@ function geo(params) {
     var err = $("ae");
     var input = $("a-query");
     var value = input ? input.value.trim() : "";
-    var zipPattern = /^\\d{5}(-\\d{4})?$/;
+    var zipPattern = /^\d{5}(-\d{4})?$/;
     if (err) err.textContent = "";
     if (zipPattern.test(value)) {
       trackUciEvent("address_check_submit", {lookup_type:"zip_code"});
       lookupArea({zip:value}, "ZIP code " + value);
       return;
     }
-    if (value.length < 8 || !/\\d/.test(value)) {
+    if (value.length < 8 || !/\d/.test(value)) {
       if (err) err.textContent = "Enter a full U.S. street address or a valid 5-digit ZIP code.";
       return;
     }

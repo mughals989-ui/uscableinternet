@@ -140,7 +140,7 @@ function geo(params) {
       lookupArea({zip:value}, "ZIP code " + value);
       return;
     }
-    if (value.length < 8 || !/\d/.test(value)) {
+    if (value.length < 8) {
       if (err) err.textContent = "Enter a full U.S. street address or a valid 5-digit ZIP code.";
       return;
     }

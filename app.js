@@ -151,7 +151,7 @@ function geo(params) {
 
 
 function setupAddressAutocomplete() {
-  var streetInput = $("a-street");
+  var streetInput = $("a-query");
   if (!streetInput || streetInput.dataset.autocompleteReady === "1") return;
   streetInput.dataset.autocompleteReady = "1";
   var label = streetInput.closest("label");
@@ -199,13 +199,11 @@ function setupAddressAutocomplete() {
     };
   }
   function choose(item) {
-    streetInput.value = item.line || "";
-    if ($("a-city") && item.city) $("a-city").value = item.city;
-    if ($("a-state") && item.state) $("a-state").value = item.state;
-    if ($("a-zip") && item.zip) $("a-zip").value = item.zip;
+    // Keep the complete selected address in the single search field.
+    streetInput.value = item.label || item.line || "";
     closeMenu();
     streetInput.dispatchEvent(new Event("change", {bubbles:true}));
-    if ($("a-unit")) $("a-unit").focus();
+    streetInput.focus();
   }
   function render(features, typedAddress) {
     current = features.map(function(feature) {
@@ -232,9 +230,7 @@ function setupAddressAutocomplete() {
   streetInput.addEventListener("input", function() {
     if (timer) clearTimeout(timer);
     var value = streetInput.value.trim();
-    var city = $("a-city") ? $("a-city").value.trim() : "";
-    var state = $("a-state") ? $("a-state").value : "";
-    var query = [value, city, state ? (STN[state] || state) : ""].filter(Boolean).join(", ");
+    var query = value + ", United States";
     var thisRequest = ++requestNumber;
     if (value.length < 3) { closeMenu(); return; }
     menu.hidden = false;
@@ -282,6 +278,9 @@ function setupAddressAutocomplete() {
     if (!label.contains(event.target)) closeMenu();
   });
 }
+
+// The address checker now uses one combined address/ZIP input.
+setupAddressAutocomplete();
 
 var AVAILABILITY_API = "https://uscableinternet-availability.mughals989.workers.dev/";
 

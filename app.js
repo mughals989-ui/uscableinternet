@@ -1,6 +1,6 @@
 var FS = "";
-var PHONE = "800-531-5000";
-var PHONE_LINK = "tel:8005315000";
+var PHONE = "888-630-3881";
+var PHONE_LINK = "tel:8886303881";
 
 var D = [
   ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","100 Mbps starting tier; up to 2 Gbps in select areas",30,"$30/mo for 12 months; standard rates apply after"],

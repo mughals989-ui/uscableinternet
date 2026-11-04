@@ -193,7 +193,7 @@ function setupAddressAutocomplete() {
     // Photon often returns a street-level result without a house number.
     // Preserve the house number the visitor already typed in that case.
     var typedMatch = String(typedAddress || "").trim().match(/^(\d+[A-Za-z]?(?:-\d+[A-Za-z]?)?)\s+/);
-    var number = p.housenumber || (p.street && typedMatch ? typedMatch[1] : "");
+    var number = p.housenumber || (street && typedMatch ? typedMatch[1] : "");
     var line = [number, street].filter(Boolean).join(" ");
     var city = p.city || p.town || p.village || p.locality || p.district || "";
     var state = stateAbbr(p.state);

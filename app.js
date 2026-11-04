@@ -154,7 +154,8 @@ function setupAddressAutocomplete() {
   var streetInput = $("a-query");
   if (!streetInput || streetInput.dataset.autocompleteReady === "1") return;
   streetInput.dataset.autocompleteReady = "1";
-  var label = streetInput.closest("label");
+  // The single-field form places the input inside .fr, not inside its label.
+  var label = streetInput.closest(".fr") || streetInput.parentElement;
   if (!label) return;
   label.classList.add("address-autocomplete");
   var menu = document.createElement("div");

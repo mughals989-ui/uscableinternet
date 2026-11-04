@@ -3,9 +3,9 @@ var PHONE = "888-630-3881";
 var PHONE_LINK = "tel:8886303881";
 
 var D = [
-  ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","100 Mbps starting tier; up to 2 Gbps in select areas",30,"$30/mo for 12 months"],
+  ["i","Spectrum Internet","https://www.spectrum.com/internet","Cable","100 Mbps starting tier; up to 2 Gbps in select areas",30,"$30/mo for 12 months; standard rates apply after"],
   ["i","Verizon Fios & 5G","https://www.verizon.com/home/internet/","Fiber / 5G","Fios 300 Mbps starting tier; 5G speeds vary by address",30,"Fios from $30/mo; 5G from $35/mo with qualifying mobile plan"],
-  ["i","AT&T Internet & Fiber","https://www.att.com/Internet/fiber/","Fiber","300 Mbps starting tier; higher tiers available",35,"$35/mo with eligible discounts; taxes/fees and availability conditions apply"],
+  ["i","AT&T Internet & Fiber","https://www.att.com/Internet/fiber/","Fiber","300 Mbps starting tier; higher tiers available",50,"$50/mo after eligible AutoPay and paperless billing discount; taxes/fees extra"],
   ["i","T-Mobile 5G Home","https://www.t-mobile.com/home-internet/plans","5G Home","Typical speeds vary; some plans report about 170-498 Mbps",35,"$50/mo with AutoPay; $35 with eligible voice line"],
   ["i","Xfinity","https://www.xfinity.com/learn/internet-service","Cable","300 Mbps plan; faster tiers vary by area",45,"$45/mo for 5 years with AutoPay/paperless discount; verify terms"],
   ["i","HughesNet","https://www.hughesnet.com/home-satellite-internet-plans","Satellite","Plans advertised up to 100 Mbps",39.99,"From $39.99/mo for 12 months; minimum-term terms apply"],

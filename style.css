@@ -79,6 +79,9 @@ footer h4{color:#fff;margin:0 0 12px;font-size:14px;text-transform:uppercase;let
 .provider-grid .card:hover,.fiber-provider-grid .card:hover{transform:translateY(-6px);box-shadow:0 16px 36px rgba(15,23,42,.12)}
 
 .provider-logo{display:block;height:36px;width:auto;max-width:140px;object-fit:contain;margin:0 0 10px}
+.provider-card .provider-logo{height:42px;max-width:150px;object-position:left center;margin:0 0 4px}
+.provider-logo-fallback{height:42px;display:flex;align-items:center;gap:9px;margin:0 0 4px;color:#111827;font-size:19px;font-weight:800;letter-spacing:.11em}
+.provider-logo-fallback span{font-size:30px;line-height:1;color:#111827}
 .slogo{height:34px;width:auto;max-width:140px;object-fit:contain;display:block}
 .clogo{display:block;height:36px;width:auto;max-width:150px;object-fit:contain;margin:0 0 10px}
 .plogo{display:block;height:24px;width:auto;max-width:110px;object-fit:contain;margin:0 0 4px}

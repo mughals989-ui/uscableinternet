@@ -441,10 +441,11 @@ function renderAvailability(area,place,stateName,list,note) {
     '<p class="nt" id="availability-note">' + esc(list.length + " provider/technology listings found. " + note) + '</p>' +
     '<dl>' + rows.filter(function(row){return row[1];}).map(function(row){return '<dt>'+row[0]+'</dt><dd>'+esc(row[1])+'</dd>';}).join("") + '</dl>' +
     '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify on FCC Broadband Map →</a>' +
-    '<p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>' +
+    '<p><strong>Need help comparing plans? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>' +
     '<div class="chips rchips">' +
-    [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed Wireless"],["Satellite","Satellite"],["DSL","DSL"]].map(function(c,i){return '<button type="button" class="chip'+(i?"":" on")+'" data-f="'+c[0]+'">'+c[1]+'</button>';}).join("") +
-    '</div><div id="rlist"></div>';
+    [["all","All providers"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed wireless"],["Satellite","Satellite"],["DSL","DSL"]].map(function(c,i){return '<button type="button" class="chip'+(i?"":" on")+'" data-f="'+c[0]+'">'+c[1]+'</button>';}).join("") +
+    '</div><div id="rlist" class="provider-results"></div>';
+
   function draw(filter) {
     var filtered=list.filter(function(p){
       if(filter==="all") return true;
@@ -453,12 +454,16 @@ function renderAvailability(area,place,stateName,list,note) {
       if(filter==="satellite") return tech.indexOf("satellite")!==-1;
       return tech.indexOf(filter.toLowerCase())!==-1;
     });
-    $("rlist").innerHTML=filtered.length?filtered.map(function(p){
+    $("rlist").innerHTML=filtered.length?filtered.map(function(p,index){
       var key=typeof logoKey==="function"?logoKey(p.name):"";
       var logo=key&&typeof LOGOS!=="undefined"&&LOGOS[key]
-        ? '<img src="'+esc(LOGOS[key])+'" alt="'+esc(p.name)+' logo" loading="lazy" width="52" height="44" style="display:block;width:52px;height:44px;object-fit:contain;flex:0 0 52px;background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:4px;box-sizing:border-box">'
-        : '<span aria-hidden="true" style="display:flex;align-items:center;justify-content:center;width:52px;height:44px;flex:0 0 52px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-weight:800;color:#1d4ed8">'+esc(p.name.charAt(0))+'</span>';
-      return '<div class="row"><div style="display:flex;align-items:center;gap:12px;min-width:0;flex:1">'+logo+'<div style="min-width:0;flex:1"><b>'+esc(p.name)+'</b><br><span class="nt">'+esc(p.tech)+' · '+esc(p.speed)+'</span></div></div>'+(p.url?'<a class="btn" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Visit Website</a>':'')+'</div>';
+        ? '<img class="result-provider-logo" src="'+esc(LOGOS[key])+'" alt="'+esc(p.name)+' logo" loading="lazy" width="112" height="54">'
+        : '<span class="result-provider-mark" aria-hidden="true">'+esc(p.name.charAt(0).toUpperCase())+'</span>';
+      var speed=p.speed==="Speed not reported"?"Speed not reported":esc(p.speed);
+      var fastest=index===0&&p.download>=0?'<span class="result-provider-rank">Highest reported speed</span>':"";
+      var official=p.url?'<a class="result-provider-cta" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Check plans</a>':'';
+      var fullDetails='<details class="result-provider-details"><summary>Show full details</summary><div class="result-provider-detail-body"><p><strong>Connection:</strong> '+esc(p.tech)+'</p><p><strong>Coverage data:</strong> '+esc(p.speed)+'</p><p><strong>Pricing:</strong> Not supplied by the coverage lookup. Check the provider for current address-specific prices and terms.</p><p>Coverage is reported for a nearby map cell and does not confirm that this provider can connect this exact home.</p></div></details>';
+      return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+fastest+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">'+esc(p.name)+' internet</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">Speeds reported</span><strong>'+speed+'</strong></div><div><span class="result-provider-label">Connection</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'<a class="result-provider-phone" href="'+PHONE_LINK+'">Call '+PHONE+'</a></div></div>'+fullDetails+'</article>';
     }).join(""):'<p class="nt">No providers reported for this technology filter.</p>';
   }
   draw("all");

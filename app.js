@@ -188,9 +188,12 @@ function setupAddressAutocomplete() {
     if (STN[upper]) return upper;
     return stCode(value || "");
   }
-  function displayAddress(p) {
-    var number = p.housenumber || "";
+  function displayAddress(p, typedAddress) {
     var street = p.street || p.name || "";
+    // Photon often returns a street-level result without a house number.
+    // Preserve the house number the visitor already typed in that case.
+    var typedMatch = String(typedAddress || "").trim().match(/^(\\d+[A-Za-z]?(?:-\\d+[A-Za-z]?)?)\\s+/);
+    var number = p.housenumber || (p.street && typedMatch ? typedMatch[1] : "");
     var line = [number, street].filter(Boolean).join(" ");
     var city = p.city || p.town || p.village || p.locality || p.district || "";
     var state = stateAbbr(p.state);
@@ -212,9 +215,9 @@ function setupAddressAutocomplete() {
     streetInput.dispatchEvent(new Event("change", {bubbles:true}));
     if ($("a-unit")) $("a-unit").focus();
   }
-  function render(features) {
+  function render(features, typedAddress) {
     current = features.map(function(feature) {
-      return displayAddress(feature.properties || {});
+      return displayAddress(feature.properties || {}, typedAddress);
     }).filter(function(item) { return item.line && item.label; });
     if (!current.length) { closeMenu(); return; }
     menu.innerHTML = current.map(function(item, i) {
@@ -257,7 +260,7 @@ function setupAddressAutocomplete() {
           var p = feature.properties || {};
           return String(p.countrycode || "").toLowerCase() === "us";
         }).slice(0, 6);
-        render(features);
+        render(features, value);
       }).catch(function() {
         if (thisRequest !== requestNumber) return;
         closeMenu();

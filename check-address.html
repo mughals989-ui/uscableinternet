@@ -36,11 +36,11 @@
     var input = document.getElementById('a-query');
     if (input && value) {
       input.value = value.trim();
-      if (/^\d{5}(-\d{4})?$/.test(value.trim())) {
+      if (/^\d{5}(-\d{4})?$/.test(value.trim()) || value.trim().length >= 8) {
         setTimeout(function(){
           var form = document.getElementById('af');
           if (form) form.dispatchEvent(new Event('submit', {cancelable:true, bubbles:true}));
-        }, 300);
+        }, 450);
       }
     }
   } catch(e){}

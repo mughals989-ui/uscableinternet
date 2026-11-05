@@ -140,6 +140,27 @@ from data_batch3 import S3
 S += S2 + S3
 def cid(c): return "city-"+re.sub(r"[^a-z0-9]+","-",c.lower()).strip("-")
 
+# Link only to city guides that actually exist. All other city names lead to
+# the address checker rather than to a nonexistent or unrelated landing page.
+CITY_PAGES = {
+ "Los Angeles": "/internet-providers-los-angeles-ca",
+ "Birmingham": "/internet-providers-birmingham-al", "Huntsville": "/internet-providers-huntsville-al",
+ "Mobile": "/internet-providers-mobile-al", "Montgomery": "/internet-providers-montgomery-al",
+ "Tuscaloosa": "/internet-providers-tuscaloosa-al", "Chicago": "/internet-providers-chicago-il",
+ "Columbus": "/internet-providers-columbus", "Dallas": "/internet-providers-dallas-tx",
+ "Houston": "/internet-providers-houston-tx", "San Antonio": "/internet-providers-san-antonio-tx",
+ "Phoenix": "/internet-providers-phoenix-az", "New York City": "/internet-providers-new-york-ny",
+ "Philadelphia": "/internet-providers-philadelphia-pa", "Atlanta": "/internet-providers-atlanta",
+ "Augusta": "/internet-providers-augusta", "Savannah": "/internet-providers-savannah",
+ "Athens": "/internet-providers-athens",
+}
+
+def city_link(c):
+    target = CITY_PAGES.get(c)
+    if target:
+        return f'<li id="{cid(c)}"><a href="{target}">Compare providers in {html.escape(c)}</a></li>'
+    return f'<li id="{cid(c)}"><a href="/check-address#check">Check availability in {html.escape(c)}</a></li>'
+
 def header(): return f'''<header class="top"><div class="wrap bar"><a class="logo" href="/">US Cable Internet</a>
 <nav aria-label="Main"><a href="/internet">Internet</a><a href="/fiber">Fiber</a><a href="/tv">TV</a><a href="/wireless">5G Wireless</a><a href="/check-address">Check Address</a><a href="/speed-test">Speed Test</a><a href="/about">About</a><a href="/contact">Contact</a></nav>
 <a class="call" href="tel:{PHONE_TEL}">Call {PHONE_DISPLAY}</a></div></header>'''
@@ -153,7 +174,7 @@ def page(st):
     title = f"Internet Providers in {n}: Compare Fiber, Cable, 5G & Satellite (2026)"
     desc = f"Compare internet providers in {n}: " + ", ".join(NAMES[p[0]] for p in st["prov"][:4]) + ", 5G home and satellite. Check availability at your exact address."
     cards = "".join(f'<article class="card"><p class="tag">{e(t)}</p><h3>{e(NAMES[k])}</h3><p>{e(d)}</p>{link(k, "Check "+NAMES[k]+" availability")}</article>' for k,t,d in st["prov"])
-    cities = "<ul class=\"cities\">" + "".join(f'<li id="{cid(c)}"><a href="/check-address#check">{e(c)}: check providers at your address</a></li>' for c in st["cities"]) + "</ul>"
+    cities = "<ul class=\"cities\">" + "".join(city_link(c) for c in st["cities"]) + "</ul>"
     faq = "".join(f'<h3>{e(q)}</h3><p>{e(a)}</p>' for q,a in st["faq"])
     jsonld = json.dumps([
      {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -176,7 +197,8 @@ def page(st):
 <h2>Rural {e(n)} internet</h2><p>{e(st["rural"])}</p>
 <h2>{e(st["hz"][0])}</h2><p>{e(st["hz"][1])}</p>
 <h2>Low-income internet plans in {e(n)}</h2><p>The federal Affordable Connectivity Program has ended, but providers still offer discounted plans. Look at {e(st["li"])} Eligibility often depends on programs like SNAP, Medicaid or SSI. Confirm current rules on the provider's website.</p>
-<h2>How to choose the right plan in {e(n)}</h2><p><strong>Check your exact address.</strong> Coverage changes from street to street, even in one city.</p><p><strong>Pick speed for your household.</strong> 300 to 500 Mbps suits most homes. Several remote workers or heavy gaming and streaming may need 1 Gig.</p><p><strong>Prefer fiber when you can get it.</strong> It is the most consistent option for uploads and video calls.</p><p><strong>Read the price details.</strong> Compare the promo price, how long it lasts, equipment fees and the regular rate after.</p>
+<h2>How to choose the right plan in {e(n)}</h2><p><strong>Check your exact address.</strong> Coverage changes from street to street, even in one city.</p><p><strong>Pick speed for your household.</strong> 300 to 500 Mbps suits many homes. Several remote workers or heavy gaming and streaming may need 1 Gig, but compare actual household use and upload needs.</p><p><strong>Compare connection types.</strong> Fiber often offers stronger upload performance; cable can be widely available in metro areas; 5G home depends on signal and network capacity; satellite can be useful where wired options are limited.</p><p><strong>Read the price details.</strong> Compare the promo price, how long it lasts, equipment fees and the regular rate after.</p>
+<section class="state-buying-guide" aria-labelledby="state-buying-guide"><h2 id="state-buying-guide">What to verify before choosing an internet plan in {e(n)}</h2><p>Provider names on a state guide are a starting point, not confirmation that service reaches every street, apartment or rural address in {e(n)}. Compare plans using the complete service address and the provider's current offer.</p><ul><li><strong>Confirm the exact address.</strong> Check the house number, apartment or unit, and ZIP code with the provider; nearby homes can have different networks.</li><li><strong>Compare the real monthly cost.</strong> Check how long the promotional rate lasts, the regular rate afterward, equipment rental, installation, taxes, fees and any AutoPay or bundle requirements.</li><li><strong>Compare performance details.</strong> Review upload as well as download speed, data limits, latency where relevant, contract terms and cancellation conditions.</li><li><strong>Check building access.</strong> Renters and condo residents should ask whether the building is wired for the provider and whether installation needs approval.</li></ul><p>The <a href="https://broadbandmap.fcc.gov/" target="_blank" rel="noopener">FCC National Broadband Map</a> is useful for researching reported coverage, but it is not an order confirmation. Use our <a href="/how-to-check-internet-availability">address availability guide</a> and <a href="/internet-plan-total-cost">internet plan total-cost guide</a> before signing up.</p></section>
 <h2>Frequently asked questions</h2>{faq}
 <p class="meta">Disclosure: some links on this page may be affiliate links. We may earn a commission at no extra cost to you. Plans, speeds and prices are set by providers and can change. Availability depends on your exact address.</p></main>{footer()}</body></html>'''
 

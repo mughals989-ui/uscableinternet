@@ -155,8 +155,10 @@ CITY_PAGES = {
  "Athens": "/internet-providers-athens",
 }
 
-def city_link(c):
+def city_link(c, state_slug):
     target = CITY_PAGES.get(c)
+    if c == "Columbus" and state_slug != "ohio":
+        target = None
     if target:
         return f'<li id="{cid(c)}"><a href="{target}">Compare providers in {html.escape(c)}</a></li>'
     return f'<li id="{cid(c)}"><a href="/check-address#check">Check availability in {html.escape(c)}</a></li>'
@@ -174,7 +176,7 @@ def page(st):
     title = f"Internet Providers in {n}: Compare Fiber, Cable, 5G & Satellite (2026)"
     desc = f"Compare internet providers in {n}: " + ", ".join(NAMES[p[0]] for p in st["prov"][:4]) + ", 5G home and satellite. Check availability at your exact address."
     cards = "".join(f'<article class="card"><p class="tag">{e(t)}</p><h3>{e(NAMES[k])}</h3><p>{e(d)}</p>{link(k, "Check "+NAMES[k]+" availability")}</article>' for k,t,d in st["prov"])
-    cities = "<ul class=\"cities\">" + "".join(city_link(c) for c in st["cities"]) + "</ul>"
+    cities = "<ul class=\"cities\">" + "".join(city_link(c, st["slug"]) for c in st["cities"]) + "</ul>"
     faq = "".join(f'<h3>{e(q)}</h3><p>{e(a)}</p>' for q,a in st["faq"])
     jsonld = json.dumps([
      {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[

@@ -73,7 +73,7 @@ def url_to_file(pathpart):
     return candidate
 
 def main():
-    html_files = sorted(ROOT.glob("*.html"))
+    html_files = sorted(path for path in ROOT.rglob("*.html") if ".git" not in path.parts)
     pages = {}
     errors = []
     warnings = []
@@ -85,14 +85,20 @@ def main():
             continue
         pages[path] = p
         name = path.name
+        relative = path.relative_to(ROOT)
         legacy_redirects = {
             "att-fiber-plans.html": "https://uscableinternet.com/fiber",
             "xfinity-internet-plans.html": "https://uscableinternet.com/internet",
         }
-        expected = legacy_redirects.get(
-            name,
-            "https://uscableinternet.com/" if name == "index.html" else "https://uscableinternet.com/" + name[:-5],
-        )
+        if path == ROOT / "index.html":
+            expected = "https://uscableinternet.com/"
+        elif name == "index.html" and path.parent.name.startswith("internet-providers-"):
+            expected = "https://uscableinternet.com/" + path.parent.name + "/"
+        else:
+            expected = legacy_redirects.get(
+                name,
+                "https://uscableinternet.com/" + name[:-5],
+            )
         if name == "404.html":
             if p.canonicals:
                 warnings.append(f"{name}: 404 page has a canonical tag; check whether intentional")

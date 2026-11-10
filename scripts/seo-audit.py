@@ -107,14 +107,14 @@ def main():
         if not title:
             errors.append(f"{name}: missing title")
         else:
-            title_owners.setdefault(title.casefold(), []).append(name)
+            title_owners.setdefault(title.casefold(), []).append(relative.as_posix())
             if len(title) < 25 or len(title) > 65:
                 warnings.append(f"{name}: title is {len(title)} characters; review the 25–65 character range")
         if len(p.description) != 1 or not p.description[0]:
             warnings.append(f"{name}: expected exactly one non-empty meta description, found {len(p.description)}")
         else:
             description = p.description[0]
-            description_owners.setdefault(description.casefold(), []).append(name)
+            description_owners.setdefault(description.casefold(), []).append(relative.as_posix())
             if len(description) < 70 or len(description) > 170:
                 warnings.append(f"{name}: meta description is {len(description)} characters; review the 70–170 character range")
         if p.images_missing_alt:

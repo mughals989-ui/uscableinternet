@@ -530,7 +530,7 @@ function logoKey(name) {
         var show = filter === "all" ||
           (filter === "fiber" && type.indexOf("fiber") !== -1) ||
           (filter === "cable" && type === "cable") ||
-          (filter === "5g" && type === "5g") ||
+          (filter === "5g" && type.indexOf("5g") !== -1) ||
           (filter === "satellite" && type.indexOf("satellite") !== -1) ||
           (filter === "u35" && isFinite(price) && price < 35) ||
           (filter === "cabletv" && type === "cabletv") ||

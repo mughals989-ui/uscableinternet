@@ -1,4 +1,5 @@
 name: SEO site audit
+# Validate generated clean provider routes after the sitewide refresh.
 
 on:
   push:

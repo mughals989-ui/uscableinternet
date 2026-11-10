@@ -1,4 +1,5 @@
 name: Bulk sitewide page refresh
+# Keep generated provider routes aligned with clean, no-trailing-slash canonicals.
 
 on:
   push:

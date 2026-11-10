@@ -151,7 +151,7 @@ jobs:
               route_dir.mkdir(exist_ok=True)
               route_file = route_dir / "index.html"
               page = source.read_text(encoding="utf-8")
-              clean_url = "https://uscableinternet.com/" + slug + "/"
+              clean_url = "https://uscableinternet.com/" + slug
               page = re.sub(r'<link\b(?=[^>]*\brel=["\']canonical["\'])[^>]*>', f'<link rel="canonical" href="{clean_url}">', page, flags=re.I)
               page = re.sub(r'(<meta\b(?=[^>]*\bproperty=["\']og:url["\'])[^>]*content=["\'])https://uscableinternet\.com/[^"\']*(["\'])', rf'\g<1>{clean_url}\2', page, flags=re.I)
               route_file.write_text(page, encoding="utf-8")
@@ -159,7 +159,7 @@ jobs:
           # Every provider URL in the sitemap must resolve to the generated directory index.
           sitemap_path = root / "sitemap.xml"
           sitemap_text = sitemap_path.read_text(encoding="utf-8")
-          sitemap_text = re.sub(r'(<loc>https://uscableinternet\.com/internet-providers-[^/<]+)</loc>', r'\1/</loc>', sitemap_text, flags=re.I)
+          sitemap_text = re.sub(r'(<loc>https://uscableinternet\.com/internet-providers-[^<]+)/</loc>', r'\1</loc>', sitemap_text, flags=re.I)
           sitemap_path.write_text(sitemap_text, encoding="utf-8")
           print(f"Refreshed {changed} root HTML pages and generated {len(provider_pages)} clean provider routes; sitemap normalized.")
           PY

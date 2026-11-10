@@ -176,3 +176,5 @@ jobs:
             git commit -m "Refresh navigation and styling across all pages"
             git push origin HEAD:main
           fi
+
+# Bulk state-content refresh: regenerate clean routes and rerun the repository SEO audit.

@@ -107,14 +107,16 @@ def main():
         if not title:
             errors.append(f"{name}: missing title")
         else:
-            title_owners.setdefault(title.casefold(), []).append(relative.as_posix())
+            canonical_key = p.canonicals[0].rstrip("/") if len(p.canonicals) == 1 else relative.as_posix()
+            title_owners.setdefault(title.casefold(), {})[canonical_key] = relative.as_posix()
             if len(title) < 25 or len(title) > 65:
                 warnings.append(f"{name}: title is {len(title)} characters; review the 25–65 character range")
         if len(p.description) != 1 or not p.description[0]:
             warnings.append(f"{name}: expected exactly one non-empty meta description, found {len(p.description)}")
         else:
             description = p.description[0]
-            description_owners.setdefault(description.casefold(), []).append(relative.as_posix())
+            canonical_key = p.canonicals[0].rstrip("/") if len(p.canonicals) == 1 else relative.as_posix()
+            description_owners.setdefault(description.casefold(), {})[canonical_key] = relative.as_posix()
             if len(description) < 70 or len(description) > 170:
                 warnings.append(f"{name}: meta description is {len(description)} characters; review the 70–170 character range")
         if p.images_missing_alt:
@@ -148,11 +150,11 @@ def main():
     # Keep joined owner lists separate to avoid nested-expression f-string syntax issues.
     for title, owners in title_owners.items():
         if len(owners) > 1:
-            owner_list = ", ".join(owners)
+            owner_list = ", ".join(owners.values())
             warnings.append(f"duplicate title used by {len(owners)} pages: {owner_list}")
     for description, owners in description_owners.items():
         if len(owners) > 1:
-            owner_list = ", ".join(owners)
+            owner_list = ", ".join(owners.values())
             warnings.append(f"duplicate meta description used by {len(owners)} pages: {owner_list}")
     sitemap = ROOT / "sitemap.xml"
     if not sitemap.exists():

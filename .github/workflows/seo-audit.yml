@@ -36,3 +36,5 @@ jobs:
           if-no-files-found: ignore
 
 # Bulk state-content refresh: regenerate clean routes and rerun the repository SEO audit.
+
+# Re-run audit after publishing expanded clean state routes.

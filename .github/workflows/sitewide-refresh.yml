@@ -26,6 +26,7 @@ jobs:
           root = Path(".")
           aliases = {
               "index.html": "/", "internet.html": "/internet", "fiber.html": "/fiber",
+              "att-fiber-plans.html": "/fiber", "xfinity-internet-plans.html": "/internet",
               "tv.html": "/tv", "wireless.html": "/wireless",
               "check-address.html": "/check-address", "speed-test.html": "/speed-test",
               "states.html": "/states", "about.html": "/about", "contact.html": "/contact",

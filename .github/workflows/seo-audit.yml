@@ -34,3 +34,5 @@ jobs:
           name: seo-audit-report
           path: seo-audit-report.txt
           if-no-files-found: ignore
+
+# Bulk state-content refresh: regenerate clean routes and rerun the repository SEO audit.

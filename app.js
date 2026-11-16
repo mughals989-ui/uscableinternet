@@ -582,10 +582,13 @@ function logoKey(name) {
     img.onerror = function(){ img.remove(); };
     target.insertBefore(img, target.firstChild);
   }
-  document.querySelectorAll(".provider-card h3").forEach(function(h) {
+  // State templates use more than one card class (for example .card and
+  // .provider-card), so cover both without touching city-navigation cards.
+  document.querySelectorAll(".provider-card h3, article.card h3").forEach(function(h) {
     insertLogo(h, h.textContent);
   });
-  document.querySelectorAll("main table tbody tr td:first-child").forEach(function(cell) {
+  // Provider comparison tables are not consistently wrapped in <main>.
+  document.querySelectorAll("table tbody tr td:first-child").forEach(function(cell) {
     insertLogo(cell, cell.textContent);
   });
 })();

@@ -572,6 +572,13 @@ function logoKey(name) {
     img.src = logoFiles[key];
     img.alt = label + " logo";
     img.loading = "lazy";
+    img.style.width = "82px";
+    img.style.height = "42px";
+    img.style.objectFit = "contain";
+    img.style.objectPosition = "left center";
+    img.style.verticalAlign = "middle";
+    img.style.marginRight = "10px";
+    img.style.maxWidth = "100%";
     img.onerror = function(){ img.remove(); };
     target.insertBefore(img, target.firstChild);
   }

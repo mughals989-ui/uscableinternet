@@ -418,15 +418,15 @@ function showArea(info, location, label) {
 function renderAvailability(area,place,stateName,list,note) {
   var rows = [["Address",area.street],["City",area.city],["County",area.county],["State",stateName ? stateName + " (" + area.state + ")" : area.state],["ZIP code",area.zip]];
   var result = $("res");
+  var filters = [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed wireless"],["Satellite","Satellite"],["DSL","DSL"]];
   result.innerHTML =
-    '<div class="area"><h2>Internet providers reported near ' + esc(place) + '</h2>' +
-    '<p class="nt" id="availability-note">' + esc(list.length + " provider/technology listings found. " + note) + '</p>' +
-    '<dl>' + rows.filter(function(row){return row[1];}).map(function(row){return '<dt>'+row[0]+'</dt><dd>'+esc(row[1])+'</dd>';}).join("") + '</dl>' +
-    '<a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Verify on FCC Broadband Map →</a>' +
-    '<p><strong>Need help comparing plans? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>' +
-    '<div class="chips rchips">' +
-    [["all","All providers"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed wireless"],["Satellite","Satellite"],["DSL","DSL"]].map(function(c,i){return '<button type="button" class="chip'+(i?"":" on")+'" data-f="'+c[0]+'">'+c[1]+'</button>';}).join("") +
-    '</div><div id="rlist" class="provider-results"></div>';
+    '<section class="area availability-summary"><div class="availability-summary-top"><div><span class="availability-eyebrow">YOUR LOCAL INTERNET REPORT</span><h2>Internet providers near ' + esc(place) + '</h2><p class="nt">' + esc(list.length + " provider/technology listings found from FCC Broadband Map data.") + '</p></div><a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">View FCC map ↗</a></div>' +
+    '<dl class="availability-location">' + rows.filter(function(row){return row[1];}).map(function(row){return '<div><dt>'+row[0]+'</dt><dd>'+esc(row[1])+'</dd></div>';}).join("") + '</dl>' +
+    '<p class="availability-disclaimer">' + esc(note) + ' Speeds are reported maximums for the mapped area, not guaranteed speeds at your home. Prices are not provided by this coverage dataset.</p></section>' +
+    '<section class="availability-list-section"><div class="availability-list-heading"><div><h2>Compare available provider options</h2><p>Filter by connection type and compare reported speeds.</p></div><label class="availability-sort-label">Sort by <select id="availability-sort"><option value="speed">Fastest reported speed</option><option value="name">Provider name</option><option value="technology">Connection type</option></select></label></div>' +
+    '<div class="chips rchips" aria-label="Filter providers by connection type">' +
+    filters.map(function(c,i){return '<button type="button" class="chip'+(i?"":" on")+'" data-f="'+c[0]+'" aria-pressed="'+(!i)+'">'+c[1]+'</button>';}).join("") +
+    '</div><p class="availability-count" id="availability-count" aria-live="polite"></p><div id="rlist" class="provider-results"></div></section>';
 
   function draw(filter) {
     var filtered=list.filter(function(p){
@@ -436,27 +436,42 @@ function renderAvailability(area,place,stateName,list,note) {
       if(filter==="satellite") return tech.indexOf("satellite")!==-1;
       return tech.indexOf(filter.toLowerCase())!==-1;
     });
+    var sort = $("availability-sort") ? $("availability-sort").value : "speed";
+    filtered.sort(function(a,b){
+      if(sort==="name") return a.name.localeCompare(b.name);
+      if(sort==="technology") return a.tech.localeCompare(b.tech) || b.download-a.download;
+      return b.download-a.download || a.name.localeCompare(b.name);
+    });
+    $("availability-count").textContent = "Showing " + filtered.length + " of " + list.length + " provider listings";
     $("rlist").innerHTML=filtered.length?filtered.map(function(p,index){
       var key=typeof logoKey==="function"?logoKey(p.name):"";
       var logo=key&&typeof LOGOS!=="undefined"&&LOGOS[key]
         ? '<img class="result-provider-logo" src="'+esc(LOGOS[key])+'" alt="'+esc(p.name)+' logo" loading="lazy" width="112" height="54">'
         : '<span class="result-provider-mark" aria-hidden="true">'+esc(p.name.charAt(0).toUpperCase())+'</span>';
-      var speed=p.speed==="Speed not reported"?"Speed not reported":esc(p.speed);
-      var fastest=index===0&&p.download>=0?'<span class="result-provider-rank">Highest reported speed</span>':"";
-      var official=p.url?'<a class="result-provider-cta" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Check plans</a>':'';
-      var fullDetails='<details class="result-provider-details"><summary>Show full details</summary><div class="result-provider-detail-body"><p><strong>Connection:</strong> '+esc(p.tech)+'</p><p><strong>Coverage data:</strong> '+esc(p.speed)+'</p><p><strong>Pricing:</strong> Not supplied by the coverage lookup. Check the provider for current address-specific prices and terms.</p><p>Coverage is reported for a nearby map cell and does not confirm that this provider can connect this exact home.</p></div></details>';
-      return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+fastest+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">'+esc(p.name)+' internet</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">Speeds reported</span><strong>'+speed+'</strong></div><div><span class="result-provider-label">Connection</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'<a class="result-provider-phone" href="'+PHONE_LINK+'">Call '+PHONE+'</a></div></div>'+fullDetails+'</article>';
-    }).join(""):'<p class="nt">No providers reported for this technology filter.</p>';
+      var speed=p.speed==="Speed not reported" ? "Not reported" : esc(p.speed);
+      var rank=index===0&&p.download>=0&&sort==="speed" ? '<span class="result-provider-rank">Fastest reported</span>' : "";
+      var official=p.url?'<a class="result-provider-cta" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Check plans on provider site</a>':'<span class="result-provider-unavailable">Provider website not verified</span>';
+      var details='<details class="result-provider-details"><summary>Coverage and pricing details</summary><div class="result-provider-detail-body"><p><strong>Connection:</strong> '+esc(p.tech)+'</p><p><strong>Reported speed:</strong> '+esc(p.speed)+'</p><p><strong>Monthly price:</strong> Not supplied by the FCC coverage dataset. Check the provider for current address-specific offers, equipment fees and terms.</p><p>Coverage is reported for a nearby FCC map location. It does not confirm that the provider can connect this exact home.</p></div></details>';
+      return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+rank+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">Internet service provider</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">Maximum reported download</span><strong>'+speed+'</strong></div><div><span class="result-provider-label">Network type</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Monthly price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'</div></div>'+details+'</article>';
+    }).join(""):'<div class="availability-empty"><strong>No providers found for this connection type.</strong><p>Choose another filter to see the other reported options.</p></div>';
   }
   draw("all");
+  var sortControl=$("availability-sort");
+  if(sortControl) sortControl.addEventListener("change",function(){
+    var active=document.querySelector(".rchips .chip.on");
+    draw(active ? active.dataset.f : "all");
+  });
   document.querySelectorAll(".rchips .chip").forEach(function(button){
     button.onclick=function(){
-      document.querySelectorAll(".rchips .chip").forEach(function(item){item.classList.toggle("on",item===button);});
+      document.querySelectorAll(".rchips .chip").forEach(function(item){
+        var active=item===button;
+        item.classList.toggle("on",active);
+        item.setAttribute("aria-pressed",active?"true":"false");
+      });
       draw(button.dataset.f);
     };
   });
 }
-
 function setupSpeedTest() {
   var button = $("sb");
   if (!button) return;

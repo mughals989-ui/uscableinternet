@@ -404,3 +404,41 @@ footer .cols a:hover{color:#70e1d2}
   footer{padding:34px 0 24px!important}
   footer .cols{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
 }
+
+
+/* Address lookup: comparison-first results layout */
+.address-page #res{border-top:0;padding-top:0;margin-top:24px}
+.address-page #res .availability-summary{background:#f7faff;border:1px solid #dbe5f1;border-radius:16px;padding:22px;margin:0 0 24px}
+.address-page #res .availability-summary-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.address-page #res .availability-eyebrow{display:block;color:#2563eb;font-size:11px;font-weight:800;letter-spacing:.1em;margin-bottom:7px}
+.address-page #res .availability-summary h2,.address-page #res .availability-list-heading h2{margin:0 0 6px;color:#10213d;font-size:clamp(21px,3vw,28px);line-height:1.2}
+.address-page #res .availability-summary .nt,.address-page #res .availability-list-heading p{margin:0;color:#5b6b82;font-size:14px}
+.address-page #res .availability-location{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:18px 0 12px}
+.address-page #res .availability-location>div{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px}
+.address-page #res .availability-location dt{color:#64748b;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.address-page #res .availability-location dd{margin:3px 0 0;color:#172b4d;font-size:14px;font-weight:700}
+.address-page #res .availability-disclaimer{border-top:1px solid #dce5f0;padding-top:12px;margin:0;color:#5b6b82;font-size:12px;line-height:1.55}
+.address-page #res .availability-list-section{margin:0}
+.address-page #res .availability-list-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin:0 0 16px}
+.address-page #res .availability-sort-label{display:flex;align-items:center;gap:8px;color:#475569;font-size:13px;font-weight:700;white-space:nowrap}
+.address-page #res #availability-sort{border:1px solid #cbd5e1;border-radius:8px;background:#fff;padding:9px 30px 9px 10px;color:#1e293b;font:inherit}
+.address-page #res .availability-list-section .rchips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
+.address-page #res .availability-list-section .chip{border:1px solid #cbd5e1;border-radius:999px;background:#fff;color:#334155;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer}
+.address-page #res .availability-list-section .chip.on{background:#173b72;border-color:#173b72;color:#fff}
+.address-page #res .availability-count{color:#64748b;font-size:12px;font-weight:700;margin:0 0 10px}
+.address-page #res .provider-results{max-width:none;gap:10px}
+.address-page #res .result-provider-card{border-radius:12px;box-shadow:0 2px 8px rgba(15,23,42,.045)}
+.address-page #res .result-provider-main{grid-template-columns:minmax(190px,1fr) minmax(270px,1.4fr) minmax(190px,.75fr);padding:18px;gap:18px}
+.address-page #res .result-provider-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+.address-page #res .result-provider-cta{white-space:normal;line-height:1.3}
+.address-page #res .result-provider-unavailable{color:#64748b;font-size:12px}
+.address-page #res .availability-empty{padding:22px;border:1px dashed #cbd5e1;border-radius:12px;color:#334155}
+.address-page #res .availability-empty p{margin:5px 0 0;color:#64748b;font-size:13px}
+@media(max-width:760px){
+ .address-page #res .availability-summary{padding:16px}
+ .address-page #res .availability-summary-top,.address-page #res .availability-list-heading{display:block}
+ .address-page #res .availability-summary-top .fcc{display:inline-block;margin-top:12px}
+ .address-page #res .availability-sort-label{margin-top:14px;justify-content:space-between}
+ .address-page #res #availability-sort{flex:1;max-width:230px}
+ .address-page #res .result-provider-main{grid-template-columns:1fr;gap:13px}
+}

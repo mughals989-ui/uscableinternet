@@ -519,11 +519,14 @@ setupSpeedTest();
 var LOGOS = {
   spectrum:"/spectrum.png",xfinity:"/xfinity.png",att:"/att.png",verizon:"/verizon.png",
   tmobile:"/tmobile.png",cox:"/Cox.png",optimum:"/Optimum.png",frontier:"/Frontier.png",
-  googlefiber:"/Google%20Fiber.png",hughesnet:"/Hugesnet.png",starlink:"/Starlink.png",viasat:"/Viasat.png"
+  googlefiber:"/Google%20Fiber.png",hughesnet:"/Hugesnet.png",starlink:"/Starlink.png",viasat:"/Viasat.png",
+  astound:"/assets/astound-broadband-logo.png",skywire:"/assets/skywire-networks-logo.png",
+  minternet:"/assets/minternet-logo.png",starry:"/assets/starry-internet-logo.png",
+  windstream:"/assets/windstream-logo.png"
 };
 function logoKey(name) {
   var value = String(name).toLowerCase();
-  var keys = [["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"]];
+  var keys = [["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],["astound","astound"],["skywire","skywire"],["minternet","minternet"],["starry","starry"],["windstream","windstream"],["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"]];
   for (var i = 0; i < keys.length; i++) { if (value.indexOf(keys[i][0]) !== -1) return keys[i][1]; }
   return "";
 }

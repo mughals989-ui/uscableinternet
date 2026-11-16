@@ -488,11 +488,25 @@ var LOGOS = {
   googlefiber:"/Google%20Fiber.png",hughesnet:"/Hugesnet.png",starlink:"/Starlink.png",viasat:"/Viasat.png",
   astound:"/assets/astound-broadband-logo.png",skywire:"/assets/skywire-networks-logo.png",
   minternet:"/assets/minternet-logo.png",starry:"/assets/starry-internet-logo.png",
-  windstream:"/assets/windstream-logo.png"
+  windstream:"/assets/windstream-logo.png",brightspeed:"/Brightspeed.png",
+  smartway:"/assets/smart-way-communications.png",metronet:"/assets/metronet.png",
+  gonetspeed:"/assets/gonetspeed.png",wow:"/assets/wow.png",
+  ziply:"/assets/ziply-fiber.png",consolidated:"/assets/consolidated-communications.png",
+  sparklight:"/assets/sparklight.png"
 };
 function logoKey(name) {
   var value = String(name).toLowerCase();
-  var keys = [["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],["astound","astound"],["skywire","skywire"],["minternet","minternet"],["starry","starry"],["windstream","windstream"],["spectrum","spectrum"],["xfinity","xfinity"],["verizon","verizon"],["cox","cox"],["optimum","optimum"],["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"]];
+  var keys = [
+    ["smart way","smartway"],["smartway","smartway"],["brightspeed","brightspeed"],
+    ["metronet","metronet"],["gonetspeed","gonetspeed"],["go netspeed","gonetspeed"],
+    ["wow","wow"],["wideopenwest","wow"],["ziply","ziply"],
+    ["consolidated","consolidated"],["consolidaed","consolidated"],["sparklight","sparklight"],
+    ["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],
+    ["astound","astound"],["skywire","skywire"],["minternet","minternet"],
+    ["starry","starry"],["windstream","windstream"],["spectrum","spectrum"],
+    ["xfinity","xfinity"],["verizon","verizon"],["cox","cox"],["optimum","optimum"],
+    ["frontier","frontier"],["hughesnet","hughesnet"],["starlink","starlink"],["viasat","viasat"]
+  ];
   for (var i = 0; i < keys.length; i++) { if (value.indexOf(keys[i][0]) !== -1) return keys[i][1]; }
   return "";
 }
@@ -547,12 +561,22 @@ function logoKey(name) {
     starry:"/assets/starry-internet-logo.png",
     windstream:"/assets/windstream-logo.png",
     kinetic:"/kinetic-windstream.png", brightspeed:"/Brightspeed.png",
+    smartway:"/assets/smart-way-communications.png",
+    metronet:"/assets/metronet.png", gonetspeed:"/assets/gonetspeed.png",
+    wow:"/assets/wow.png", ziply:"/assets/ziply-fiber.png",
+    consolidated:"/assets/consolidated-communications.png",
+    sparklight:"/assets/sparklight.png",
     directv:"/Directv.png", dish:"/Dish.png"
   };
   function keyFor(text) {
     var s = String(text || "").toLowerCase().replace(/&amp;/g, "&");
     var pairs = [
-      ["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],
+      ["smart way","smartway"],["smartway","smartway"],
+      ["metronet","metronet"],["gonetspeed","gonetspeed"],["go netspeed","gonetspeed"],
+      ["wideopenwest","wow"],["wow","wow"],["ziply","ziply"],
+      ["consolidated","consolidated"],["consolidaed","consolidated"],
+      ["sparklight","sparklight"],["google fiber","googlefiber"],
+      ["t-mobile","tmobile"],["at&t","att"],
       ["hughesnet","hughesnet"],["brightspeed","brightspeed"],
       ["kinetic","kinetic"],["windstream","windstream"],
       ["directv","directv"],["dish","dish"],["astound","astound"],

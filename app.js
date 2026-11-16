@@ -533,3 +533,52 @@ function logoKey(name) {
     });
   });
 })();
+
+
+// Provider logos on state and city comparison pages.
+(function addStateProviderLogos() {
+  var logoFiles = {
+    spectrum:"/spectrum.png", xfinity:"/xfinity.png", att:"/att.png",
+    verizon:"/verizon.png", tmobile:"/tmobile.png", cox:"/Cox.png",
+    optimum:"/Optimum.png", frontier:"/Frontier.png",
+    googlefiber:"/Google%20Fiber.png", hughesnet:"/Hugesnet.png",
+    starlink:"/Starlink.png", viasat:"/Viasat.png",
+    astound:"/assets/astound-broadband-logo.png",
+    starry:"/assets/starry-internet-logo.png",
+    windstream:"/assets/windstream-logo.png",
+    kinetic:"/kinetic-windstream.png", brightspeed:"/Brightspeed.png",
+    directv:"/Directv.png", dish:"/Dish.png"
+  };
+  function keyFor(text) {
+    var s = String(text || "").toLowerCase().replace(/&amp;/g, "&");
+    var pairs = [
+      ["google fiber","googlefiber"],["t-mobile","tmobile"],["at&t","att"],
+      ["hughesnet","hughesnet"],["brightspeed","brightspeed"],
+      ["kinetic","kinetic"],["windstream","windstream"],
+      ["directv","directv"],["dish","dish"],["astound","astound"],
+      ["starry","starry"],["spectrum","spectrum"],["xfinity","xfinity"],
+      ["verizon","verizon"],["cox","cox"],["optimum","optimum"],
+      ["frontier","frontier"],["starlink","starlink"],["viasat","viasat"]
+    ];
+    for (var i=0;i<pairs.length;i++) if (s.indexOf(pairs[i][0]) !== -1) return pairs[i][1];
+    return "";
+  }
+  function insertLogo(target, label) {
+    if (!target || target.querySelector(".state-provider-logo")) return;
+    var key = keyFor(label);
+    if (!key || !logoFiles[key]) return;
+    var img = document.createElement("img");
+    img.className = "state-provider-logo";
+    img.src = logoFiles[key];
+    img.alt = label + " logo";
+    img.loading = "lazy";
+    img.onerror = function(){ img.remove(); };
+    target.insertBefore(img, target.firstChild);
+  }
+  document.querySelectorAll(".provider-card h3").forEach(function(h) {
+    insertLogo(h, h.textContent);
+  });
+  document.querySelectorAll("main table tbody tr td:first-child").forEach(function(cell) {
+    insertLogo(cell, cell.textContent);
+  });
+})();

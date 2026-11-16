@@ -372,13 +372,70 @@ function showArea(info, location, label) {
   var stateName = STN[area.state] || "";
   var place = [area.city, area.state].filter(Boolean).join(", ") || "ZIP " + area.zip;
   var result = $("res");
-  // Free fallback: no calls to the quota-limited paid BroadbandMap API.
-  // This directory lists official provider sites; it does NOT claim address-level availability.
-  var freeOptions = D.filter(function(row){ return row[0] === "i"; }).map(function(row){
-    return {name:row[1],tech:row[3],speed:"Check provider for address-specific availability",url:row[2],download:-1};
-  });
-  trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:freeOptions.length,source:"free_provider_directory"});
-  renderAvailability(area,place,stateName,freeOptions,"No paid coverage API is used. These are provider websites to check, not confirmed available at this address. For official reported coverage, search this same address on the FCC National Broadband Map.",true);
+  var endpoint = AVAILABILITY_API + "?lat=" + encodeURIComponent(area.lat) + "&lng=" + encodeURIComponent(area.lon);
+
+  if (!isFinite(area.lat) || !isFinite(area.lon)) {
+    result.innerHTML = '<div class="area"><h2>We could not locate this address precisely.</h2><p class="nt">Please try the full street address or ZIP code again.</p></div>';
+    return;
+  }
+
+  fetch(endpoint, {headers:{"Accept":"application/json"}, cache:"no-store"})
+    .then(function(response) {
+      return response.text().then(function(body) {
+        var data = {};
+        try { data = JSON.parse(body); } catch(e) {}
+        if (!response.ok) {
+          var error = new Error(data.error || data.message || "Coverage service returned HTTP " + response.status);
+          error.status = response.status;
+          error.data = data;
+          throw error;
+        }
+        return data;
+      });
+    })
+    .then(function(data) {
+      var providers = Array.isArray(data.providers) ? data.providers : [];
+      if (!providers.length) {
+        result.innerHTML = '<div class="area"><h2>No provider listings were returned for this mapped location.</h2><p class="nt">This does not prove that internet service is unavailable. Check the address directly with providers or use the FCC National Broadband Map.</p><p><a href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Open the FCC National Broadband Map</a></p></div>';
+        trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:0,source:"broadbandmap_api"});
+        return;
+      }
+      var providerDirectory = D.filter(function(row){ return row[0] === "i"; });
+      var list = providers.map(function(p) {
+        var name = String(p.name || p.brand_name || "").trim();
+        var technology = String(p.technology || p.tech || "Internet");
+        var match = providerDirectory.find(function(row) {
+          var a = row[1].toLowerCase(), b = name.toLowerCase();
+          return a === b || a.indexOf(b) !== -1 || b.indexOf(a) !== -1;
+        });
+        var down = Number(p.max_download_mbps != null ? p.max_download_mbps : p.download_mbps);
+        var up = Number(p.max_upload_mbps != null ? p.max_upload_mbps : p.upload_mbps);
+        var speed = Number.isFinite(down) ? down + " Mbps down" + (Number.isFinite(up) ? " / " + up + " Mbps up" : "") : "Speed not reported";
+        return {
+          name:name || "Provider",
+          tech:technology,
+          speed:speed,
+          download:Number.isFinite(down) ? down : -1,
+          url:match ? match[2] : "",
+          category:"Internet service provider"
+        };
+      }).filter(function(p){ return p.name !== "Provider"; });
+
+      trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap_api"});
+      renderAvailability(
+        area, place, stateName, list,
+        "Provider listings are based on the Broadband Map coverage cell containing this search location. This is area-level reported coverage, not confirmation that a provider can connect the exact home.",
+        false
+      );
+    })
+    .catch(function(error) {
+      var status = error && error.status;
+      var message = status === 429
+        ? "The coverage data provider has reached its request limit. No provider results are being shown as available. Please try again later or check the FCC map directly."
+        : "We could not retrieve location-specific provider data right now. No generic provider list is being substituted.";
+      result.innerHTML = '<div class="area"><h2>Address-specific provider data is temporarily unavailable.</h2><p class="nt">' + esc(message) + '</p><p><a href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">Check this location on the FCC National Broadband Map</a></p></div>';
+      trackUciEvent("address_check_error", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",status:status || 0});
+    });
 }
 
 function renderAvailability(area,place,stateName,list,note,isFallback) {

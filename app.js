@@ -436,13 +436,21 @@ function renderAvailability(area,place,stateName,list,note) {
       if(filter==="satellite") return tech.indexOf("satellite")!==-1;
       return tech.indexOf(filter.toLowerCase())!==-1;
     });
+    // Keep the Cable tab useful even when FCC internet coverage data has no cable ISPs:
+    // DIRECTV and DISH are shown as TV choices, not misrepresented as cable internet.
+    if(filter==="Cable") {
+      filtered = filtered.concat([
+        {name:"DIRECTV",tech:"TV service (satellite / streaming)",speed:"TV packages — check current lineup",url:"https://www.directv.com/packages/",download:-1,category:"TV provider"},
+        {name:"DISH Network",tech:"TV service (satellite)",speed:"TV packages — check current lineup",url:"https://www.dish.com/",download:-1,category:"TV provider"}
+      ]);
+    }
     var sort = $("availability-sort") ? $("availability-sort").value : "speed";
     filtered.sort(function(a,b){
       if(sort==="name") return a.name.localeCompare(b.name);
       if(sort==="technology") return a.tech.localeCompare(b.tech) || b.download-a.download;
       return b.download-a.download || a.name.localeCompare(b.name);
     });
-    $("availability-count").textContent = "Showing " + filtered.length + " of " + list.length + " provider listings";
+    $("availability-count").textContent = "Showing " + filtered.length + " options (including TV providers where relevant)";
     $("rlist").innerHTML=filtered.length?filtered.map(function(p,index){
       var key=typeof logoKey==="function"?logoKey(p.name):"";
       var logo=key&&typeof LOGOS!=="undefined"&&LOGOS[key]
@@ -452,7 +460,7 @@ function renderAvailability(area,place,stateName,list,note) {
       var rank=index===0&&p.download>=0&&sort==="speed" ? '<span class="result-provider-rank">Fastest reported</span>' : "";
       var official=p.url?'<a class="result-provider-cta" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Check plans on provider site</a>':'<span class="result-provider-unavailable">Provider website not verified</span>';
       var details='<details class="result-provider-details"><summary>Coverage and pricing details</summary><div class="result-provider-detail-body"><p><strong>Connection:</strong> '+esc(p.tech)+'</p><p><strong>Reported speed:</strong> '+esc(p.speed)+'</p><p><strong>Monthly price:</strong> Not supplied by the FCC coverage dataset. Check the provider for current address-specific offers, equipment fees and terms.</p><p>Coverage is reported for a nearby FCC map location. It does not confirm that the provider can connect this exact home.</p></div></details>';
-      return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+rank+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">Internet service provider</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">Maximum reported download</span><strong>'+speed+'</strong></div><div><span class="result-provider-label">Network type</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Monthly price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'</div></div>'+details+'</article>';
+      return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+rank+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">'+esc(p.category || "Internet service provider")+'</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">Maximum reported download</span><strong>'+speed+'</strong></div><div><span class="result-provider-label">Network type</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Monthly price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'</div></div>'+details+'</article>';
     }).join(""):'<div class="availability-empty"><strong>No providers found for this connection type.</strong><p>Choose another filter to see the other reported options.</p></div>';
   }
   draw("all");

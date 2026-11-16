@@ -68,3 +68,14 @@ footer nav{display:flex;flex-wrap:wrap;gap:8px 16px}
 footer nav a{margin:0}
 ul.cities{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px 18px;padding-left:20px}
 @media(max-width:640px){.top .bar{align-items:flex-start}.top nav{width:100%;gap:5px 12px}.call{margin-left:0}.wrap{padding-left:16px;padding-right:16px}}
+
+
+/* Provider brand marks on state and city guides */
+.provider-card h3{display:flex;align-items:center;gap:12px;min-height:48px}
+.state-provider-logo{display:inline-block;width:82px;height:42px;object-fit:contain;object-position:left center;flex:0 0 82px;background:#fff}
+main table td:first-child{white-space:normal}
+main table td:first-child .state-provider-logo{width:64px;height:34px;flex-basis:64px;vertical-align:middle;margin-right:9px}
+@media(max-width:640px){
+  .provider-card h3{gap:9px}
+  .state-provider-logo{width:68px;height:36px;flex-basis:68px}
+}

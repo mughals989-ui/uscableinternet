@@ -372,59 +372,21 @@ function showArea(info, location, label) {
   var stateName = STN[area.state] || "";
   var place = [area.city, area.state].filter(Boolean).join(", ") || "ZIP " + area.zip;
   var result = $("res");
-  result.innerHTML = '<p class="nt">Checking Broadband Map coverage data…</p>';
-  fetch(AVAILABILITY_API + "?lat=" + encodeURIComponent(area.lat) + "&lng=" + encodeURIComponent(area.lon), {method:"GET",headers:{"Accept":"application/json"},cache:"no-store"})
-    .then(function(response) {
-      return response.json().catch(function(){return {};}).then(function(data) {
-        if (!response.ok) throw new Error(data.error || "Coverage lookup unavailable");
-        return data;
-      });
-    })
-    .then(function(data) {
-      var providers = Array.isArray(data.providers) ? data.providers : [];
-      function reportedSpeed(value) {
-        if (value === null || value === undefined || (typeof value === "string" && value.trim() === "")) return null;
-        var number = Number(value);
-        return isFinite(number) && number >= 0 ? number : null;
-      }
-      var uniqueProviders = Object.create(null);
-      providers.forEach(function(p) {
-        if (!p || typeof p !== "object") return;
-        var name = String(p.name || "Provider").trim() || "Provider";
-        var tech = String(p.technology || "Internet").trim() || "Internet";
-        tech = tech.replace("Fixed Wireless","5G / Fixed Wireless").replace("LEO Satellite","Satellite").replace("GSO Satellite","Satellite");
-        var key = name.toLowerCase().replace(/\s+/g, " ") + "|" + tech.toLowerCase().replace(/\s+/g, " ");
-        var download = reportedSpeed(p.max_download_mbps);
-        var upload = reportedSpeed(p.max_upload_mbps);
-        if (!uniqueProviders[key]) {
-          uniqueProviders[key] = {name:name,tech:tech,download:download,upload:upload};
-        } else {
-          var existing = uniqueProviders[key];
-          if (download !== null && (existing.download === null || download > existing.download)) existing.download = download;
-          if (upload !== null && (existing.upload === null || upload > existing.upload)) existing.upload = upload;
-        }
-      });
-      var list = Object.keys(uniqueProviders).map(function(key) {
-        var p = uniqueProviders[key];
-        var speedText = p.download === null ? "Speed not reported" : "Up to " + p.download + " Mbps download";
-        if (p.upload !== null) speedText += (p.download === null ? " · " : " / ") + p.upload + " Mbps upload";
-        return {name:p.name,tech:p.tech,speed:speedText,url:providerWebsite(p.name),download:p.download === null ? -1 : p.download};
-      }).sort(function(a,b){return b.download-a.download;});
-      trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:list.length,source:"broadbandmap"});
-      renderAvailability(area,place,stateName,list,"Broadband Map reported coverage in the nearby map cell. A provider listed here may not serve every address in that cell; confirm directly with the provider.");
-    })
-    .catch(function(error) {
-      trackUciEvent("address_check_results", {lookup_type:area.street ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:0,source:"lookup_error"});
-      result.innerHTML = '<div class="area"><h2>We couldn’t retrieve coverage data right now.</h2><p class="nt">' + esc(error.message || "Please try again shortly.") + ' Your address was located, but no provider availability is being claimed.</p><p><strong>Need help? Call <a href="' + PHONE_LINK + '">' + PHONE + '</a></strong></p></div>';
-    });
+  // Free fallback: no calls to the quota-limited paid BroadbandMap API.
+  // This directory lists official provider sites; it does NOT claim address-level availability.
+  var freeOptions = D.filter(function(row){ return row[0] === "i"; }).map(function(row){
+    return {name:row[1],tech:row[3],speed:"Check provider for address-specific availability",url:row[2],download:-1};
+  });
+  trackUciEvent("address_check_results", {lookup_type:info.query ? "full_address" : "zip_code",state:area.state || "unknown",provider_count:freeOptions.length,source:"free_provider_directory"});
+  renderAvailability(area,place,stateName,freeOptions,"No paid coverage API is used. These are provider websites to check, not confirmed available at this address. For official reported coverage, search this same address on the FCC National Broadband Map.",true);
 }
 
-function renderAvailability(area,place,stateName,list,note) {
+function renderAvailability(area,place,stateName,list,note,isFallback) {
   var rows = [["Address",area.street],["City",area.city],["County",area.county],["State",stateName ? stateName + " (" + area.state + ")" : area.state],["ZIP code",area.zip]];
   var result = $("res");
   var filters = [["all","All"],["Fiber","Fiber"],["Cable","Cable"],["Fixed Wireless","Fixed wireless"],["Satellite","Satellite"],["DSL","DSL"]];
   result.innerHTML =
-    '<section class="area availability-summary"><div class="availability-summary-top"><div><span class="availability-eyebrow">YOUR LOCAL INTERNET REPORT</span><h2>Internet providers near ' + esc(place) + '</h2><p class="nt">' + esc(list.length + " provider/technology listings found from FCC Broadband Map data.") + '</p></div><a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">View FCC map ↗</a></div>' +
+    '<section class="area availability-summary"><div class="availability-summary-top"><div><span class="availability-eyebrow">YOUR LOCAL INTERNET REPORT</span><h2>Internet providers near ' + esc(place) + '</h2><p class="nt">' + esc(isFallback ? list.length + " provider websites to check — availability not verified." : list.length + " provider/technology listings found from FCC Broadband Map data.") + '</p></div><a class="fcc" href="https://broadbandmap.fcc.gov/home" target="_blank" rel="noopener">View FCC map ↗</a></div>' +
     '<dl class="availability-location">' + rows.filter(function(row){return row[1];}).map(function(row){return '<div><dt>'+row[0]+'</dt><dd>'+esc(row[1])+'</dd></div>';}).join("") + '</dl>' +
     '<p class="availability-disclaimer">' + esc(note) + ' Speeds are reported maximums for the mapped area, not guaranteed speeds at your home. Prices are not provided by this coverage dataset.</p></section>' +
     '<section class="availability-list-section"><div class="availability-list-heading"><div><h2>Compare available provider options</h2><p>Filter by connection type and compare reported speeds.</p></div><label class="availability-sort-label">Sort by <select id="availability-sort"><option value="speed">Fastest reported speed</option><option value="name">Provider name</option><option value="technology">Connection type</option></select></label></div>' +
@@ -464,7 +426,7 @@ function renderAvailability(area,place,stateName,list,note) {
       var speed=p.speed==="Speed not reported" ? "Not reported" : esc(p.speed);
       var rank=!isTv&&index===0&&p.download>=0&&sort==="speed" ? '<span class="result-provider-rank">Fastest reported</span>' : "";
       var official=p.url?'<a class="result-provider-cta" href="'+esc(p.url)+'" target="_blank" rel="sponsored nofollow noopener">Check plans on provider site</a>':'<span class="result-provider-unavailable">Provider website not verified</span>';
-      var details='<details class="result-provider-details"><summary>Service and pricing details</summary><div class="result-provider-detail-body"><p><strong>Service:</strong> '+esc(p.tech)+'</p>'+(isTv?'':'<p><strong>Reported speed:</strong> '+esc(p.speed)+'</p>')+'<p><strong>Monthly price:</strong> Not supplied by the FCC coverage dataset. Check the provider for current address-specific offers, equipment fees and terms.</p>'+(isTv?'<p>TV service is listed as an additional option; it is not an internet connection and is not included in FCC internet coverage results.</p>':'<p>Coverage is reported for a nearby FCC map location. It does not confirm that the provider can connect this exact home.</p>')+'</div></details>';
+      var details='<details class="result-provider-details"><summary>Service and pricing details</summary><div class="result-provider-detail-body"><p><strong>Service:</strong> '+esc(p.tech)+'</p>'+(isTv?'':'<p><strong>'+(isFallback?'Availability check:':'Reported speed:')+'</strong> '+(isFallback?'Not verified — check directly with the provider.':esc(p.speed))+'</p>')+'<p><strong>Monthly price:</strong> Not supplied by the FCC coverage dataset. Check the provider for current address-specific offers, equipment fees and terms.</p>'+(isTv?'<p>TV service is listed as an additional option; it is not an internet connection and is not included in FCC internet coverage results.</p>':(isFallback?'<p>This is a general provider directory, not a result confirming service at this address. Use the provider’s own address checker before ordering.</p>':'<p>Coverage is reported for a nearby FCC map location. It does not confirm that the provider can connect this exact home.</p>'))+'</div></details>';
       return '<article class="result-provider-card"><div class="result-provider-main"><div class="result-provider-brand">'+logo+'<div class="result-provider-name-wrap">'+rank+'<h3>'+esc(p.name)+'</h3><p class="result-provider-sub">'+esc(p.category || "Internet service provider")+'</p></div></div><div class="result-provider-metrics"><div><span class="result-provider-label">'+(isTv?'Service type':'Maximum reported download')+'</span><strong>'+(isTv?'TV service':speed)+'</strong></div><div><span class="result-provider-label">'+(isTv?'Delivery':'Network type')+'</span><strong>'+esc(p.tech)+'</strong></div><div><span class="result-provider-label">Monthly price</span><strong>Check provider</strong></div></div><div class="result-provider-actions">'+official+'</div></div>'+details+'</article>';
     }).join(""):'<div class="availability-empty"><strong>No providers found for this connection type.</strong><p>Choose another filter to see the other reported options.</p></div>';
   }

@@ -1,10 +1,31 @@
 (function(){
   var measurementId = "G-ZPV8JCZYVZ";
-  if (typeof window !== "undefined" && typeof window.gtag === "function" && Array.isArray(window.dataLayer)) {
-    var alreadyConfigured = window.dataLayer.some(function (entry) {
-      return entry && entry[0] === "config" && entry[1] === measurementId;
-    });
-    if (!alreadyConfigured) window.gtag("config", measurementId);
+  if (typeof window === "undefined" || typeof document === "undefined") return;
+
+  window.dataLayer = window.dataLayer || [];
+  var createdGtag = typeof window.gtag !== "function";
+  if (createdGtag) {
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+  }
+
+  var hasJsCommand = window.dataLayer.some(function(entry) {
+    return entry && entry[0] === "js";
+  });
+  if (!hasJsCommand) window.gtag("js", new Date());
+
+  var alreadyConfigured = window.dataLayer.some(function(entry) {
+    return entry && entry[0] === "config" && entry[1] === measurementId;
+  });
+  if (!alreadyConfigured) window.gtag("config", measurementId);
+
+  var hasGtagLoader = Array.prototype.some.call(document.scripts, function(script) {
+    return /googletagmanager\\.com\\/gtag\\/js/.test(script.src || "");
+  });
+  if (!hasGtagLoader) {
+    var loader = document.createElement("script");
+    loader.async = true;
+    loader.src = "https://www.googletagmanager.com/gtag/js?id=" + measurementId;
+    (document.head || document.documentElement).appendChild(loader);
   }
 })();
 

@@ -19,8 +19,8 @@
   if (!alreadyConfigured) window.gtag("config", measurementId);
 
   var hasGtagLoader = Array.prototype.some.call(document.scripts, function(script) {
-    return /googletagmanager\\.com\\/gtag\\/js/.test(script.src || "");
-  });
+    return (script.src || "").indexOf("googletagmanager.com/gtag/js") !== -1;
+  });;
   if (!hasGtagLoader) {
     var loader = document.createElement("script");
     loader.async = true;

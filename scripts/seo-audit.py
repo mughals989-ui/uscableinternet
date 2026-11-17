@@ -94,8 +94,6 @@ def main():
             expected = "https://uscableinternet.com/"
         elif name == "index.html" and path.parent.name.startswith("internet-providers-"):
             expected = "https://uscableinternet.com/" + path.parent.name + "/"
-        elif name == "index.html" and path.parent != ROOT:
-            expected = "https://uscableinternet.com/" + path.parent.relative_to(ROOT).as_posix()
         else:
             expected = legacy_redirects.get(
                 name,

@@ -1,3 +1,13 @@
+(function(){
+  var measurementId = "G-ZPV8JCZYVZ";
+  if (typeof window !== "undefined" && typeof window.gtag === "function" && Array.isArray(window.dataLayer)) {
+    var alreadyConfigured = window.dataLayer.some(function (entry) {
+      return entry && entry[0] === "config" && entry[1] === measurementId;
+    });
+    if (!alreadyConfigured) window.gtag("config", measurementId);
+  }
+})();
+
 var FS = "";
 var PHONE = "888-630-3881";
 var PHONE_LINK = "tel:8886303881";

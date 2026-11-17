@@ -442,3 +442,11 @@ footer .cols a:hover{color:#70e1d2}
  .address-page #res #availability-sort{flex:1;max-width:230px}
  .address-page #res .result-provider-main{grid-template-columns:1fr;gap:13px}
 }
+
+/* State guide FAQ panels: readable, consistent and mobile-friendly */
+.state-faq{max-width:1160px;margin:30px auto;padding:clamp(20px,3vw,32px);background:linear-gradient(180deg,#fff 0%,#f8fafc 100%);border:1px solid #dfe7ef;border-radius:20px;box-shadow:0 14px 36px rgba(15,23,42,.07)}
+.state-faq>h2{margin:0 0 12px;color:#10172f;font-size:clamp(1.45rem,2.5vw,1.9rem);letter-spacing:-.03em}
+.state-faq article{max-width:none;margin:0;padding:18px 0;border-top:1px solid #e5ebf2}
+.state-faq article h3{margin:0 0 7px;color:#18243b;font-size:1.04rem;font-weight:750;letter-spacing:-.01em}
+.state-faq article p{max-width:82ch;margin:0;color:#526078;line-height:1.7}
+@media(max-width:640px){.state-faq{margin:22px 0;padding:20px 17px;border-radius:16px}.state-faq article{padding:15px 0}}

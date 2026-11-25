@@ -1,0 +1,88 @@
+name: Sitewide footer and disclosure refresh
+# Final validation runs against the fully refreshed PR branch.
+
+on:
+  push:
+    branches:
+      - fix/sitewide-footer-disclosure-events-nov26
+    paths:
+      - scripts/sitewide-consistency.py
+      - .github/workflows/sitewide-consistency.yml
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the approved working branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Remove any previously committed generated Pages output
+        run: git rm -r --ignore-unmatch _site
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Standardize all HTML pages
+        run: python3 scripts/sitewide-consistency.py
+      - name: Check the repository for legacy Skimlinks references
+        run: |
+          if grep -RniE 'skimlinks|skimresources' --exclude-dir=.git --exclude='sitewide-consistency.py' --exclude='sitewide-consistency.yml' --exclude='seo-audit.yml' .; then
+            echo "Legacy Skimlinks reference found; remove it before merging."
+            exit 1
+          else
+            echo "No legacy Skimlinks references found in repository content."
+          fi
+      - name: Verify sitewide GA4 event tracking coverage
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          root = Path(".")
+          pages = list(root.rglob("*.html"))
+          failures = []
+          for page in pages:
+              if any(part in {".git", "_site"} for part in page.parts):
+                  continue
+              html = page.read_text(encoding="utf-8")
+              count = html.lower().count('<script defer src="/tracking.js?v=1"></script>')
+              if count != 1:
+                  failures.append(f"{page}: expected exactly one tracking.js include, found {count}")
+          tracker = (root / "tracking.js").read_text(encoding="utf-8")
+          for event in ("address_check_start", "address_check_submit", "provider_click", "phone_click"):
+              if event not in tracker:
+                  failures.append(f"tracking.js missing {event}")
+          app = (root / "app.js").read_text(encoding="utf-8")
+          if "address_check_results" not in app:
+              failures.append("app.js missing address_check_results")
+          if failures:
+              print("\n".join(failures))
+              raise SystemExit(1)
+          print(f"Verified shared tracking include on {len(pages)} HTML files and all five requested events.")
+          PY
+      - name: Run required SEO audit
+        run: python3 scripts/seo-audit.py
+      - name: Check for whitespace errors
+        run: git diff --check
+      - name: Build GitHub Pages
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Commit sitewide HTML updates to this branch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Keep the generated Jekyll output out of the source repository.
+          git rm -r --ignore-unmatch _site
+          git add -A -- '*.html'
+          if git diff --cached --quiet; then
+            echo "All HTML pages already match the approved template."
+          else
+            git commit -m "Standardize footer and disclosure across all HTML pages"
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
+          fi

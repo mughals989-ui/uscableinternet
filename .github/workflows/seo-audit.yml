@@ -27,6 +27,19 @@ jobs:
         run: |
           set -o pipefail
           python scripts/seo-audit.py 2>&1 | tee seo-audit-report.txt
+      - name: Check the repository for legacy Skimlinks verification references
+        run: |
+          if grep -RniE 'skimlinks' --exclude-dir=.git --exclude='sitewide-consistency.py' --exclude='sitewide-consistency.yml' .; then
+            echo "Legacy Skimlinks reference found; remove it before merging."
+            exit 1
+          else
+            echo "No Skimlinks verification references found in repository content."
+          fi
+      - name: Build the GitHub Pages site
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
       - name: Save audit report
         if: always()
         uses: actions/upload-artifact@v4

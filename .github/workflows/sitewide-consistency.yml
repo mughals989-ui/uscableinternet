@@ -1,6 +1,8 @@
 name: Sitewide footer and disclosure refresh
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches:
       - fix/sitewide-footer-disclosure-events-nov26
@@ -18,7 +20,7 @@ jobs:
       - name: Check out the approved working branch
         uses: actions/checkout@v4
         with:
-          ref: fix/sitewide-footer-disclosure-events-nov26
+          ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -44,5 +46,5 @@ jobs:
             echo "All HTML pages already match the approved template."
           else
             git commit -m "Standardize footer and disclosure across all HTML pages"
-            git push origin HEAD:fix/sitewide-footer-disclosure-events-nov26
+            git push origin HEAD:${{ github.head_ref || github.ref_name }}
           fi

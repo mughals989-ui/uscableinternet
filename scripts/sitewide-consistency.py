@@ -80,16 +80,16 @@ def main():
         # Load one shared tracking listener on every page, including pages that do not load app.js.
         tracking_tag = '<script defer src="/tracking.js?v=1"></script>'
         updated = re.sub(
-            r'<script\\b[^>]*src=["\\']/tracking\\.js(?:\\?[^"\\']*)?["\\'][^>]*>\\s*</script\\s*>',
+            r"""<script\b[^>]*src=["']/tracking\.js(?:\?[^"']*)?["'][^>]*>\s*</script\s*>""",
             "",
             updated,
             flags=re.I,
         )
-        body_end = re.search(r"</body\\s*>", updated, flags=re.I)
+        body_end = re.search(r"</body\s*>", updated, flags=re.I)
         if not body_end:
             errors.append(f"{path.relative_to(ROOT)}: missing body close for shared tracking script")
             continue
-        updated = updated[:body_end.start()] + tracking_tag + "\\n" + updated[body_end.start():]
+        updated = updated[:body_end.start()] + tracking_tag + "\n" + updated[body_end.start():]
         footer_pattern = r"<footer\b[^>]*>[\s\S]*?</footer>"
         updated, count = re.subn(footer_pattern, lambda _: footer, updated, count=1, flags=re.I)
         if count == 0:

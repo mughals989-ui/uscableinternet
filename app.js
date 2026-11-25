@@ -77,6 +77,17 @@ function trackUciEvent(name, params) {
       trackUciEvent("provider_click", {provider_domain:host,link_text:String(link.textContent || "").trim().slice(0,80)});
     }
   });
+  // Fire once when a visitor begins using either address-entry field.
+  var addressStartTracked = false;
+  document.addEventListener("focusin", function(event) {
+    var field = event.target;
+    if (addressStartTracked || !field || (field.id !== "a-query" && field.id !== "home-q")) return;
+    addressStartTracked = true;
+    trackUciEvent("address_check_start", {
+      form_id: field.id,
+      page_path: window.location.pathname
+    });
+  });
 })();
 var $ = function(id) { return document.getElementById(id); };
 

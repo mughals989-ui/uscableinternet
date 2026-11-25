@@ -46,11 +46,14 @@ def about_footer_template():
 
 def replace_or_add_banner(html):
     pattern = r'<div\b(?=[^>]*\bclass\s*=\s*["\'][^"\']*\bdisc\b[^"\']*["\'])[^>]*>[\s\S]*?</div>'
-    updated, count = re.subn(pattern, BANNER, html, count=1, flags=re.I)
-    if count:
-        # Remove any accidental duplicate disclosure banners while retaining one.
-        updated = re.sub(pattern, "", updated, count=10, flags=re.I)
-        return updated
+    matches = list(re.finditer(pattern, html, flags=re.I))
+    if matches:
+        updated = html
+        # Remove only duplicate banners after the first; preserve exactly one.
+        for match in reversed(matches[1:]):
+            updated = updated[:match.start()] + updated[match.end():]
+        first = matches[0]
+        return updated[:first.start()] + BANNER + updated[first.end():]
     body = re.search(r"<body\b[^>]*>", html, flags=re.I)
     if not body:
         raise RuntimeError("HTML document has no body element; cannot place disclosure banner")

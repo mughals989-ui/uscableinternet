@@ -56,39 +56,7 @@ function trackUciEvent(name, params) {
   if (typeof window.gtag !== "function") return;
   try { window.gtag("event", name, params || {}); } catch (e) {}
 }
-(function setupUciTracking() {
-  if (document.documentElement.dataset.uciTrackingReady === "1") return;
-  document.documentElement.dataset.uciTrackingReady = "1";
-  document.addEventListener("click", function(event) {
-    var link = event.target && event.target.closest ? event.target.closest("a") : null;
-    if (!link) return;
-    var href = link.getAttribute("href") || "";
-    if (/^tel:/i.test(href)) {
-      trackUciEvent("phone_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
-      return;
-    }
-    if (/^\/check-address(?:[?#]|$)/i.test(href)) {
-      trackUciEvent("address_checker_click", {link_text:String(link.textContent || "").trim().slice(0,80)});
-    }
-    var host = "";
-    try { host = new URL(link.href, window.location.href).hostname.toLowerCase(); } catch (e) {}
-    var domains = ["spectrum.com","xfinity.com","att.com","verizon.com","t-mobile.com","cox.com","optimum.com","frontier.com","fiber.google.com","hughesnet.com","starlink.com","viasat.com","directv.com","dish.com","youtube.com","sling.com","fubo.tv","hulu.com","philo.com","frndlytv.com","peacocktv.com","paramountplus.com"];
-    if (host && domains.some(function(d){return host===d || host.endsWith("."+d);})) {
-      trackUciEvent("provider_click", {provider_domain:host,link_text:String(link.textContent || "").trim().slice(0,80)});
-    }
-  });
-  // Fire once when a visitor begins using either address-entry field.
-  var addressStartTracked = false;
-  document.addEventListener("focusin", function(event) {
-    var field = event.target;
-    if (addressStartTracked || !field || (field.id !== "a-query" && field.id !== "home-q")) return;
-    addressStartTracked = true;
-    trackUciEvent("address_check_start", {
-      form_id: field.id,
-      page_path: window.location.pathname
-    });
-  });
-})();
+
 var $ = function(id) { return document.getElementById(id); };
 
 function esc(s) {

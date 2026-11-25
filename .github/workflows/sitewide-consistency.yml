@@ -22,6 +22,8 @@ jobs:
         with:
           ref: ${{ github.head_ref || github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Remove any previously committed generated Pages output
+        run: git rm -r --ignore-unmatch _site
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -37,6 +39,8 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Remove temporary Pages build output
+        run: rm -rf _site
       - name: Commit sitewide HTML updates to this branch
         run: |
           git config user.name "github-actions[bot]"

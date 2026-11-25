@@ -30,10 +30,25 @@ jobs:
           python-version: "3.12"
       - name: Standardize all HTML pages
         run: python3 scripts/sitewide-consistency.py
+      - name: Check the repository for legacy Skimlinks references
+        run: |
+          if grep -RniE 'skimlinks|skimresources' --exclude-dir=.git --exclude='sitewide-consistency.py' --exclude='sitewide-consistency.yml' --exclude='seo-audit.yml' .; then
+            echo "Legacy Skimlinks reference found; remove it before merging."
+            exit 1
+          else
+            echo "No legacy Skimlinks references found in repository content."
+          fi
       - name: Run required SEO audit
         run: python3 scripts/seo-audit.py
       - name: Check for whitespace errors
         run: git diff --check
+      - name: Build GitHub Pages
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Remove temporary Pages build output
+        run: chmod -R u+w _site && rm -rf _site
       - name: Commit sitewide HTML updates to this branch
         run: |
           git config user.name "github-actions[bot]"

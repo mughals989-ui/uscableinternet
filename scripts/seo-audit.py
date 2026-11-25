@@ -102,8 +102,8 @@ def main():
         name = path.name
         relative = path.relative_to(ROOT)
         legacy_redirects = {
-            "att-fiber-plans.html": "https://uscableinternet.com/att-fiber",
-            "xfinity-internet-plans.html": "https://uscableinternet.com/xfinity-internet",
+            "att-fiber-plans.html": "https://uscableinternet.com/fiber",
+            "xfinity-internet-plans.html": "https://uscableinternet.com/internet",
         }
         if path == ROOT / "index.html":
             expected = "https://uscableinternet.com/"

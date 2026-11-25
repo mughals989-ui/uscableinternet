@@ -17,10 +17,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: seo/alabama-noindex-legacy-guide-redirects-nov26
-      - name: Check out repository
-        uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

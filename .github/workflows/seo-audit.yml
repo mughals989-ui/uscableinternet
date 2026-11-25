@@ -29,7 +29,7 @@ jobs:
           python scripts/seo-audit.py 2>&1 | tee seo-audit-report.txt
       - name: Check the repository for legacy Skimlinks verification references
         run: |
-          if grep -RniE 'skimlinks' --exclude-dir=.git --exclude='sitewide-consistency.py' --exclude='sitewide-consistency.yml' .; then
+          if grep -RniE 'skimlinks' --exclude-dir=.git --exclude='sitewide-consistency.py' --exclude='sitewide-consistency.yml' --exclude='seo-audit.yml' .; then
             echo "Legacy Skimlinks reference found; remove it before merging."
             exit 1
           else

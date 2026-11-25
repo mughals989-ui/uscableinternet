@@ -79,6 +79,7 @@ def main():
     warnings = []
     title_owners = {}
     description_owners = {}
+    # Approved noindex pages are expected; unexpected noindex directives remain warnings.
     expected_noindex = {
         "att-fiber-plans.html",
         "xfinity-internet-plans.html",

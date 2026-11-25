@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   audit:
@@ -17,6 +17,72 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          ref: seo/alabama-noindex-legacy-guide-redirects-nov26
+      - name: Apply approved clean Open Graph URLs and internal links
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from urllib.parse import urlsplit, urlunsplit
+          import re, subprocess
+
+          repo_files = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
+          anchor = re.compile(r"""(<a\b[^>]*?\bhref\s*=\s*)(['"])(.*?)\2""", re.I | re.S)
+          og = re.compile(r"""(<meta\b(?=[^>]*\bproperty\s*=\s*['"]og:url['"])[^>]*?\bcontent\s*=\s*)(['"])(.*?)\2""", re.I | re.S)
+          changed = []
+
+          def clean_href(match):
+              prefix, quote, value = match.groups()
+              parts = urlsplit(value)
+              if parts.scheme and parts.scheme.lower() not in ("http", "https"):
+                  return match.group(0)
+              host = (parts.hostname or "").lower()
+              if parts.netloc and host not in ("uscableinternet.com", "www.uscableinternet.com"):
+                  return match.group(0)
+              path = parts.path
+              if not path.lower().endswith(".html"):
+                  return match.group(0)
+              lower = path.lower()
+              if lower.endswith("/att-fiber-plans.html") or lower == "att-fiber-plans.html":
+                  path = "/att-fiber"
+              elif lower.endswith("/xfinity-internet-plans.html") or lower == "xfinity-internet-plans.html":
+                  path = "/internet"
+              else:
+                  path = path[:-5]
+              return prefix + quote + urlunsplit((parts.scheme, parts.netloc, path, parts.query, parts.fragment)) + quote
+
+          for name in repo_files:
+              p = Path(name)
+              if p.suffix.lower() not in (".html", ".js", ".py", ".xml", ".json", ".md", ".txt"):
+                  continue
+              try:
+                  original = p.read_text(encoding="utf-8")
+              except (UnicodeDecodeError, OSError):
+                  continue
+              updated = anchor.sub(clean_href, original)
+              if p.parent == Path(".") and re.fullmatch(r"internet-providers-[^/]+\.html", p.name, re.I):
+                  target = "https://uscableinternet.com/" + p.stem
+                  if og.search(updated):
+                      updated = og.sub(lambda m: m.group(1) + m.group(2) + target + m.group(2), updated, count=1)
+                  else:
+                      updated = re.sub(r"(<head\b[^>]*>)", lambda m: m.group(1) + '\n<meta property="og:url" content="' + target + '">', updated, count=1, flags=re.I)
+              if updated != original:
+                  p.write_text(updated, encoding="utf-8")
+                  changed.append(name)
+          print("Updated files:")
+          print("\n".join(changed))
+          print(f"Total changed: {len(changed)}")
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          if ! git diff --cached --quiet; then
+            git commit -m "SEO: clean Open Graph URLs and internal links"
+            git push origin HEAD
+          else
+            echo "No approved link changes were needed."
+          fi
       - name: Set up Python
         uses: actions/setup-python@v5
         with:

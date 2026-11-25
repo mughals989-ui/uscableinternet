@@ -1,4 +1,5 @@
 name: Sitewide footer and disclosure refresh
+# Final validation runs against the fully refreshed PR branch.
 
 on:
   pull_request:

@@ -37,6 +37,33 @@ jobs:
           else
             echo "No legacy Skimlinks references found in repository content."
           fi
+      - name: Verify sitewide GA4 event tracking coverage
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          root = Path(".")
+          pages = list(root.rglob("*.html"))
+          failures = []
+          for page in pages:
+              if any(part in {".git", "_site"} for part in page.parts):
+                  continue
+              html = page.read_text(encoding="utf-8")
+              count = len(re.findall(r'<script\\b[^>]*src=["\\']/tracking\\.js(?:\\?[^"\\']*)?["\\'][^>]*>\\s*</script\\s*>', html, re.I))
+              if count != 1:
+                  failures.append(f"{page}: expected exactly one tracking.js include, found {count}")
+          tracker = (root / "tracking.js").read_text(encoding="utf-8")
+          for event in ("address_check_start", "address_check_submit", "provider_click", "phone_click"):
+              if event not in tracker:
+                  failures.append(f"tracking.js missing {event}")
+          app = (root / "app.js").read_text(encoding="utf-8")
+          if "address_check_results" not in app:
+              failures.append("app.js missing address_check_results")
+          if failures:
+              print("\\n".join(failures))
+              raise SystemExit(1)
+          print(f"Verified shared tracking include on {len(pages)} HTML files and all five requested events.")
+          PY
       - name: Run required SEO audit
         run: python3 scripts/seo-audit.py
       - name: Check for whitespace errors

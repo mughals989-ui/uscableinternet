@@ -47,15 +47,13 @@ jobs:
         with:
           source: ./
           destination: ./_site
-      - name: Remove temporary Pages build output
-        run: chmod -R u+w _site && rm -rf _site
       - name: Commit sitewide HTML updates to this branch
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Keep the generated Jekyll output out of the source repository.
           git rm -r --ignore-unmatch _site
-          git add -A -- '*.html'
+          git add -A -- '*.html' ':!_site/**'
           if git diff --cached --quiet; then
             echo "All HTML pages already match the approved template."
           else

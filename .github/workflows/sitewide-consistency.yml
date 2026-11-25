@@ -49,7 +49,7 @@ jobs:
               if any(part in {".git", "_site"} for part in page.parts):
                   continue
               html = page.read_text(encoding="utf-8")
-              count = len(re.findall(r'<script\\b[^>]*src=["\\']/tracking\\.js(?:\\?[^"\\']*)?["\\'][^>]*>\\s*</script\\s*>', html, re.I))
+              count = html.lower().count('<script defer src="/tracking.js?v=1"></script>')
               if count != 1:
                   failures.append(f"{page}: expected exactly one tracking.js include, found {count}")
           tracker = (root / "tracking.js").read_text(encoding="utf-8")
@@ -60,7 +60,7 @@ jobs:
           if "address_check_results" not in app:
               failures.append("app.js missing address_check_results")
           if failures:
-              print("\\n".join(failures))
+              print("\n".join(failures))
               raise SystemExit(1)
           print(f"Verified shared tracking include on {len(pages)} HTML files and all five requested events.")
           PY

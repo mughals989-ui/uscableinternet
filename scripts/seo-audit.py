@@ -79,6 +79,21 @@ def main():
     warnings = []
     title_owners = {}
     description_owners = {}
+    # Approved noindex pages are expected; unexpected noindex directives remain warnings.
+    expected_noindex = {
+        "att-fiber-plans.html",
+        "xfinity-internet-plans.html",
+        "internet-providers-montgomery-al.html",
+        "internet-providers-montgomery-al/index.html",
+        "internet-providers-tuscaloosa-al.html",
+        "internet-providers-tuscaloosa-al/index.html",
+        "internet-providers-mobile-al.html",
+        "internet-providers-mobile-al/index.html",
+        "internet-providers-huntsville-al.html",
+        "internet-providers-huntsville-al/index.html",
+        "internet-providers-birmingham-al.html",
+        "internet-providers-birmingham-al/index.html",
+    }
     for path in html_files:
         p = parse_page(path)
         if p is None:
@@ -129,7 +144,7 @@ def main():
             errors.append(f"{name}: canonical mismatch: {p.canonicals[0]} (expected {expected})")
         if p.h1 != 1:
             warnings.append(f"{name}: expected one H1, found {p.h1}")
-        if any("noindex" in x.lower() for x in p.robots):
+        if any("noindex" in x.lower() for x in p.robots) and relative.as_posix() not in expected_noindex:
             warnings.append(f"{name}: robots meta contains noindex")
         for href in p.links:
             u = urlparse(href)

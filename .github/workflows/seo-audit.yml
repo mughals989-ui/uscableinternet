@@ -2,6 +2,8 @@ name: SEO site audit
 # Validate generated clean provider routes after the sitewide refresh.
 
 on:
+  pull_request:
+    branches: [main]
   push:
     branches: [main]
   workflow_dispatch:

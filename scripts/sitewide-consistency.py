@@ -65,7 +65,15 @@ def main():
         if any(part in {".git", "_site"} for part in path.parts):
             continue
         original = path.read_text(encoding="utf-8")
-        updated = replace_or_add_banner(original)
+        # Remove legacy Skimlinks verification/tracking scripts and meta tags.
+        updated = re.sub(
+            r'<script\\b(?=[^>]*\\bsrc\\s*=\\s*["\\'][^"\\']*(?:skimresources\\.com|skimlinks)[^"\\']*["\\'])[^>]*>\\s*</script\\s*>',
+            "",
+            original,
+            flags=re.I,
+        )
+        updated = re.sub(r'<meta\\b[^>]*(?:skimlinks|skimresources)[^>]*>', "", updated, flags=re.I)
+        updated = replace_or_add_banner(updated)
         footer_pattern = r"<footer\b[^>]*>[\s\S]*?</footer>"
         updated, count = re.subn(footer_pattern, lambda _: footer, updated, count=1, flags=re.I)
         if count == 0:

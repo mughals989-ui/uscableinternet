@@ -34,13 +34,6 @@ jobs:
         run: python3 scripts/seo-audit.py
       - name: Check for whitespace errors
         run: git diff --check
-      - name: Build GitHub Pages
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./
-          destination: ./_site
-      - name: Remove temporary Pages build output
-        run: rm -rf _site
       - name: Commit sitewide HTML updates to this branch
         run: |
           git config user.name "github-actions[bot]"

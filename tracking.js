@@ -105,4 +105,51 @@
       form_id: form.id
     });
   });
+
+  // First-party CRM visitor beacon. Session IDs are random and scoped to this tab.
+  // Never send IP addresses, form values, ZIP codes, or street addresses.
+  try {
+    var crmSession = sessionStorage.getItem("uci_crm_session");
+    if (!crmSession) {
+      crmSession = (window.crypto && window.crypto.randomUUID)
+        ? window.crypto.randomUUID()
+        : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0;
+            return (c === "x" ? r : (r & 3 | 8)).toString(16);
+          });
+      sessionStorage.setItem("uci_crm_session", crmSession);
+    }
+    var crmSentPage = false;
+    function crmBeacon(type) {
+      var payload = JSON.stringify({
+        session_id: crmSession,
+        event_type: type,
+        page_path: window.location.pathname.slice(0, 180)
+      });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon("https://collect.uscableinternet.com/event",
+          new Blob([payload], { type: "application/json" }));
+      } else {
+        fetch("https://collect.uscableinternet.com/event", {
+          method: "POST", mode: "cors", keepalive: true,
+          headers: { "content-type": "application/json" }, body: payload
+        }).catch(function () {});
+      }
+    }
+    crmBeacon("page_view");
+    window.setInterval(function () { crmBeacon("heartbeat"); }, 60000);
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) crmBeacon("heartbeat");
+    });
+    document.addEventListener("click", function (event) {
+      var a = event.target && event.target.closest ? event.target.closest("a") : null;
+      if (!a) return;
+      var host = "";
+      try { host = new URL(a.href, location.href).hostname.toLowerCase(); } catch (error) {}
+      if (providerDomains.some(function (domain) { return host === domain || host.endsWith("." + domain); })) crmBeacon("provider_click");
+      if (/^tel:/i.test(a.getAttribute("href") || "")) crmBeacon("phone_click");
+      if (/^\/check-address(?:[?#]|$)/i.test(a.getAttribute("href") || "")) crmBeacon("address_checker_click");
+    });
+  } catch (error) {}
+
 })();
